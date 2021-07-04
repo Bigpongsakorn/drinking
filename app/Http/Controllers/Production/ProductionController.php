@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Production;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Production;
+use App\Models\Production_m;
 use App\Models\ProductType;
 use App\Models\Unit;
+use App\Models\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ProductionController extends Controller
 {
@@ -39,6 +42,7 @@ class ProductionController extends Controller
         $data['product'] = Product::get();
         $data['unit'] = Unit::get();
         $data['type'] = ProductType::get();
+        $data['mat'] = Material::get();
         return view('production.production_create', $data);
     }
 
@@ -50,19 +54,65 @@ class ProductionController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        dd($request);
         try {
-            $table = [
-                'product_id' => $request->product,
-                'production_number' => $request->number,
-                'product_t_id' => $request->type,
-                'unit_id' => $request->unit,
-                'production_date' => $request->date,
-                'production_unit' => $request->punit,
-                'production_status' => 0,
-            ];
 
-            Production::insertGetId($table);
+            $product_id = explode(",", $request->product_id);
+            $production_number = explode(",", $request->production_number);
+            $count = $request->count;
+            $production_name = $request->production_name;
+            $production_date = $request->production_date;
+            $material_id = explode(",", $request->material_id);
+            $material_number = explode(",", $request->material_number);
+            $count2 = $request->count2;
+          
+            $id = null;
+
+            for ($i = 0; $i < $count; $i++) {
+                $table[] = [
+                    'production_number' => $production_number[$i],
+                    'product_id' => $product_id[$i],
+                    'production_name' => $production_name,
+                    'production_date' => $production_date,
+                    'production_status' => '0',
+                    'user_id' => Auth::user()->user_id,
+                ];
+            }
+
+            foreach($table as $key => $value){
+                Production::insert($value);
+            }
+
+            $id = Production::orderby('production_id', 'desc')->first();
+            $id = $id->production_id;
+            Production::where('production_id', $id)
+                ->update(['production_group' => $id]);
+
+            Production::whereNull('production_group')->update(['production_group' => $id]);
+
+            for ($i = 0; $i < $count2; $i++) {
+                $table2[] = [
+                    'material_number' => $material_number[$i],
+                    'material_id' => $material_id[$i],
+                    ''
+                ];
+            }
+
+            foreach($table2 as $key => $value2){
+                Production_m::insert($value2);
+            }
+
+            // $table = [
+            //     'product_id' => $request->product,
+            //     'production_number' => $request->number,
+            //     'product_t_id' => $request->type,
+            //     'unit_id' => $request->unit,
+            //     'production_date' => $request->date,
+            //     'production_unit' => $request->punit,
+            //     'production_status' => 0,
+            // ];
+
+            // Production::insertGetId($table);
 
             DB::commit();
             $return['status'] = 1;

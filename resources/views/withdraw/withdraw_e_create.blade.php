@@ -192,7 +192,7 @@
                 console.log(count);
                 var fd = new FormData();
 
-                if (withdraw_m_name && withdraw_m_date) {
+                if (withdraw_m_name != "" && withdraw_m_date != "") {
                     fd.append('_token', "{{ csrf_token() }}");
                     fd.append('count', count);
                     fd.append('material_id', material_id);

@@ -180,7 +180,7 @@
 
                     var fd = new FormData();
 
-                    if (withdraw_p_name && withdraw_p_date) {
+                    if (withdraw_p_name != "" && withdraw_p_date != "") {
                         fd.append('_token', "{{ csrf_token() }}");
                         fd.append('count', count);
                         fd.append('product_id', product_id);
