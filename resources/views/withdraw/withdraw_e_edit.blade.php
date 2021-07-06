@@ -150,9 +150,7 @@
                 $.each(count_, function(index, value) {
                     count++
                 });
-                $(".add-blog").append('<div class="col-sm-12 col-delete" id="addrow" data-count="' + (++
-                        count) +
-                    '">\
+                $(".add-blog").append('<div class="col-sm-12 col-delete" id="addrow" data-count="' + (++ count) + '">\
                                                             <div class="card count">\
                                                                         <div class="card-block">\
                                                                             <div class="form-group row">\
@@ -181,8 +179,7 @@
                                                                                     <div class="form-group row">\
                                                                                     <div class="col-sm-11"></div>\
                                                                                     <div class="col-sm-1">\
-                                                                                    <button class="btn btn-sm btn-danger delete" data-count="' +
-                    (count) + '">x</button>\
+                                                                                    <button class="btn btn-sm btn-danger delete" data-count="' + (count) + '">x</button>\
                                                                                     </div>\
                                                                                     </div>\
                                                                                 </div>\

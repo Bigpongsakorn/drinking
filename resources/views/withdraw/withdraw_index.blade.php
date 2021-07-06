@@ -44,7 +44,6 @@
                                                         <th>รายละเอียด</th>
                                                         <th>การอนุมัติ</th>
                                                         <th>แก้ไข / ลบ</th>
-
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-all">
@@ -419,7 +418,16 @@
                             }).then(function(then) {
                                 location.reload()
                             })
-                        } else {
+                        } 
+                        if (rec.status == '3') {
+                            swal({
+                                title: 'จำนวนสินค้าไม่พอเบิก!',
+                                text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
+                                type: 'error',
+                                padding: '2em'
+                            })
+                        }
+                        if (rec.status == '0') {
                             swal({
                                 title: 'บันทึกไม่สำเร็จ!',
                                 text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",

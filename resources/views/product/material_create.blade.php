@@ -122,7 +122,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/drinking/public/material/store",
+                    url: "/material/store",
                     dataType: 'json',
                     cache: false,
                     contentType: false,

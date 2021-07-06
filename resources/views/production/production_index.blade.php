@@ -27,55 +27,56 @@
                                 <div class="card-header">
                                     <h5>ข้อมูลรายการผลิต</h5>
                                 </div>
+                                <div style="margin:auto">
+                                    <button class="btn btn-sm btn-info btn-all">ทั้งหมด</button>
+                                    <button class="btn btn-sm btn-warning btn-pending">รออนุมัติ</button>
+                                    <button class="btn btn-sm btn-danger btn-dis">ไม่อนุมัติ</button>
+                                    <button class="btn btn-sm btn-success btn-approve">อนุมัติ</button>
+                                </div>
                                 <div class="card-block">
                                     <div class="table-responsive dt-responsive">
                                         <table id="multi-colum-dt" class="table table-striped table-bordered nowrap">
                                             <thead>
                                                 <tr style="text-align: center;">
                                                     <th>ลำดับ</th>
-                                                    <th>ชื่อสินค้า</th>
-                                                    <th>ประเภทสินค้า</th>
-                                                    <th>ปริมาณ</th>
-                                                    <th>จำนวน</th>
-                                                    <th>หน่วย</th>
+                                                    <th>รายการผลิต</th>
                                                     <th>วันที่</th>
+                                                    <th>รายละเอียด</th>
                                                     <th>การอนุมัติ</th>
                                                     <th>แก้ไข / ลบ</th>
                                                     {{-- <th>ลบ</th> --}}
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody class="table-all">
                                                 @php $i = 1 @endphp
                                                 @foreach ($production as $value)
                                                 <tr>
                                                     <td style="text-align: center;">{{$i}}</td>
-                                                    <td>
-                                                        {{$value->product_name}}
+                                                    <td>{{$value->production_name}}</td>
+                                                    <td style="text-align: center;">{{$value->production_date}}</td>
+                                                    <td style="text-align: center;">
+                                                        <a href="{{ url('/production/production_detail/' . $value->production_group) }}">
+                                                            <button class="btn btn-sm btn-primary">
+                                                                รายละเอียด
+                                                            </button>
+                                                        </a>
                                                     </td>
-                                                    <td>{{$value->product_t_name}}</td>
-                                                    <td>{{$value->unit_name}}</td>
-                                                    <td>{{$value->production_number}}</td>
-                                                    <td>{{$value->production_unit}}</td>
-                                                    <td>{{$value->production_date}}</td>
                                                     <td style="text-align: center;">
                                                         @if ($value->production_status == 0)
                                                         <button type="button" data-toggle="modal"
                                                             data-target="#exampleModal"
-                                                            data-production_id="{{$value->production_id}}"
+                                                            data-production_group="{{$value->production_group}}"
                                                             data-production_status="{{$value->production_status}}"
                                                             class="btn btn-sm btn-warning open_modal">รออนุมัติ</button>
                                                         @elseif($value->production_status == 1)
                                                         <button type="button" data-toggle="modal"
                                                             data-target="#exampleModal"
-                                                            data-production_id="{{$value->production_id}}"
+                                                            data-production_group="{{$value->production_group}}"
                                                             data-production_status="{{$value->production_status}}"
                                                             class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
                                                         @else
-                                                        <button type="button" data-toggle="modal"
-                                                            data-target="#exampleModal"
-                                                            data-production_id="{{$value->production_id}}"
-                                                            data-production_status="{{$value->production_status}}"
-                                                            class="btn btn-sm btn-success open_modal">อนุมัติ</button>
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-success">อนุมัติ</button>
                                                         @endif
                                                     </td>
                                                     @if ($value->production_status == 2)
@@ -88,20 +89,188 @@
                                                     @else
                                                     <td style="text-align: center;">
                                                         <a
-                                                            href="{{url('/production/production_edit/'.$value->production_id)}}">
+                                                            href="{{url('/production/production_edit/'.$value->production_group)}}">
                                                             <button class="btn btn-sm btn-primary">edit</button>
                                                         </a>
-                                                        {{-- </td>
-                                                    <td style="text-align: center;"> --}}
                                                         <a href="javascript:void(0);" class="delete"
-                                                            data-id="{{$value->production_id}}">
+                                                            data-id="{{$value->production_group}}">
                                                             <button class="btn btn-sm btn-danger">
                                                                 delete
                                                             </button>
                                                         </a>
                                                     </td>
                                                     @endif
-
+                                                </tr>
+                                                @php $i++ @endphp
+                                                @endforeach
+                                            </tbody>
+                                            <tbody class="table-pending">
+                                                @php $i = 1 @endphp
+                                                @foreach ($pending as $value)
+                                                <tr>
+                                                    <td style="text-align: center;">{{$i}}</td>
+                                                    <td>{{$value->production_name}}</td>
+                                                    <td style="text-align: center;">{{$value->production_date}}</td>
+                                                    <td style="text-align: center;">
+                                                        <a href="{{ url('/production/production_detail/' . $value->production_group) }}">
+                                                            <button class="btn btn-sm btn-primary">
+                                                                รายละเอียด
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        @if ($value->production_status == 0)
+                                                        <button type="button" data-toggle="modal"
+                                                            data-target="#exampleModal"
+                                                            data-production_group="{{$value->production_group}}"
+                                                            data-production_status="{{$value->production_status}}"
+                                                            class="btn btn-sm btn-warning open_modal">รออนุมัติ</button>
+                                                        @elseif($value->production_status == 1)
+                                                        <button type="button" data-toggle="modal"
+                                                            data-target="#exampleModal"
+                                                            data-production_group="{{$value->production_group}}"
+                                                            data-production_status="{{$value->production_status}}"
+                                                            class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
+                                                        @else
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-success">อนุมัติ</button>
+                                                        @endif
+                                                    </td>
+                                                    @if ($value->production_status == 2)
+                                                    <td style="text-align: center;">
+                                                        <button class="btn btn-sm btn-secondary">edit</button>
+                                                        <button class="btn btn-sm btn-secondary">
+                                                            delete
+                                                        </button>
+                                                    </td>
+                                                    @else
+                                                    <td style="text-align: center;">
+                                                        <a
+                                                            href="{{url('/production/production_edit/'.$value->production_group)}}">
+                                                            <button class="btn btn-sm btn-primary">edit</button>
+                                                        </a>
+                                                        <a href="javascript:void(0);" class="delete"
+                                                            data-id="{{$value->production_group}}">
+                                                            <button class="btn btn-sm btn-danger">
+                                                                delete
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                    @endif
+                                                </tr>
+                                                @php $i++ @endphp
+                                                @endforeach
+                                            </tbody>
+                                            <tbody class="table-dis">
+                                                @php $i = 1 @endphp
+                                                @foreach ($dis as $value)
+                                                <tr>
+                                                    <td style="text-align: center;">{{$i}}</td>
+                                                    <td>{{$value->production_name}}</td>
+                                                    <td style="text-align: center;">{{$value->production_date}}</td>
+                                                    <td style="text-align: center;">
+                                                        <a href="{{ url('/production/production_detail/' . $value->production_group) }}">
+                                                            <button class="btn btn-sm btn-primary">
+                                                                รายละเอียด
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        @if ($value->production_status == 0)
+                                                        <button type="button" data-toggle="modal"
+                                                            data-target="#exampleModal"
+                                                            data-production_group="{{$value->production_group}}"
+                                                            data-production_status="{{$value->production_status}}"
+                                                            class="btn btn-sm btn-warning open_modal">รออนุมัติ</button>
+                                                        @elseif($value->production_status == 1)
+                                                        <button type="button" data-toggle="modal"
+                                                            data-target="#exampleModal"
+                                                            data-production_group="{{$value->production_group}}"
+                                                            data-production_status="{{$value->production_status}}"
+                                                            class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
+                                                        @else
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-success">อนุมัติ</button>
+                                                        @endif
+                                                    </td>
+                                                    @if ($value->production_status == 2)
+                                                    <td style="text-align: center;">
+                                                        <button class="btn btn-sm btn-secondary">edit</button>
+                                                        <button class="btn btn-sm btn-secondary">
+                                                            delete
+                                                        </button>
+                                                    </td>
+                                                    @else
+                                                    <td style="text-align: center;">
+                                                        <a
+                                                            href="{{url('/production/production_edit/'.$value->production_group)}}">
+                                                            <button class="btn btn-sm btn-primary">edit</button>
+                                                        </a>
+                                                        <a href="javascript:void(0);" class="delete"
+                                                            data-id="{{$value->production_group}}">
+                                                            <button class="btn btn-sm btn-danger">
+                                                                delete
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                    @endif
+                                                </tr>
+                                                @php $i++ @endphp
+                                                @endforeach
+                                            </tbody>
+                                            <tbody class="table-approve">
+                                                @php $i = 1 @endphp
+                                                @foreach ($approve as $value)
+                                                <tr>
+                                                    <td style="text-align: center;">{{$i}}</td>
+                                                    <td>{{$value->production_name}}</td>
+                                                    <td style="text-align: center;">{{$value->production_date}}</td>
+                                                    <td style="text-align: center;">
+                                                        <a href="{{ url('/production/production_detail/' . $value->production_group) }}">
+                                                            <button class="btn btn-sm btn-primary">
+                                                                รายละเอียด
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        @if ($value->production_status == 0)
+                                                        <button type="button" data-toggle="modal"
+                                                            data-target="#exampleModal"
+                                                            data-production_group="{{$value->production_group}}"
+                                                            data-production_status="{{$value->production_status}}"
+                                                            class="btn btn-sm btn-warning open_modal">รออนุมัติ</button>
+                                                        @elseif($value->production_status == 1)
+                                                        <button type="button" data-toggle="modal"
+                                                            data-target="#exampleModal"
+                                                            data-production_group="{{$value->production_group}}"
+                                                            data-production_status="{{$value->production_status}}"
+                                                            class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
+                                                        @else
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-success">อนุมัติ</button>
+                                                        @endif
+                                                    </td>
+                                                    @if ($value->production_status == 2)
+                                                    <td style="text-align: center;">
+                                                        <button class="btn btn-sm btn-secondary">edit</button>
+                                                        <button class="btn btn-sm btn-secondary">
+                                                            delete
+                                                        </button>
+                                                    </td>
+                                                    @else
+                                                    <td style="text-align: center;">
+                                                        <a
+                                                            href="{{url('/production/production_edit/'.$value->production_group)}}">
+                                                            <button class="btn btn-sm btn-primary">edit</button>
+                                                        </a>
+                                                        <a href="javascript:void(0);" class="delete"
+                                                            data-id="{{$value->production_group}}">
+                                                            <button class="btn btn-sm btn-danger">
+                                                                delete
+                                                            </button>
+                                                        </a>
+                                                    </td>
+                                                    @endif
                                                 </tr>
                                                 @php $i++ @endphp
                                                 @endforeach
@@ -133,7 +302,7 @@
             </div>
             <form class="" id="create-product-category">
                 <div class="modal-body">
-                    <input type="hidden" id="production_id" name="" value="">
+                    <input type="hidden" id="production_group" name="" value="">
                     <select name="production_status" id="production_status" class="form-control">
                         <option value="0">รออนุมัติ</option>
                         <option value="2">อนุมัติ</option>
@@ -156,10 +325,10 @@
     $(document).ready(function () {
 
         $('body').on('click', '.open_modal', function () {
-            var production_id = $(this).data('production_id');
+            var production_group = $(this).data('production_group');
             var production_status = $(this).data('production_status');
 
-            $('#production_id').val(production_id)
+            $('#production_group').val(production_group)
             $('#production_status').val(production_status)
         })
 
@@ -178,7 +347,7 @@
 
                     $.ajax({
                         method: "GET",
-                        url: "/drinking/public/production/destroy/" + id,
+                        url: "/production/destroy/" + id,
                     }).done(function (rec) {
                         rec = JSON.parse(rec);
                         console.log(rec);
@@ -209,19 +378,19 @@
 
         $('body').on('submit', '#create-product-category', function (e) {
             e.preventDefault();
-            var production_id = $('#production_id').val()
+            var production_group = $('#production_group').val()
             var production_status = $('#production_status').val()
             var fd = new FormData();
 
             if (production_status) {
 
                 fd.append('_token', "{{ csrf_token() }}");
-                fd.append('production_id', production_id);
+                fd.append('production_group', production_group);
                 fd.append('production_status', production_status);
 
                 $.ajax({
                     method: "POST",
-                    url: "/drinking/public/production/status",
+                    url: "/production/status",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -252,6 +421,35 @@
             }
 
         })
+        $('.table-pending').hide()
+            $('.table-dis').hide()
+            $('.table-approve').hide()
+            $('.btn-all').click(function() {
+                $('.table-all').show()
+                $('.table-pending').hide()
+                $('.table-dis').hide()
+                $('.table-approve').hide()
+            });
+            $('.btn-pending').click(function() {
+                $('.table-pending').show()
+                $('.table-all').hide()
+                $('.table-dis').hide()
+                $('.table-approve').hide()
+            });
+            $('.btn-dis').click(function() {
+                $('.table-pending').hide()
+                $('.table-all').hide()
+                $('.table-pending').hide()
+                $('.table-dis').show()
+                $('.table-approve').hide()
+            });
+            $('.btn-approve').click(function() {
+                $('.table-pending').hide()
+                $('.table-all').hide()
+                $('.table-pending').hide()
+                $('.table-dis').hide()
+                $('.table-approve').show()
+            });
     });
 
 </script>

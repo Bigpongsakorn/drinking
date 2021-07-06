@@ -124,7 +124,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/drinking/public/new/update",
+                    url: "/new/update",
                     dataType: 'json',
                     cache: false,
                     contentType: false,

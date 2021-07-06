@@ -108,6 +108,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/production/update', 'Production\ProductionController@update');
     Route::get('/production/destroy/{id}', 'Production\ProductionController@destroy');
     Route::post('/production/status', 'Production\ProductionController@status');
+    Route::get('/production/production_detail/{id}', 'Production\ProductionController@show');
 
     // ============================= WITHDRAW PRODUCT =============================
     Route::get('/withdraw/withdraw_product', 'Withdraw\WithdrawController@index');

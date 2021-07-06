@@ -86,7 +86,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/drinking/public/product_type/store",
+                    url: "/product_type/store",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
