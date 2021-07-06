@@ -260,12 +260,16 @@ class WithdrawController extends Controller
                     // dd($value->withdraw_p_num);
                     foreach ($idp as $key => $pid) {
                         if ($pid->product_total < $value->withdraw_p_num) {
-                            dd('ไม่สำเร็จ');
+                            // dd('ไม่สำเร็จ');
                             $return['status'] = 3;
                             $return['content'] = 'ไม่สำเร็จ';
                             return json_encode($return);
                         }
                     }
+                }
+                $id = Withdraw::where('withdraw_p_group', $request->withdraw_p_group)->get();
+                foreach ($id as $key => $value) {
+                    $idp = Product::where('product_id', $value->product_id)->get();
                     foreach ($idp as $key => $pid) {
                         // dd($pid->product_total); // ข้อมูล
                         // dd($value->withdraw_p_num); // จำนวนเบิก
@@ -273,13 +277,12 @@ class WithdrawController extends Controller
                         $total1 = [
                             'product_total' => $total,
                         ];
-                        dd($total1);
+                        // dd($total1);
                         Product::where('product_id', $value->product_id)->update($total1);
                     }
                 }
             }
 
-            dd("stop");
             $table = [
                 'withdraw_p_status' => $request->withdraw_p_status,
             ];
