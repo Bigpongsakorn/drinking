@@ -41,6 +41,7 @@
                                                     <th>ลำดับ</th>
                                                     <th>รายการผลิต</th>
                                                     <th>วันที่</th>
+                                                    <th>ชื่อผู้ทำรายการ</th>
                                                     <th>รายละเอียด</th>
                                                     <th>การอนุมัติ</th>
                                                     <th>แก้ไข / ลบ</th>
@@ -53,7 +54,8 @@
                                                 <tr>
                                                     <td style="text-align: center;">{{$i}}</td>
                                                     <td>{{$value->production_name}}</td>
-                                                    <td style="text-align: center;">{{$value->production_date}}</td>
+                                                    <td style="text-align: center;">{{date('d-m-Y',strtotime($value->production_date))}}</td>
+                                                    <td style="text-align: center;">{{ $value->emp_firstname }} {{ $value->emp_lastname }}</td>
                                                     <td style="text-align: center;">
                                                         <a href="{{ url('/production/production_detail/' . $value->production_group) }}">
                                                             <button class="btn btn-sm btn-primary">
@@ -110,7 +112,8 @@
                                                 <tr>
                                                     <td style="text-align: center;">{{$i}}</td>
                                                     <td>{{$value->production_name}}</td>
-                                                    <td style="text-align: center;">{{$value->production_date}}</td>
+                                                    <td style="text-align: center;">{{date('d-m-Y',strtotime($value->production_date))}}</td>
+                                                    <td style="text-align: center;">{{ $value->emp_firstname }} {{ $value->emp_lastname }}</td>
                                                     <td style="text-align: center;">
                                                         <a href="{{ url('/production/production_detail/' . $value->production_group) }}">
                                                             <button class="btn btn-sm btn-primary">
@@ -167,7 +170,8 @@
                                                 <tr>
                                                     <td style="text-align: center;">{{$i}}</td>
                                                     <td>{{$value->production_name}}</td>
-                                                    <td style="text-align: center;">{{$value->production_date}}</td>
+                                                    <td style="text-align: center;">{{date('d-m-Y',strtotime($value->production_date))}}</td>
+                                                    <td style="text-align: center;">{{ $value->emp_firstname }} {{ $value->emp_lastname }}</td>
                                                     <td style="text-align: center;">
                                                         <a href="{{ url('/production/production_detail/' . $value->production_group) }}">
                                                             <button class="btn btn-sm btn-primary">
@@ -224,7 +228,8 @@
                                                 <tr>
                                                     <td style="text-align: center;">{{$i}}</td>
                                                     <td>{{$value->production_name}}</td>
-                                                    <td style="text-align: center;">{{$value->production_date}}</td>
+                                                    <td style="text-align: center;">{{date('d-m-Y',strtotime($value->production_date))}}</td>
+                                                    <td style="text-align: center;">{{ $value->emp_firstname }} {{ $value->emp_lastname }}</td>
                                                     <td style="text-align: center;">
                                                         <a href="{{ url('/production/production_detail/' . $value->production_group) }}">
                                                             <button class="btn btn-sm btn-primary">
@@ -347,7 +352,7 @@
 
                     $.ajax({
                         method: "GET",
-                        url: "/production/destroy/" + id,
+                        url: "/drinking/public/production/destroy/" + id,
                     }).done(function (rec) {
                         rec = JSON.parse(rec);
                         console.log(rec);
@@ -390,7 +395,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/production/status",
+                    url: "/drinking/public/production/status",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -407,14 +412,23 @@
                         }).then(function (then) {
                             location.reload()
                         })
-                    } else {
-                        swal({
-                            title: 'บันทึกไม่สำเร็จ!',
-                            text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
-                            type: 'error',
-                            padding: '2em'
-                        })
-                    }
+                    } 
+                    if (rec.status == '3') {
+                            swal({
+                                title: 'วัตถุดิบไม่พอผลิต!',
+                                text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
+                                type: 'error',
+                                padding: '2em'
+                            })
+                        }
+                        if (rec.status == '0') {
+                            swal({
+                                title: 'บันทึกไม่สำเร็จ!',
+                                text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
+                                type: 'error',
+                                padding: '2em'
+                            })
+                        }
                 }).fail(function () {
                     swal("Error!", "You clicked the button!", "error");
                 })

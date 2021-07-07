@@ -92,7 +92,7 @@
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">วันเกิด : </label>
-                                                    <label for="">{{$user->emp_birthdate}}</label>
+                                                    <label for="">{{date('d-m-Y',strtotime($user->emp_birthdate))}}</label>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">หมายเลขบัตรประชาชน</label>

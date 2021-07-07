@@ -61,12 +61,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/customer/map', 'Customer\CustomerController@show');
 
 // ============================= EVENT =============================
-    Route::get('/customer/index_event', 'Customer\EventController@index');
-    Route::get('/customer/create_event', 'Customer\EventController@create');
-    Route::post('/customer/store', 'Customer\EventController@store');
-    Route::get('/customer/edit/{id}', 'Customer\EventController@edit');
-    Route::post('/customer/update', 'Customer\EventController@update');
-    Route::get('/customer/destroy/{id}', 'Customer\EventController@destroy');
+    // Route::get('/customer/index_event', 'Customer\EventController@index');
+    // Route::get('/customer/create_event', 'Customer\EventController@create');
+    // Route::post('/customer/store', 'Customer\EventController@store');
+    // Route::get('/customer/edit/{id}', 'Customer\EventController@edit');
+    // Route::post('/customer/update', 'Customer\EventController@update');
+    // Route::get('/customer/destroy/{id}', 'Customer\EventController@destroy');
 
     // ============================= PRODUCT =============================
     Route::get('/product/index', 'Product\ProductController@index');

@@ -132,7 +132,8 @@
                             type: 'success',
                             padding: '2em'
                         }).then(function (then) {
-                            location.reload()
+                            // location.reload()
+                            location.href = '/drinking/public/dashboard/list_news'
                         })
                     } else {
                         swal({

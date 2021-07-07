@@ -38,13 +38,14 @@
                                                 <thead>
                                                     <tr style="text-align: center;">
                                                         <th>ลำดับ</th>
+                                                        <th style="width: 20%">รูปภาพสินค้า</th>
                                                         <th>ชื่อสินค้า</th>
                                                         <th>จำนวน</th>
                                                         <th>หน่วย</th>
-                                                        <th>ราคา</th>
+                                                        <th>ราคาต่อชิ้น</th>
                                                         <th>หน่วย</th>
-                                                        <th>วันที่</th>
-                                                        <th>ชื่อผู้ทำรายการ</th>
+                                                        <th>รวม</th>
+                                                        <th>หน่วย</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -52,6 +53,9 @@
                                                     @foreach ($pro as $value)
                                                         <tr>
                                                             <td style="text-align: center;">{{ $i }}</td>
+                                                            <td>
+                                                                <img src="{{url('/upload/store/'.$value->product_img)}}" alt="" width="100%">
+                                                            </td>
                                                             <td>
                                                                 {{ $value->product_name }}
                                                             </td>
@@ -67,16 +71,31 @@
                                                             <td style="text-align: left;">
                                                                 บาท
                                                             </td>
-                                                            <td style="text-align: center;">
-                                                                {{ $value->production_date }}
+                                                            <td style="text-align: right;">
+                                                                {{ $value->product_price * $value->production_number }}.00
                                                             </td>
-                                                            <td style="text-align: center;">
-                                                                {{ $value->user_d_fname }} {{ $value->user_d_lanme }}
+                                                            <td>
+                                                                บาท
                                                             </td>
                                                         </tr>
                                                         @php $i++ @endphp
                                                     @endforeach
                                                 </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="7" style="text-align:right">รวม : </th>
+                                                        @php
+                                                            $total = 0;
+                                                        @endphp
+                                                        <th style="text-align: right;">
+                                                            @foreach ($sum as $key)
+                                                            @php $total = $total + $key->sum @endphp
+                                                            @endforeach
+                                                            {{ $total }}.00
+                                                        </th>
+                                                        <th>บาท</th>
+                                                    </tr>
+                                                </tfoot>
                                             </table>
                                         </div>
                                         <div class="table-responsive dt-responsive table-m">
@@ -84,12 +103,14 @@
                                                 <thead>
                                                     <tr style="text-align: center;">
                                                         <th>ลำดับ</th>
+                                                        <th style="width: 20%">รูปภาพสินค้า</th>
                                                         <th>ชื่อวัตถุดิบ</th>
                                                         <th>จำนวน</th>
                                                         <th>หน่วย</th>
-                                                        <th>ราคา</th>
+                                                        <th>ราคาต่อชิ้น</th>
                                                         <th>หน่วย</th>
-                                                        {{-- <th>ชื่อผู้ทำรายการ</th> --}}
+                                                        <th>รวม</th>
+                                                        <th>หน่วย</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -97,6 +118,9 @@
                                                     @foreach ($mat as $value)
                                                         <tr>
                                                             <td style="text-align: center;">{{ $i }}</td>
+                                                            <td>
+                                                                <img src="{{url('/upload/material/'.$value->material_img)}}" alt="" width="100%">
+                                                            </td>
                                                             <td>
                                                                 {{ $value->material_name }}
                                                             </td>
@@ -112,16 +136,41 @@
                                                             <td style="text-align: left;">
                                                                 บาท
                                                             </td>
-                                                            {{-- <td style="text-align: center;">
-                                                                {{ $value->user_d_fname }} {{ $value->user_d_lanme }}
-                                                            </td> --}}
+                                                            <td style="text-align: right;">
+                                                                {{ $value->material_price * $value->production_m_num }}.00
+                                                            </td>
+                                                            <td>
+                                                                บาท
+                                                            </td>
                                                         </tr>
                                                         @php $i++ @endphp
                                                     @endforeach
                                                 </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="7" style="text-align:right">รวม : </th>
+                                                        @php
+                                                            $total = 0;
+                                                        @endphp
+                                                        <th style="text-align: right;">
+                                                            @foreach ($sumT as $key)
+                                                            @php $total = $total + $key->sumt @endphp
+                                                            @endforeach
+                                                            {{ $total }}.00
+                                                        </th>
+                                                        <th>บาท</th>
+                                                    </tr>
+                                                </tfoot>
                                             </table>
                                         </div>
                                     </div>
+                                    <div style="margin:auto">
+                                        <a href="{{ url('/production/production_index') }}">
+                                            <button class="btn btn-sm btn-secondary btn-form" type="reset">
+                                                กลับไปหน้าก่อนหน้า
+                                            </button>
+                                        </a>
+                                    </div><br>
                                 </div>
                             </div>
                         </div>

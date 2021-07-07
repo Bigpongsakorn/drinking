@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -56,8 +57,9 @@ class DashboardController extends Controller
                 'new_date' => $request->date,
                 'new_detail' => $request->detail,
                 'new_image' => $news_pic,
+                'emp_id' => Auth::user()->emp_id,
             ];
-
+// dd($table);
             News::insertGetId($table);
 
             DB::commit();
@@ -147,7 +149,7 @@ class DashboardController extends Controller
                 'new_date' => $request->date,
                 'new_detail' => $request->detail,
             ];
-
+            // dd($table);
             News::where('new_id', $request->id)->update($table);
 
             DB::commit();

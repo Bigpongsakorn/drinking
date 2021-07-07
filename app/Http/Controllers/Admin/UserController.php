@@ -87,28 +87,28 @@ class UserController extends Controller
                 // dd($table_data);
                 Users::insertGetId($table_data);
 
+            }else{
+                $table_data = [
+                    'username' => $request->username,
+                    'password' => $password,
+                    'position_id' => $request->type,
+                    'emp_firstname' => $request->fname,
+                    'emp_lastname' => $request->lname,
+                    'emp_title' => $request->title,
+                    'emp_gender' => $request->gender,
+                    'emp_birthdate' => $request->bday,
+                    'emp_id_crad' => $request->idcart,
+                    'emp_email' => $request->email,
+                    'emp_phonenumber' => $request->tel,
+                    'emp_address' => $request->address,
+                    'emp_province' => $request->province,
+                    'emp_district' => $request->district,
+                    'emp_subdistrict' => $request->subdistrict,
+                    'emp_zipcode' => $request->zipcode,
+                ];
+                // dd($table_data);
+                Users::insertGetId($table_data);
             }
-
-            $table_data = [
-                'username' => $request->username,
-                'password' => $password,
-                'position_id' => $request->type,
-                'emp_firstname' => $request->fname,
-                'emp_lastname' => $request->lname,
-                'emp_title' => $request->title,
-                'emp_gender' => $request->gender,
-                'emp_birthdate' => $request->bday,
-                'emp_id_crad' => $request->idcart,
-                'emp_email' => $request->email,
-                'emp_phonenumber' => $request->tel,
-                'emp_address' => $request->address,
-                'emp_province' => $request->province,
-                'emp_district' => $request->district,
-                'emp_subdistrict' => $request->subdistrict,
-                'emp_zipcode' => $request->zipcode,
-            ];
-            // dd($table_data);
-            Users::insertGetId($table_data);
 
             DB::commit();
             $return['status'] = 1;

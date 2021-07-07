@@ -35,6 +35,7 @@
                                                     <th>ลำดับ</th>
                                                     <th>หัวข้อข่าว</th>
                                                     <th>วันที่</th>
+                                                    <th>ชื่อผู้เพิ่ม</th>
                                                     <th>แก้ไข / ลบ</th>
                                                     {{-- <th>ลบ</th> --}}
                                                 </tr>
@@ -51,8 +52,11 @@
                                                          <p>{!!$value->new_toppic!!}</p>
                                                          @endif
                                                     </td>
-                                                    <td>
-                                                        {{$value->new_date}}
+                                                    <td style="text-align: center;">
+                                                        {{date('d-m-Y',strtotime($value->new_date))}}
+                                                    </td>
+                                                    <td style="text-align: center;">
+
                                                     </td>
                                                     <td style="text-align: center;">
                                                         <a href="{{url('/dashboard/edit_news/'.$value->new_id)}}">
@@ -109,7 +113,7 @@
 
                     $.ajax({
                         method: "GET",
-                        url: "/new/destroy/" + id,
+                        url: "/drinking/public/new/destroy/" + id,
                     }).done(function (rec) {
                         rec = JSON.parse(rec);
                         console.log(rec);

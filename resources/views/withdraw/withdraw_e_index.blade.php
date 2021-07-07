@@ -56,7 +56,7 @@
                                                                     {{ $value->withdraw_m_name }}
                                                                 </td>
                                                                 <td style="text-align: center;">
-                                                                    {{ $value->withdraw_m_date }}
+                                                                    {{ date('d-m-Y',strtotime($value->withdraw_m_date)) }}
                                                                 </td>
                                                                 <td style="text-align: center;">
                                                                     {{ $value->emp_firstname }} {{ $value->emp_lastname }}
@@ -120,7 +120,7 @@
                                                                 {{ $value->withdraw_m_name }}
                                                             </td>
                                                             <td style="text-align: center;">
-                                                                {{ $value->withdraw_m_date }}
+                                                                {{ date('d-m-Y',strtotime($value->withdraw_m_date)) }}
                                                             </td>
                                                             <td style="text-align: center;">
                                                                 {{ $value->emp_firstname }} {{ $value->emp_lastname }}
@@ -185,7 +185,7 @@
                                                                 {{ $value->withdraw_m_name }}
                                                             </td>
                                                             <td style="text-align: center;">
-                                                                {{ $value->withdraw_m_date }}
+                                                                {{ date('d-m-Y',strtotime($value->withdraw_m_date)) }}
                                                             </td>
                                                             <td style="text-align: center;">
                                                                 {{ $value->emp_firstname }} {{ $value->emp_lastname }}
@@ -250,7 +250,7 @@
                                                                 {{ $value->withdraw_m_name }}
                                                             </td>
                                                             <td style="text-align: center;">
-                                                                {{ $value->withdraw_m_date }}
+                                                                {{ date('d-m-Y',strtotime($value->withdraw_m_date)) }}
                                                             </td>
                                                             <td style="text-align: center;">
                                                                 {{ $value->emp_firstname }} {{ $value->emp_lastname }}
@@ -378,7 +378,7 @@
 
                         $.ajax({
                             method: "GET",
-                            url: "/withdraw_e/destroy/" + id,
+                            url: "/drinking/public/withdraw_e/destroy/" + id,
                         }).done(function(rec) {
                             rec = JSON.parse(rec);
                             console.log(rec);
@@ -421,7 +421,7 @@
 
                     $.ajax({
                         method: "POST",
-                        url: "/withdraw_e/status",
+                        url: "/drinking/public/withdraw_e/status",
                         dataType: 'json',
                         cache: false,
                         contentType: false,

@@ -23,26 +23,30 @@ class ProductionController extends Controller
     public function index()
     {
         $data['page'] = '/production';
-        $data['production'] = Production::groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')
-            ->select('production_group', 'production_date', 'production_status', 'production_name')
+        $data['production'] = Production::leftjoin('empolyee', 'empolyee.emp_id', 'production_data.emp_id')
+            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')
+            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname')
             ->orderBy('production_id', 'DESC')
             ->get();
-        $data['pending'] = Production::groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')
-            ->select('production_group', 'production_date', 'production_status', 'production_name')
+        $data['pending'] = Production::leftjoin('empolyee', 'empolyee.emp_id', 'production_data.emp_id')
+            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')
+            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname')
             ->orderBy('production_id', 'DESC')
-            ->where('production_status','0')
+            ->where('production_status', '0')
             ->get();
-        $data['dis'] = Production::groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')
-            ->select('production_group', 'production_date', 'production_status', 'production_name')
+        $data['dis'] = Production::leftjoin('empolyee', 'empolyee.emp_id', 'production_data.emp_id')
+            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')
+            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname')
             ->orderBy('production_id', 'DESC')
-            ->where('production_status','1')
+            ->where('production_status', '1')
             ->get();
-        $data['approve'] = Production::groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')
-            ->select('production_group', 'production_date', 'production_status', 'production_name')
+        $data['approve'] = Production::leftjoin('empolyee', 'empolyee.emp_id', 'production_data.emp_id')
+            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')
+            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname')
             ->orderBy('production_id', 'DESC')
-            ->where('production_status','2')
+            ->where('production_status', '2')
             ->get();
-        // dd($data);
+        // dd($data['production']);
         return view('production.production_index', $data);
     }
 
@@ -107,13 +111,12 @@ class ProductionController extends Controller
                     'production_name' => $production_name,
                     'production_date' => $production_date,
                     'production_status' => '0',
-                    'user_id' => Auth::user()->user_id,
+                    'emp_id' => Auth::user()->emp_id,
                 ];
             }
 
             // dd($table);
 
-            
             // $idp = [];
             $ss = 0;
             foreach ($table as $key => $value) {
@@ -126,7 +129,7 @@ class ProductionController extends Controller
                     $this_ = $material_number[$i];
                     // dd($material_number[$i]);
 
-                    if($material_number[$i][0] == $key+1){
+                    if ($material_number[$i][0] == $key + 1) {
                         // dd('1');
                         $table2 = [
                             'material_id' => $material_id[$i][1],
@@ -136,9 +139,8 @@ class ProductionController extends Controller
                         // dd($table2);
                         Production_m::insert($table2);
                     }
-                    
-                }
 
+                }
 
                 // for ($i = 0; $i < $count; $i++) {
                 //     $table2 = [
@@ -174,7 +176,7 @@ class ProductionController extends Controller
 
             Production::whereNull('production_group')->update(['production_group' => $id]);
 
-            Production_m::whereNull('production_m_group')->update(['production_m_group' => $id]);        
+            Production_m::whereNull('production_m_group')->update(['production_m_group' => $id]);
 // dd("stop");
             // $table = [
             //     'product_id' => $request->product,
@@ -212,14 +214,27 @@ class ProductionController extends Controller
     public function show($id)
     {
         $data['page'] = '/production';
-        $data['pro'] = Production::leftjoin('product_data','product_data.product_id','production_data.product_id')
-        ->leftjoin('user_data','user_data.user_id','production_data.user_id')
-        ->where('production_group',$id)
+        $data['pro'] = Production::leftjoin('product_data', 'product_data.product_id', 'production_data.product_id')
+            ->where('production_group', $id)
+            ->get();
+        $data['mat'] = Production_m::leftjoin('product_material', 'product_material.material_id', 'production_m_data.material_id')
+            ->where('production_m_group', $id)
+            ->get();
+
+        $data['sum'] = DB::table('product_data')
+        ->leftJoin('production_data','product_data.product_id','production_data.product_id')
+        ->select('product_data.product_id',DB::raw('SUM(product_data.product_price * production_data.production_number) as sum'))
+        ->groupBy('product_data.product_id')
+        ->where('production_data.production_group', $id)
         ->get();
-        $data['mat'] = Production_m::leftjoin('product_material','product_material.material_id','production_m_data.material_id')
-        // ->leftjoin('product_data','product_data.production_group','production_m_data.production_m_group')
-        ->where('production_m_group',$id)
+
+        $data['sumT'] = DB::table('product_material')
+        ->leftJoin('production_m_data','product_material.material_id','production_m_data.material_id')
+        ->select('product_material.material_id',DB::raw('SUM(product_material.material_price * production_m_data.production_m_num) as sumt'))
+        ->groupBy('product_material.material_id')
+        ->where('production_m_data.production_m_group', $id)
         ->get();
+
         // dd($data);
         return view('production.production_detail', $data);
     }
@@ -233,13 +248,13 @@ class ProductionController extends Controller
     public function edit($id)
     {
         $data['page'] = '/production/create';
-        $data['pd'] = Production::where('production_group', $id)->orderby('production_id','asc')->get();
+        $data['pd'] = Production::where('production_group', $id)->orderby('production_id', 'asc')->get();
         $data['pd1'] = Production::where('production_group', $id)->first();
         $data['product'] = Product::get();
         $data['mate'] = Material::get();
-        $data['mate1'] = Production_m::leftjoin('production_data','production_data.production_id','production_m_data.production_id')
-        ->where('production_m_group', $id)
-        ->get();
+        $data['mate1'] = Production_m::leftjoin('production_data', 'production_data.production_id', 'production_m_data.production_id')
+            ->where('production_m_group', $id)
+            ->get();
         return view('production.production_edit', $data);
     }
 
@@ -255,7 +270,7 @@ class ProductionController extends Controller
         // dd($request);
         try {
             Production::where('production_group', $request->production_group)->delete();
-            Production_m::where('production_group', $request->production_group)->delete();
+            Production_m::where('production_m_group', $request->production_group)->delete();
 
             $product_id = explode(",", $request->product_id);
             $production_number = explode(",", $request->production_number);
@@ -292,13 +307,12 @@ class ProductionController extends Controller
                     'production_name' => $production_name,
                     'production_date' => $production_date,
                     'production_status' => '0',
-                    'user_id' => Auth::user()->user_id,
+                    'emp_id' => Auth::user()->emp_id,
                 ];
             }
 
             // dd($table);
 
-            
             // $idp = [];
             $ss = 0;
             foreach ($table as $key => $value) {
@@ -311,7 +325,7 @@ class ProductionController extends Controller
                     $this_ = $material_number[$i];
                     // dd($material_number[$i]);
 
-                    if($material_number[$i][0] == $key+1){
+                    if ($material_number[$i][0] == $key + 1) {
                         // dd('1');
                         $table2 = [
                             'material_id' => $material_id[$i][1],
@@ -321,7 +335,7 @@ class ProductionController extends Controller
                         // dd($table2);
                         Production_m::insert($table2);
                     }
-                    
+
                 }
 
             }
@@ -333,7 +347,7 @@ class ProductionController extends Controller
 
             Production::whereNull('production_group')->update(['production_group' => $id]);
 
-            Production_m::whereNull('production_m_group')->update(['production_m_group' => $id]);   
+            Production_m::whereNull('production_m_group')->update(['production_m_group' => $id]);
 
             // $table = [
             //     'product_id' => $request->product,
@@ -371,7 +385,8 @@ class ProductionController extends Controller
     {
         try {
             DB::beginTransaction();
-            Production::where('production_id', $id)->delete();
+            Production::where('production_group', $id)->delete();
+            Production_m::where('production_m_group', $id)->delete();
 
             DB::commit();
             $return['status'] = 1;
@@ -389,13 +404,61 @@ class ProductionController extends Controller
 
     public function status(Request $request)
     {
-
+        // dd($request);
         try {
+            if ($request->production_status == 2) {
+                // dd("sad");
+                // ตรวจสอบ วัตถุดิบ
+                $id = Production_m::where('production_m_group', $request->production_group)->get();
+                // dd($id->production_m_num);
+                foreach ($id as $key => $value) {
+                    $idp = Material::where('material_id', $value->material_id)->get();
+                    // dd($value->production_m_num);
+                    foreach ($idp as $key => $pid) {
+                        if ($pid->material_remaining < $value->production_m_num) {
+                            // dd('ไม่สำเร็จ');
+                            $return['status'] = 3;
+                            $return['content'] = 'ไม่สำเร็จ';
+                            return json_encode($return);
+                        }
+                    }
+                }
+                // dd("pazz");
+                $id = Production_m::where('production_m_group', $request->production_group)->get();
+                foreach ($id as $key => $value) {
+                    $idp = Material::where('material_id', $value->material_id)->get();
+                    foreach ($idp as $key => $pid) {
+                        // dd($pid->product_total); // ข้อมูล
+                        // dd($value->withdraw_p_d_num); // จำนวนเบิก
+                        $total = $pid->material_remaining - $value->production_m_num;
+                        $total1 = [
+                            'material_remaining' => $total,
+                        ];
+                        Material::where('material_id', $value->material_id)->update($total1);
+                    }
+                }
+                // สินค้า
+                $id = Production::where('production_group', $request->production_group)->get();
+                foreach ($id as $key => $value) {
+                    $idp = Product::where('product_id', $value->product_id)->get();
+                    foreach ($idp as $key => $pid) {
+                        // dd($pid->product_total); // ข้อมูล
+                        // dd($value->withdraw_p_d_num); // จำนวนเบิก
+                        $total = $value->production_number + $pid->product_total;
+                        $total2 = [
+                            'product_total' => $total,
+                        ];
+                        // dd($total2);
+                        Product::where('product_id', $value->product_id)->update($total2);
+                    }
+                }
+            }
+
             $table = [
                 'production_status' => $request->production_status,
             ];
 
-            Production::where('production_id', $request->production_id)->update($table);
+            Production::where('production_group', $request->production_group)->update($table);
 
             DB::commit();
             $return['status'] = 1;

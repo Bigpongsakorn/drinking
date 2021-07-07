@@ -86,7 +86,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/product_type/store",
+                    url: "/drinking/public/product_type/store",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -102,7 +102,8 @@
                             type: 'success',
                             padding: '2em'
                         }).then(function (then) {
-                            location.reload()
+                            // location.reload()
+                            location.href = '/drinking/public/product/index_type'
                         })
                     } else {
                         swal({

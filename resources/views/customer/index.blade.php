@@ -36,7 +36,7 @@
                                                     <th>ชื่อลูกค้า</th>
                                                     <th>เบอร์โทรศัพท์</th>
                                                     <th>วันที่จัดส่ง</th>
-                                                    <th>ที่อยู่</th>
+                                                    {{-- <th>ที่อยู่</th> --}}
                                                     <th>ตำแหน่ง</th>
                                                     <th>แก้ไข / ลบ</th>
                                                     {{-- <th>ลบ</th> --}}
@@ -50,10 +50,16 @@
                                                     <td>
                                                        {{$value->cus_fristname}} {{$value->cus_lastname}}
                                                     </td>
-                                                    <td>{{$value->cus_tel}}</td>
-                                                    <td>{{$value->cus_date}}</td>
-                                                    <td>{{$value->cus_address}}</td>
-                                                    <td></td>
+                                                    <td style="text-align: center;">
+                                                        {{$value->cus_phonenumber}}
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        {{$value->cus_date}}
+                                                    </td>
+                                                    {{-- <td>{{$value->cus_address}}</td> --}}
+                                                    <td style="text-align: center;">
+                                                        ดูตำแหน่ง
+                                                    </td>
                                                     <td style="text-align: center;">
                                                         <a href="{{url('/customer/edit/'.$value->cus_id)}}">
                                                             <button class="btn btn-sm btn-primary">edit</button>

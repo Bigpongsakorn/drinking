@@ -124,7 +124,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/new/update",
+                    url: "/drinking/public/new/update",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -140,7 +140,8 @@
                             type: 'success',
                             padding: '2em'
                         }).then(function (then) {
-                            location.reload()
+                            // location.reload()
+                            location.href = '/drinking/public/dashboard/list_news'
                         })
                     } else {
                         swal({

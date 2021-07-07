@@ -161,7 +161,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/product/update",
+                    url: "/drinking/public/product/update",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -177,7 +177,8 @@
                             type: 'success',
                             padding: '2em'
                         }).then(function (then) {
-                            location.reload()
+                            // location.reload()
+                            location.href = '/drinking/public/product/index'
                         })
                     } else {
                         swal({

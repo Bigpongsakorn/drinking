@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Withdraw;
 
 use App\Http\Controllers\Controller;
 use App\Models\Material;
-use App\Models\Withdraw_m_detail;
 use App\Models\Withdraw_material;
+use App\Models\Withdraw_m_detail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -140,6 +140,12 @@ class WithdrawMaterialController extends Controller
         $data['show'] = Withdraw_m_detail::leftjoin('product_material', 'product_material.material_id', 'withdraw_material_detail.material_id')
             ->where('withdraw_m_id', $id)
             ->get();
+        $data['sumT'] = DB::table('product_material')
+            ->leftJoin('withdraw_material_detail', 'product_material.material_id', 'withdraw_material_detail.material_id')
+            ->select('product_material.material_id', DB::raw('SUM(product_material.material_price * withdraw_material_detail.withdraw_m_d_num) as sumt'))
+            ->groupBy('product_material.material_id')
+            ->where('withdraw_material_detail.withdraw_m_id', $id)
+            ->get();
         // dd($data);
         return view('withdraw.withdraw_material_detail', $data);
     }
@@ -157,6 +163,7 @@ class WithdrawMaterialController extends Controller
         $data['mate1'] = Withdraw_material::where('withdraw_m_id', $id)->first();
         $data['mate2'] = Material::get();
         // dd($data);
+
         return view('withdraw.withdraw_e_edit', $data);
     }
 

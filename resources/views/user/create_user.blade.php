@@ -242,7 +242,7 @@
             var input_file = $('#input_file').prop('files');
             var fd = new FormData();
 
-            if (username && password && email && type) {
+            if (username && password && email && type && gender && province && tel) {
                 fd.append('_token', "{{ csrf_token() }}");
                 fd.append('username', username);
                 fd.append('password', password);
@@ -267,7 +267,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/user/store",
+                    url: "/drinking/public/user/store",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -314,7 +314,7 @@
             $('#district').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/province",
+                    url: "/drinking/public/province",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),
@@ -339,7 +339,7 @@
             $('#zipcode').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/subdistrict",
+                    url: "/drinking/public/subdistrict",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),

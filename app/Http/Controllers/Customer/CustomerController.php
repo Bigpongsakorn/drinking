@@ -57,7 +57,7 @@ class CustomerController extends Controller
                 'cus_district' => $request->district,
                 'cus_subdistrict' => $request->subdistrict,
                 'cus_zipcode' => $request->zipcode,
-                'cus_tel' => $request->tel,
+                'cus_phonenumber' => $request->tel,
             ];
 
             Customer::insert($table);
@@ -126,7 +126,7 @@ class CustomerController extends Controller
                 'cus_district' => $request->district,
                 'cus_subdistrict' => $request->subdistrict,
                 'cus_zipcode' => $request->zipcode,
-                'cus_tel' => $request->tel,
+                'cus_phonenumber' => $request->tel,
             ];
 
             Customer::where('cus_id', $request->id)->update($table);
@@ -154,9 +154,7 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         try {
-
             DB::beginTransaction();
-
             Customer::where('cus_id', $id)->delete();
 
             DB::commit();

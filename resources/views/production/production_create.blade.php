@@ -302,7 +302,7 @@
 
                     $.ajax({
                         method: "POST",
-                        url: "/production/store",
+                        url: "/drinking/public/production/store",
                         dataType: 'json',
                         cache: false,
                         contentType: false,
@@ -319,7 +319,7 @@
                                 padding: '2em'
                             }).then(function(then) {
                                 // location.reload()
-                                location.href = '/production/production_index'
+                                location.href = '/drinking/public/production/production_index'
                             })
                         }
                         if (rec.status == '3') {

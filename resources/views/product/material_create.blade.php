@@ -122,7 +122,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/material/store",
+                    url: "/drinking/public/material/store",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -138,7 +138,8 @@
                             type: 'success',
                             padding: '2em'
                         }).then(function (then) {
-                            location.reload()
+                            // location.reload()
+                            location.href = '/drinking/public/product/material_index'
                         })
                     } else {
                         swal({

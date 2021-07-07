@@ -140,6 +140,14 @@ class WithdrawController extends Controller
         $data['detail'] = Withdraw_detail::leftjoin('product_data', 'product_data.product_id', 'withdraw_product_detail.product_id')
             ->where('withdraw_p_id', $id)
             ->get();
+
+        $data['sum'] = DB::table('product_data')
+        ->leftJoin('withdraw_product_detail','product_data.product_id','withdraw_product_detail.product_id')
+        ->select('product_data.product_id',DB::raw('SUM(product_data.product_price * withdraw_product_detail.withdraw_p_d_num) as sum'))
+        ->groupBy('product_data.product_id')
+        ->where('withdraw_product_detail.withdraw_p_id', $id)
+        ->get();
+
         // dd($data);
         return view('withdraw.withdraw_detail', $data);
     }

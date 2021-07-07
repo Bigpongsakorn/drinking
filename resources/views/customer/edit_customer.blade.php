@@ -125,7 +125,7 @@
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">เบอร์โทรศัพท์</label>
                                                     <input type="text" class="form-control"
-                                                        value="{{$customer->cus_tel}}" maxlength="10" name="tel"
+                                                        value="{{$customer->cus_phonenumber}}" maxlength="10" name="tel"
                                                         id="tel">
                                                 </div>
                                             </div>
@@ -275,7 +275,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/customer/update",
+                    url: "/drinking/public/customer/update",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -291,7 +291,8 @@
                             type: 'success',
                             padding: '2em'
                         }).then(function (then) {
-                            location.reload()
+                            // location.reload()
+                            location.href = '/drinking/public/customer/index'
                         })
                     } else {
                         swal({
@@ -321,7 +322,7 @@
             $('#district').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/province",
+                    url: "/drinking/public/province",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),
@@ -346,7 +347,7 @@
             $('#zipcode').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/subdistrict",
+                    url: "/drinking/public/subdistrict",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),

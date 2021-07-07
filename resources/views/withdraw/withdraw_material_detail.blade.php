@@ -36,6 +36,7 @@
                                                 <thead>
                                                     <tr style="text-align: center;">
                                                         <th>ลำดับ</th>
+                                                        <th style="width: 20%">รูปภาพสินค้า</th>
                                                         <th>ชื่อวัตถุดิบ</th>
                                                         <th>จำนวน</th>
                                                         <th>หน่วย</th>
@@ -46,37 +47,53 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <span id="">
-                                                        @php $i = 1 @endphp
-                                                        @foreach ($show as $value)
-                                                            <tr>
-                                                                <td style="text-align: center;">{{ $i }}</td>
-                                                                <td>
-                                                                    {{ $value->material_name }}
-                                                                </td>
-                                                                <td style="text-align: right;">
-                                                                    {{ $value->withdraw_m_d_num }}
-                                                                </td>
-                                                                <td style="text-align: left;">
-                                                                    {{ $value->material_unit }}
-                                                                </td>
-                                                                <td style="text-align: right;">
-                                                                    {{ $value->material_price }}
-                                                                </td>
-                                                                <td>
-                                                                    บาท
-                                                                </td>
-                                                                <td style="text-align: right;">
-                                                                    {{ $value->material_price * $value->withdraw_m_d_num }}.00
-                                                                </td>
-                                                                <td>
-                                                                    บาท
-                                                                </td>
-                                                            </tr>
-                                                            @php $i++ @endphp
-                                                        @endforeach
-                                                    </span>
+                                                    @php $i = 1 @endphp
+                                                    @foreach ($show as $value)
+                                                        <tr>
+                                                            <td style="text-align: center;">{{ $i }}</td>
+                                                            <td>
+                                                                <img src="{{url('/upload/material/'.$value->material_img)}}" alt="" width="100%">
+                                                            </td>
+                                                            <td>
+                                                                {{ $value->material_name }}
+                                                            </td>
+                                                            <td style="text-align: right;">
+                                                                {{ $value->withdraw_m_d_num }}
+                                                            </td>
+                                                            <td style="text-align: left;">
+                                                                {{ $value->material_unit }}
+                                                            </td>
+                                                            <td style="text-align: right;">
+                                                                {{ $value->material_price }}
+                                                            </td>
+                                                            <td>
+                                                                บาท
+                                                            </td>
+                                                            <td style="text-align: right;">
+                                                                {{ $value->material_price * $value->withdraw_m_d_num }}.00
+                                                            </td>
+                                                            <td>
+                                                                บาท
+                                                            </td>
+                                                        </tr>
+                                                        @php $i++ @endphp
+                                                    @endforeach
                                                 </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="7" style="text-align:right">รวม : </th>
+                                                        @php
+                                                            $total = 0;
+                                                        @endphp
+                                                        <th style="text-align: right;">
+                                                            @foreach ($sumT as $key)
+                                                            @php $total = $total + $key->sumt @endphp
+                                                            @endforeach
+                                                            {{ $total }}.00
+                                                        </th>
+                                                        <th>บาท</th>
+                                                    </tr>
+                                                </tfoot>
                                             </table>
                                         </div>
                                     </div>
@@ -101,5 +118,5 @@
 @endsection
 
 @section('js')
-    
+
 @endsection

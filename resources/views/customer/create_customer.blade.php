@@ -189,7 +189,7 @@
         $("#radio2").prop("checked", true);
 
         $('body').on('click', '#create-user', function () {
-            // console.log('submit');
+            console.log('submit');
 
             var gender = $("input[name='gender']:checked").val();
             var title = $("input[name='title']:checked").val();
@@ -198,7 +198,6 @@
             var date = $('#date').val();
             var tel = $('#tel').val();
             var address = $('#address').val();
-
             var province = $('#province').val();
             var district = $('#district').val();
             var subdistrict = $('#subdistrict').val();
@@ -241,7 +240,8 @@
                             type: 'success',
                             padding: '2em'
                         }).then(function (then) {
-                            location.reload()
+                            // location.reload()
+                            location.href = '/customer/index'
                         })
                     } else {
                         swal({

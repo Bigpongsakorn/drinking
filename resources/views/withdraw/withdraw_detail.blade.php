@@ -36,6 +36,7 @@
                                                 <thead>
                                                     <tr style="text-align: center;">
                                                         <th>ลำดับ</th>
+                                                        <th style="width: 20%">รูปภาพสินค้า</th>
                                                         <th>ชื่อสินค้า</th>
                                                         <th>จำนวน</th>
                                                         <th>หน่วย</th>
@@ -50,6 +51,9 @@
                                                     @foreach ($detail as $value)
                                                         <tr>
                                                             <td style="text-align: center;">{{ $i }}</td>
+                                                            <td>
+                                                                <img src="{{url('/upload/store/'.$value->product_img)}}" alt="" width="100%">
+                                                            </td>
                                                             <td>
                                                                 {{ $value->product_name }}
                                                             </td>
@@ -75,6 +79,21 @@
                                                         @php $i++ @endphp
                                                     @endforeach
                                                 </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="7" style="text-align:right">รวม : </th>
+                                                        @php
+                                                            $total = 0;
+                                                        @endphp
+                                                        <th style="text-align: right;">
+                                                            @foreach ($sum as $key)
+                                                            @php $total = $total + $key->sum @endphp
+                                                            @endforeach
+                                                            {{ $total }}.00
+                                                        </th>
+                                                        <th>บาท</th>
+                                                    </tr>
+                                                </tfoot>
                                             </table>
                                         </div>
                                     </div>
