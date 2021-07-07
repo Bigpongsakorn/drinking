@@ -45,19 +45,19 @@
                                                 {{-- @php $i = 1 @endphp --}}
                                                 @foreach ($users as $value)
                                                 <tr>
-                                                    <td style="text-align: center;">{{$value->user_id}}</td>
+                                                    <td style="text-align: center;">{{$value->emp_id}}</td>
                                                     <td>{{$value->username}}</td>
-                                                    <td>{{$value->user_d_fname}}</td>
-                                                    <td>{{$value->user_d_lanme}}</td>
+                                                    <td>{{$value->emp_firstname}}</td>
+                                                    <td>{{$value->emp_lastname}}</td>
                                                     <td>{{$value->position_name}}</td>
                                                     <td style="text-align: center;">
-                                                        <a href="{{url('/user/edit_user/'.$value->user_id)}}">
+                                                        <a href="{{url('/user/edit_user/'.$value->emp_id)}}">
                                                             <button class="btn btn-sm btn-primary">edit</button>
                                                         </a>
                                                         {{-- </td>
                                                     <td style="text-align: center;"> --}}
                                                         <a href="javascript:void(0);" class="delete"
-                                                            data-id="{{$value->user_id}}">
+                                                            data-id="{{$value->emp_id}}">
                                                             <button class="btn btn-sm btn-danger">
                                                                 delete
                                                             </button>

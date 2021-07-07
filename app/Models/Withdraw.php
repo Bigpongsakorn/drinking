@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Withdraw extends Model
 {
-    protected $table = 'withdraw_producr';
+    protected $table = 'withdraw_product';
     public $timestamps = false;
 }

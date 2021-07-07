@@ -41,6 +41,7 @@
                                                         <th>ลำดับ</th>
                                                         <th>ข้อมูลเบิกวัตถุดิบ</th>
                                                         <th>วันที่</th>
+                                                        <th>ชื่อผู้เบิก</th>
                                                         <th>รายละเอียด</th>
                                                         <th>การอนุมัติ</th>
                                                         <th>แก้ไข / ลบ</th>
@@ -58,7 +59,10 @@
                                                                     {{ $value->withdraw_m_date }}
                                                                 </td>
                                                                 <td style="text-align: center;">
-                                                                    <a href="{{ url('/withdraw/withdraw_material_detail/' . $value->withdraw_m_group) }}">
+                                                                    {{ $value->emp_firstname }} {{ $value->emp_lastname }}
+                                                                </td>
+                                                                <td style="text-align: center;">
+                                                                    <a href="{{ url('/withdraw/withdraw_material_detail/' . $value->withdraw_m_id) }}">
                                                                         <button class="btn btn-sm btn-primary">
                                                                             รายละเอียด
                                                                         </button>
@@ -68,13 +72,13 @@
                                                                     @if ($value->withdraw_m_status == 0)
                                                                         <button type="button" data-toggle="modal"
                                                                             data-target="#exampleModal"
-                                                                            data-withdraw_m_group="{{ $value->withdraw_m_group }}"
+                                                                            data-withdraw_m_id="{{ $value->withdraw_m_id }}"
                                                                             data-withdraw_m_status="{{ $value->withdraw_m_status }}"
                                                                             class="btn btn-sm btn-warning open_modal">รออนุมัติ</button>
                                                                     @elseif($value->withdraw_m_status == 1)
                                                                         <button type="button" data-toggle="modal"
                                                                             data-target="#exampleModal"
-                                                                            data-withdraw_m_group="{{ $value->withdraw_m_group }}"
+                                                                            data-withdraw_m_id="{{ $value->withdraw_m_id }}"
                                                                             data-withdraw_m_status="{{ $value->withdraw_m_status }}"
                                                                             class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
                                                                     @else
@@ -92,11 +96,11 @@
                                                                 @else
                                                                     <td style="text-align: center;">
                                                                         <a
-                                                                            href="{{ url('/withdraw/withdraw_material_edit/' . $value->withdraw_m_group) }}">
+                                                                            href="{{ url('/withdraw/withdraw_material_edit/' . $value->withdraw_m_id) }}">
                                                                             <button class="btn btn-sm btn-primary">edit</button>
                                                                         </a>
                                                                         <a href="javascript:void(0);" class="delete"
-                                                                            data-id="{{ $value->withdraw_m_group }}">
+                                                                            data-id="{{ $value->withdraw_m_id }}">
                                                                             <button class="btn btn-sm btn-danger">
                                                                                 delete
                                                                             </button>
@@ -119,7 +123,10 @@
                                                                 {{ $value->withdraw_m_date }}
                                                             </td>
                                                             <td style="text-align: center;">
-                                                                <a href="{{ url('/withdraw/withdraw_material_detail/' . $value->withdraw_m_group) }}">
+                                                                {{ $value->emp_firstname }} {{ $value->emp_lastname }}
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                <a href="{{ url('/withdraw/withdraw_material_detail/' . $value->withdraw_m_id) }}">
                                                                     <button class="btn btn-sm btn-primary">
                                                                         รายละเอียด
                                                                     </button>
@@ -129,13 +136,13 @@
                                                                 @if ($value->withdraw_m_status == 0)
                                                                     <button type="button" data-toggle="modal"
                                                                         data-target="#exampleModal"
-                                                                        data-withdraw_m_group="{{ $value->withdraw_m_group }}"
+                                                                        data-withdraw_m_id="{{ $value->withdraw_m_id }}"
                                                                         data-withdraw_m_status="{{ $value->withdraw_m_status }}"
                                                                         class="btn btn-sm btn-warning open_modal">รออนุมัติ</button>
                                                                 @elseif($value->withdraw_m_status == 1)
                                                                     <button type="button" data-toggle="modal"
                                                                         data-target="#exampleModal"
-                                                                        data-withdraw_m_group="{{ $value->withdraw_m_group }}"
+                                                                        data-withdraw_m_id="{{ $value->withdraw_m_id }}"
                                                                         data-withdraw_m_status="{{ $value->withdraw_m_status }}"
                                                                         class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
                                                                 @else
@@ -154,11 +161,11 @@
                                                             @else
                                                                 <td style="text-align: center;">
                                                                     <a
-                                                                        href="{{ url('/withdraw/withdraw_material_edit/' . $value->withdraw_m_group) }}">
+                                                                        href="{{ url('/withdraw/withdraw_material_edit/' . $value->withdraw_m_id) }}">
                                                                         <button class="btn btn-sm btn-primary">edit</button>
                                                                     </a>
                                                                     <a href="javascript:void(0);" class="delete"
-                                                                        data-id="{{ $value->withdraw_m_group }}">
+                                                                        data-id="{{ $value->withdraw_m_id }}">
                                                                         <button class="btn btn-sm btn-danger">
                                                                             delete
                                                                         </button>
@@ -181,7 +188,10 @@
                                                                 {{ $value->withdraw_m_date }}
                                                             </td>
                                                             <td style="text-align: center;">
-                                                                <a href="{{ url('/withdraw/withdraw_material_detail/' . $value->withdraw_m_group) }}">
+                                                                {{ $value->emp_firstname }} {{ $value->emp_lastname }}
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                <a href="{{ url('/withdraw/withdraw_material_detail/' . $value->withdraw_m_id) }}">
                                                                     <button class="btn btn-sm btn-primary">
                                                                         รายละเอียด
                                                                     </button>
@@ -191,13 +201,13 @@
                                                                 @if ($value->withdraw_m_status == 0)
                                                                     <button type="button" data-toggle="modal"
                                                                         data-target="#exampleModal"
-                                                                        data-withdraw_m_group="{{ $value->withdraw_m_group }}"
+                                                                        data-withdraw_m_id="{{ $value->withdraw_m_id }}"
                                                                         data-withdraw_m_status="{{ $value->withdraw_m_status }}"
                                                                         class="btn btn-sm btn-warning open_modal">รออนุมัติ</button>
                                                                 @elseif($value->withdraw_m_status == 1)
                                                                     <button type="button" data-toggle="modal"
                                                                         data-target="#exampleModal"
-                                                                        data-withdraw_m_group="{{ $value->withdraw_m_group }}"
+                                                                        data-withdraw_m_id="{{ $value->withdraw_m_id }}"
                                                                         data-withdraw_m_status="{{ $value->withdraw_m_status }}"
                                                                         class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
                                                                 @else
@@ -216,11 +226,11 @@
                                                             @else
                                                                 <td style="text-align: center;">
                                                                     <a
-                                                                        href="{{ url('/withdraw/withdraw_material_edit/' . $value->withdraw_m_group) }}">
+                                                                        href="{{ url('/withdraw/withdraw_material_edit/' . $value->withdraw_m_id) }}">
                                                                         <button class="btn btn-sm btn-primary">edit</button>
                                                                     </a>
                                                                     <a href="javascript:void(0);" class="delete"
-                                                                        data-id="{{ $value->withdraw_m_group }}">
+                                                                        data-id="{{ $value->withdraw_m_id }}">
                                                                         <button class="btn btn-sm btn-danger">
                                                                             delete
                                                                         </button>
@@ -243,7 +253,10 @@
                                                                 {{ $value->withdraw_m_date }}
                                                             </td>
                                                             <td style="text-align: center;">
-                                                                <a href="{{ url('/withdraw/withdraw_material_detail/' . $value->withdraw_m_group) }}">
+                                                                {{ $value->emp_firstname }} {{ $value->emp_lastname }}
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                <a href="{{ url('/withdraw/withdraw_material_detail/' . $value->withdraw_m_id) }}">
                                                                     <button class="btn btn-sm btn-primary">
                                                                         รายละเอียด
                                                                     </button>
@@ -253,13 +266,13 @@
                                                                 @if ($value->withdraw_m_status == 0)
                                                                     <button type="button" data-toggle="modal"
                                                                         data-target="#exampleModal"
-                                                                        data-withdraw_m_group="{{ $value->withdraw_m_group }}"
+                                                                        data-withdraw_m_id="{{ $value->withdraw_m_id }}"
                                                                         data-withdraw_m_status="{{ $value->withdraw_m_status }}"
                                                                         class="btn btn-sm btn-warning open_modal">รออนุมัติ</button>
                                                                 @elseif($value->withdraw_m_status == 1)
                                                                     <button type="button" data-toggle="modal"
                                                                         data-target="#exampleModal"
-                                                                        data-withdraw_m_group="{{ $value->withdraw_m_group }}"
+                                                                        data-withdraw_m_id="{{ $value->withdraw_m_id }}"
                                                                         data-withdraw_m_status="{{ $value->withdraw_m_status }}"
                                                                         class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
                                                                 @else
@@ -278,11 +291,11 @@
                                                             @else
                                                                 <td style="text-align: center;">
                                                                     <a
-                                                                        href="{{ url('/withdraw/withdraw_material_edit/' . $value->withdraw_m_group) }}">
+                                                                        href="{{ url('/withdraw/withdraw_material_edit/' . $value->withdraw_m_id) }}">
                                                                         <button class="btn btn-sm btn-primary">edit</button>
                                                                     </a>
                                                                     <a href="javascript:void(0);" class="delete"
-                                                                        data-id="{{ $value->withdraw_m_group }}">
+                                                                        data-id="{{ $value->withdraw_m_id }}">
                                                                         <button class="btn btn-sm btn-danger">
                                                                             delete
                                                                         </button>
@@ -320,7 +333,7 @@
                 </div>
                 <form class="" id="create-product-category">
                     <div class="modal-body">
-                        <input type="hidden" id="withdraw_m_group" name="" value="">
+                        <input type="hidden" id="withdraw_m_id" name="" value="">
                         <select name="withdraw_m_status" id="withdraw_m_status" class="form-control">
                             <option value="0">รออนุมัติ</option>
                             <option value="2">อนุมัติ</option>
@@ -343,10 +356,10 @@
         $(document).ready(function() {
 
             $('body').on('click', '.open_modal', function() {
-                var withdraw_m_group = $(this).data('withdraw_m_group');
+                var withdraw_m_id = $(this).data('withdraw_m_id');
                 var withdraw_m_status = $(this).data('withdraw_m_status');
 
-                $('#withdraw_m_group').val(withdraw_m_group)
+                $('#withdraw_m_id').val(withdraw_m_id)
                 $('#withdraw_m_status').val(withdraw_m_status)
             })
 
@@ -396,14 +409,14 @@
 
             $('body').on('submit', '#create-product-category', function(e) {
                 e.preventDefault();
-                var withdraw_m_group = $('#withdraw_m_group').val()
+                var withdraw_m_id = $('#withdraw_m_id').val()
                 var withdraw_m_status = $('#withdraw_m_status').val()
                 var fd = new FormData();
 
                 if (withdraw_m_status) {
 
                     fd.append('_token', "{{ csrf_token() }}");
-                    fd.append('withdraw_m_group', withdraw_m_group);
+                    fd.append('withdraw_m_id', withdraw_m_id);
                     fd.append('withdraw_m_status', withdraw_m_status);
 
                     $.ajax({

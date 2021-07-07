@@ -318,7 +318,8 @@
                                 type: 'success',
                                 padding: '2em'
                             }).then(function(then) {
-                                location.reload()
+                                // location.reload()
+                                location.href = '/production/production_index'
                             })
                         }
                         if (rec.status == '3') {

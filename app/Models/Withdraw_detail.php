@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Users extends Model
+class Withdraw_detail extends Model
 {
-    protected $table = 'empolyee';
+    protected $table = 'withdraw_product_detail';
     public $timestamps = false;
 }

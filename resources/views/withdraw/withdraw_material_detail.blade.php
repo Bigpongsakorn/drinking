@@ -39,8 +39,10 @@
                                                         <th>ชื่อวัตถุดิบ</th>
                                                         <th>จำนวน</th>
                                                         <th>หน่วย</th>
-                                                        <th>วันที่</th>
-                                                        <th>ชื่อผู้เบิก</th>
+                                                        <th>ราคาต่อชิ้น</th>
+                                                        <th>หน่วย</th>
+                                                        <th>รวม</th>
+                                                        <th>หน่วย</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -53,16 +55,22 @@
                                                                     {{ $value->material_name }}
                                                                 </td>
                                                                 <td style="text-align: right;">
-                                                                    {{ $value->withdraw_m_num }}
+                                                                    {{ $value->withdraw_m_d_num }}
                                                                 </td>
                                                                 <td style="text-align: left;">
                                                                     {{ $value->material_unit }}
                                                                 </td>
-                                                                <td style="text-align: center;">
-                                                                    {{ $value->withdraw_m_date }}
+                                                                <td style="text-align: right;">
+                                                                    {{ $value->material_price }}
                                                                 </td>
-                                                                <td style="text-align: center;">
-                                                                    {{ $value->user_d_fname }} {{ $value->user_d_lanme }}
+                                                                <td>
+                                                                    บาท
+                                                                </td>
+                                                                <td style="text-align: right;">
+                                                                    {{ $value->material_price * $value->withdraw_m_d_num }}.00
+                                                                </td>
+                                                                <td>
+                                                                    บาท
                                                                 </td>
                                                             </tr>
                                                             @php $i++ @endphp
@@ -72,6 +80,13 @@
                                             </table>
                                         </div>
                                     </div>
+                                    <div style="margin:auto">
+                                        <a href="{{ url('/withdraw/withdraw_material') }}">
+                                            <button class="btn btn-sm btn-secondary btn-form" type="reset">
+                                                กลับไปหน้าก่อนหน้า
+                                            </button>
+                                        </a>
+                                    </div><br>
                                 </div>
                             </div>
                         </div>

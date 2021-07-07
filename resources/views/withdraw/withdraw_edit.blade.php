@@ -42,10 +42,10 @@
                                                         <input type="date" class="form-control withdraw_p_date" name="date"
                                                             id="date" value="{{ $with1->withdraw_p_date }}">
                                                     </div>
-                                                    <input type="hidden" name="u_id" id="u_id" class="user_id"
-                                                        value="{{ $with1->user_id }}">
-                                                    <input type="hidden" name="g_id" id="g_id" class="withdraw_p_group"
-                                                        value="{{ $with1->withdraw_p_group }}">
+                                                    <input type="hidden" name="u_id" id="u_id" class="emp_id"
+                                                        value="{{ $with1->emp_id }}">
+                                                    <input type="hidden" name="g_id" id="g_id" class="withdraw_p_id"
+                                                        value="{{ $with1->withdraw_p_id }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -76,9 +76,9 @@
                                                             </div>
                                                             <div class="col-sm-6">
                                                                 <label class="col-form-label">จำนวนสินค้า</label>
-                                                                <input type="number" class="form-control withdraw_p_num"
+                                                                <input type="number" class="form-control withdraw_p_d_num"
                                                                     name="number" id="number"
-                                                                    value="{{ $item->withdraw_p_num }}" min="1">
+                                                                    value="{{ $item->withdraw_p_d_num }}" min="1">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
@@ -166,7 +166,7 @@
                                                                     </div>\
                                                                     <div class="col-sm-6">\
                                                                         <label class="col-form-label">จำนวนสินค้า</label>\
-                                                                        <input type="number" class="form-control withdraw_p_num"\
+                                                                        <input type="number" class="form-control withdraw_p_d_num"\
                                                                             name="number" id="number"\
                                                                             placeholder="จำนวนสินค้า" min="1">\
                                                                     </div>\
@@ -190,29 +190,29 @@
                     // console.log('submit');
                     var count = 0;
                     var count_ = $('.count')
-                    var user_id = [];
-                    var user_id_ = $('.user_id')
+                    var emp_id = [];
+                    var emp_id_ = $('.emp_id')
                     var withdraw_p_name = [];
                     var withdraw_p_name_ = $('.withdraw_p_name')
                     var withdraw_p_date = [];
                     var withdraw_p_date_ = $('.withdraw_p_date')
                     var product_id = [];
                     var product_id_ = $('.product_id')
-                    var withdraw_p_num = [];
-                    var withdraw_p_num_ = $('.withdraw_p_num')
-                    var withdraw_p_group = [];
-                    var withdraw_p_group_ = $('.withdraw_p_group')
+                    var withdraw_p_d_num = [];
+                    var withdraw_p_d_num_ = $('.withdraw_p_d_num')
+                    var withdraw_p_id = [];
+                    var withdraw_p_id_ = $('.withdraw_p_id')
 
                     $.each(count_, function(index, value) {
                         count++
                     });
-                    $.each(user_id_, function(index, value) {
+                    $.each(emp_id_, function(index, value) {
                         var v = $(this).val()
-                        user_id.push(v)
+                        emp_id.push(v)
                     });
-                    $.each(withdraw_p_group_, function(index, value) {
+                    $.each(withdraw_p_id_, function(index, value) {
                         var v = $(this).val()
-                        withdraw_p_group.push(v)
+                        withdraw_p_id.push(v)
                     });
                     $.each(withdraw_p_name_, function(index, value) {
                         var v = $(this).val()
@@ -226,9 +226,9 @@
                         var v = $(this).val()
                         withdraw_p_date.push(v)
                     });
-                    $.each(withdraw_p_num_, function(index, value) {
+                    $.each(withdraw_p_d_num_, function(index, value) {
                         var v = $(this).val()
-                        withdraw_p_num.push(v)
+                        withdraw_p_d_num.push(v)
                     });
 
                     var fd = new FormData();
@@ -239,9 +239,9 @@
                         fd.append('product_id', product_id);
                         fd.append('withdraw_p_name', withdraw_p_name);
                         fd.append('withdraw_p_date', withdraw_p_date);
-                        fd.append('withdraw_p_num', withdraw_p_num);
-                        fd.append('user_id', user_id);
-                        fd.append('withdraw_p_group', withdraw_p_group);
+                        fd.append('withdraw_p_d_num', withdraw_p_d_num);
+                        fd.append('emp_id', emp_id);
+                        fd.append('withdraw_p_id', withdraw_p_id);
 
                         $.ajax({
                             method: "POST",

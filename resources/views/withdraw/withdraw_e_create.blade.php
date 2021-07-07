@@ -218,7 +218,8 @@
                                 type: 'success',
                                 padding: '2em'
                             }).then(function(then) {
-                                location.reload()
+                                // location.reload()
+                                location.href = '/withdraw/withdraw_material'
                             })
                         }
                         if (rec.status == '3') {

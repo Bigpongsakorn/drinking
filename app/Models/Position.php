@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Position extends Model
 {
-    protected $table = 'user_position';
+    protected $table = 'empolyee_position';
 }

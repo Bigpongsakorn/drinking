@@ -34,11 +34,11 @@
                                         <div class="col-sm-1"></div>
                                         <div class="col-sm-10">
                                             <div class="form-group row">
-                                                @if($user_d->user_d_image == null)
+                                                @if($user->emp_image == null)
                                                 <img src="{{url('/upload/users/user.png')}}" alt=""
                                                     style="margin: auto;" width="25%">
                                                 @else
-                                                <img src="{{url('/upload/users/'.$user_d->user_d_image)}}" alt=""
+                                                <img src="{{url('/upload/users/'.$user->emp_image)}}" alt=""
                                                     style="margin: auto;" width="25%">
                                                 @endif
                                             </div>
@@ -49,7 +49,7 @@
                                                         id="input_file">
                                                 </div>
                                             </div>
-                                            <input type="hidden" name="id" id="id" value="{{$user->user_id}}">
+                                            <input type="hidden" name="id" id="id" value="{{$user->emp_id}}">
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">ชื่อผู้ใช้งานระบบ</label>
@@ -70,7 +70,7 @@
                                                         @foreach ($position as $value)
                                                         <option value="{{$value->position_id}}" @if($value->position_id
                                                             ==
-                                                            $user->user_type) {{"selected"}} @endif>
+                                                            $user->position_id) {{"selected"}} @endif>
                                                             {{$value->position_name}}
                                                         </option>
                                                         @endforeach
@@ -83,14 +83,14 @@
                                                     <div class="form-check form-check-inline">
                                                         <label class="form-check-label">
                                                             <input class="form-check-input" type="radio" name="gender"
-                                                                @if($user_d->user_d_gender == 1 ) {{"checked"}} @endif
+                                                                @if($user->emp_gender == 1 ) {{"checked"}} @endif
                                                             value="1"> ชาย
                                                         </label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
                                                         <label class="form-check-label">
                                                             <input class="form-check-input" type="radio" name="gender"
-                                                                @if($user_d->user_d_gender == 2 ) {{"checked"}} @endif
+                                                                @if($user->emp_gender == 2 ) {{"checked"}} @endif
                                                             value="2">
                                                             หญิง
                                                         </label>
@@ -101,14 +101,14 @@
                                                     <div class="form-check form-check-inline">
                                                         <label class="form-check-label">
                                                             <input class="form-check-input" type="radio" name="title"
-                                                                @if($user_d->user_d_title == 1 ) {{"checked"}} @endif
+                                                                @if($user->emp_title == 1 ) {{"checked"}} @endif
                                                             value="1"> นาย
                                                         </label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
                                                         <label class="form-check-label">
                                                             <input class="form-check-input" type="radio" name="title"
-                                                                @if($user_d->user_d_title == 2 ) {{"checked"}} @endif
+                                                                @if($user->emp_title == 2 ) {{"checked"}} @endif
                                                             value="2">
                                                             นาง
                                                         </label>
@@ -116,7 +116,7 @@
                                                     <div class="form-check form-check-inline">
                                                         <label class="form-check-label">
                                                             <input class="form-check-input" type="radio" name="title"
-                                                                @if($user_d->user_d_title == 3 ) {{"checked"}} @endif
+                                                                @if($user->emp_title == 3 ) {{"checked"}} @endif
                                                             value="3">
                                                             นางสาว
                                                         </label>
@@ -127,36 +127,36 @@
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">ชื่อจริง</label>
                                                     <input type="text" class="form-control" name="fname" id="fname"
-                                                        value="{{$user_d->user_d_fname}}">
+                                                        value="{{$user->emp_firstname}}">
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">นามสกุล</label>
                                                     <input type="text" class="form-control" name="lname" id="lname"
-                                                        value="{{$user_d->user_d_lanme}}">
+                                                        value="{{$user->emp_lastname}}">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">วันเกิด</label>
                                                     <input type="date" class="form-control" name="bday" id="bday"
-                                                        value="{{$user_d->user_d_birthday}}">
+                                                        value="{{$user->emp_birthdate}}">
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">หมายเลขบัตรประชาชน</label>
                                                     <input type="text" class="form-control" name="idcart" id="idcart"
-                                                        value="{{$user_d->user_d_idcart}}" maxlength="13">
+                                                        value="{{$user->emp_id_crad}}" maxlength="13">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">อีเมล์</label>
                                                     <input type="text" class="form-control" name="email" id="email"
-                                                        value="{{$user_d->user_d_email}}">
+                                                        value="{{$user->emp_email}}">
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">เบอร์โทรศัพท์</label>
                                                     <input type="text" class="form-control"
-                                                        value="{{$user_d->user_d_tel}}" maxlength="10" name="tel"
+                                                        value="{{$user->emp_phonenumber}}" maxlength="10" name="tel"
                                                         id="tel">
                                                 </div>
                                             </div>
@@ -164,7 +164,7 @@
                                                 <label class="col-sm-2 col-form-label">บ้านเลขที่/หมู่บ้าน</label>
                                                 <div class="col-sm-10">
                                                     <textarea rows="5" cols="5" class="form-control" name="address"
-                                                        id="address">{{$user_d->user_d_address}}</textarea>
+                                                        id="address">{{$user->emp_address}}</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -176,7 +176,7 @@
                                                         @foreach ($province as $item)
 
                                                         <option value="{{$item->province_id}}" @if($item->province_id ==
-                                                            $user_d->user_d_province)
+                                                            $user->emp_province)
                                                             {{"selected"}} @endif >
                                                             {{$item->province_name}}
                                                         </option>
@@ -191,7 +191,7 @@
                                                         <option value="">เลือกอำเภอ</option>
                                                         @foreach ($district as $item)
                                                         <option value="{{$item->district_id}}" @if($item->district_id ==
-                                                            $user_d->user_d_district)
+                                                            $user->emp_district)
                                                             {{"selected"}}@endif>
                                                             {{$item->district_name}}
                                                         </option>
@@ -208,7 +208,7 @@
                                                         @foreach ($subistrict as $item)
                                                         <option value="{{$item->subdistrict_id}}" @if($item->
                                                             subdistrict_id ==
-                                                            $user_d->user_d_subdistrict)
+                                                            $user->emp_subdistrict)
                                                             {{"selected"}}@endif>
                                                             {{$item->subdistrict_name}}
                                                         </option>
@@ -222,7 +222,7 @@
                                                         <option value="">เลือกรหัสไปรษณีย์</option>
                                                         @foreach ($subistrict as $item)
                                                         <option value="{{$item->zip_code}}" @if($item->zip_code ==
-                                                            $user_d->user_d_zipcode)
+                                                            $user->emp_zipcode)
                                                             {{"selected"}}@endif>
                                                             {{$item->zip_code}}
                                                         </option>
@@ -235,7 +235,7 @@
                                                     <button type="submit" class="btn btn-sm btn-success"
                                                         id="create-user">แก้ไขข้อมูล</button>
                                                     <a href="{{url('/user/profile_index')}}">
-                                                        <button class="btn btn-sm btn-secondary btn-form" type="reset">
+                                                        <button class="btn btn-sm btn-secondary btn-form">
                                                             กลับไปหน้าก่อนหน้า
                                                         </button>
                                                     </a>
@@ -330,7 +330,8 @@
                             type: 'success',
                             padding: '2em'
                         }).then(function (then) {
-                            location.reload()
+                            // location.reload()
+                            location.href = '/user/profile_index'
                         })
                     } else {
                         swal({

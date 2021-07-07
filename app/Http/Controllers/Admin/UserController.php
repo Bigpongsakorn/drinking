@@ -7,7 +7,6 @@ use App\Models\District;
 use App\Models\Position;
 use App\Models\Province;
 use App\Models\Subdistrict;
-use App\Models\UserData;
 use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,9 +22,9 @@ class UserController extends Controller
     public function index()
     {
         $data['page'] = '/users';
-        $data['users'] = Users::leftjoin('user_position', 'user_position.position_id', 'users.user_type')
-        ->leftjoin('user_data','user_data.user_id','users.user_id')
-        ->get();
+        $data['users'] = Users::leftjoin('empolyee_position', 'empolyee_position.position_id', 'empolyee.position_id')
+            ->get();
+        // dd($data);
         return view('user/index', $data);
 
     }
@@ -56,43 +55,60 @@ class UserController extends Controller
 
         try {
 
-            // upload new file
-            $path = public_path() . '/upload/users/';
-            $file = $request->file('input_file');
-            $extension = $file->getClientOriginalExtension(); // ส่วนขยายรูปภาพ
-            $filename = time() . '.' . $extension;
-            $file->move($path, $filename);
-            $request->news_pic = $filename;
-            $news_pic = $request->news_pic;
+            if ($request->hasFile('input_file')) {
+                // upload new file
+                $path = public_path() . '/upload/users/';
+                $file = $request->file('input_file');
+                $extension = $file->getClientOriginalExtension(); // ส่วนขยายรูปภาพ
+                $filename = time() . '.' . $extension;
+                $file->move($path, $filename);
+                $request->news_pic = $filename;
+                $news_pic = $request->news_pic;
 
-            $table = [
-                'username' => $request->username,
-                'password' => $password,
-                // 'user_email'=> $request->email,
-                'user_type' => $request->type,
-            ];
+                $table_data = [
+                    'username' => $request->username,
+                    'password' => $password,
+                    'position_id' => $request->type,
+                    'emp_firstname' => $request->fname,
+                    'emp_lastname' => $request->lname,
+                    'emp_title' => $request->title,
+                    'emp_gender' => $request->gender,
+                    'emp_birthdate' => $request->bday,
+                    'emp_id_crad' => $request->idcart,
+                    'emp_email' => $request->email,
+                    'emp_phonenumber' => $request->tel,
+                    'emp_address' => $request->address,
+                    'emp_province' => $request->province,
+                    'emp_district' => $request->district,
+                    'emp_subdistrict' => $request->subdistrict,
+                    'emp_zipcode' => $request->zipcode,
+                    'emp_image' => $news_pic,
+                ];
+                // dd($table_data);
+                Users::insertGetId($table_data);
 
-            $u_id = Users::insertGetId($table);
+            }
 
             $table_data = [
-                'user_d_fname' => $request->fname,
-                'user_d_lanme' => $request->lname,
-                'user_d_title' => $request->title,
-                'user_d_gender' => $request->gender,
-                'user_d_birthday' => $request->bday,
-                'user_d_idcart' => $request->idcart,
-                'user_d_email' => $request->email,
-                'user_d_tel' => $request->tel,
-                'user_d_address' => $request->address,
-                'user_d_province' => $request->province,
-                'user_d_district' => $request->district,
-                'user_d_subdistrict' => $request->subdistrict,
-                'user_d_zipcode' => $request->zipcode,
-                'user_d_image' => $news_pic,
-                'user_id' => $u_id,
+                'username' => $request->username,
+                'password' => $password,
+                'position_id' => $request->type,
+                'emp_firstname' => $request->fname,
+                'emp_lastname' => $request->lname,
+                'emp_title' => $request->title,
+                'emp_gender' => $request->gender,
+                'emp_birthdate' => $request->bday,
+                'emp_id_crad' => $request->idcart,
+                'emp_email' => $request->email,
+                'emp_phonenumber' => $request->tel,
+                'emp_address' => $request->address,
+                'emp_province' => $request->province,
+                'emp_district' => $request->district,
+                'emp_subdistrict' => $request->subdistrict,
+                'emp_zipcode' => $request->zipcode,
             ];
-
-            UserData::insertGetId($table_data);
+            // dd($table_data);
+            Users::insertGetId($table_data);
 
             DB::commit();
             $return['status'] = 1;
@@ -132,8 +148,7 @@ class UserController extends Controller
         $data['province'] = Province::get();
         $data['district'] = District::get();
         $data['subistrict'] = Subdistrict::get();
-        $data['user'] = Users::where('user_id', $id)->first();
-        $data['user_d'] = UserData::where('user_id', $id)->first();
+        $data['user'] = Users::where('emp_id', $id)->first();
         // dd($data);
         return view('user/edit_user', $data);
     }
@@ -152,12 +167,12 @@ class UserController extends Controller
 
             if ($request->hasFile('input_file')) {
 
-                $new = UserData::select('user_d_image')->where('user_id', $request->id)->first();
+                $new = Users::select('emp_image')->where('emp_id', $request->id)->first();
                 $path = public_path() . '/upload/users/';
 
                 //code for remove old file
-                if ($new->user_d_image != '') {
-                    $file_old = $path . $new->user_d_image;
+                if ($new->emp_image != '') {
+                    $file_old = $path . $new->emp_image;
                     unlink($file_old);
                 }
 
@@ -170,56 +185,45 @@ class UserController extends Controller
                 $news_pic = $request->news_pic;
 
                 $table = [
-                    'user_type' => $request->type,
+                    'position_id' => $request->type,
+                    'emp_firstname' => $request->fname,
+                    'emp_lastname' => $request->lname,
+                    'emp_title' => $request->title,
+                    'emp_gender' => $request->gender,
+                    'emp_birthdate' => $request->bday,
+                    'emp_id_crad' => $request->idcart,
+                    'emp_email' => $request->email,
+                    'emp_phonenumber' => $request->tel,
+                    'emp_address' => $request->address,
+                    'emp_province' => $request->province,
+                    'emp_district' => $request->district,
+                    'emp_subdistrict' => $request->subdistrict,
+                    'emp_zipcode' => $request->zipcode,
+                    'emp_image' => $news_pic,
                 ];
 
-                Users::where('user_id', $request->id)->update($table);
-
-                $table_data = [
-                    'user_d_fname' => $request->fname,
-                    'user_d_lanme' => $request->lname,
-                    'user_d_title' => $request->title,
-                    'user_d_gender' => $request->gender,
-                    'user_d_birthday' => $request->bday,
-                    'user_d_idcart' => $request->idcart,
-                    'user_d_email' => $request->email,
-                    'user_d_tel' => $request->tel,
-                    'user_d_address' => $request->address,
-                    'user_d_province' => $request->province,
-                    'user_d_district' => $request->district,
-                    'user_d_subdistrict' => $request->subdistrict,
-                    'user_d_zipcode' => $request->zipcode,
-                    'user_d_image' => $news_pic,
-                ];
-
-                UserData::where('user_id', $request->id)->update($table_data);
+                Users::where('emp_id', $request->id)->update($table);
 
             }
 
             $table = [
-                'user_type' => $request->type,
+                'position_id' => $request->type,
+                'emp_firstname' => $request->fname,
+                'emp_lastname' => $request->lname,
+                'emp_title' => $request->title,
+                'emp_gender' => $request->gender,
+                'emp_birthdate' => $request->bday,
+                'emp_id_crad' => $request->idcart,
+                'emp_email' => $request->email,
+                'emp_phonenumber' => $request->tel,
+                'emp_address' => $request->address,
+                'emp_province' => $request->province,
+                'emp_district' => $request->district,
+                'emp_subdistrict' => $request->subdistrict,
+                'emp_zipcode' => $request->zipcode,
             ];
-
-            Users::where('user_id', $request->id)->update($table);
-
-            $table_data = [
-                'user_d_fname' => $request->fname,
-                'user_d_lanme' => $request->lname,
-                'user_d_title' => $request->title,
-                'user_d_gender' => $request->gender,
-                'user_d_birthday' => $request->bday,
-                'user_d_idcart' => $request->idcart,
-                'user_d_email' => $request->email,
-                'user_d_tel' => $request->tel,
-                'user_d_address' => $request->address,
-                'user_d_province' => $request->province,
-                'user_d_district' => $request->district,
-                'user_d_subdistrict' => $request->subdistrict,
-                'user_d_zipcode' => $request->zipcode,
-                // 'user_d_image' => ???,
-            ];
-
-            UserData::where('user_id', $request->id)->update($table_data);
+// dd($table);
+            Users::where('emp_id', $request->id)->update($table);
 
             DB::commit();
             $return['status'] = 1;
@@ -244,19 +248,18 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            
-            $new = UserData::select('user_d_image')->where('user_id', $id)->first();
+
+            $new = Users::select('emp_image')->where('emp_id', $id)->first();
             $path = public_path() . '/upload/users/';
 
             //code for remove old file
-            if ($new->user_d_image != '') {
-                $file_old = $path . $new->user_d_image;
+            if ($new->emp_image != '') {
+                $file_old = $path . $new->emp_image;
                 unlink($file_old);
             }
 
             DB::beginTransaction();
-            Users::where('user_id', $id)->delete();
-            UserData::where('user_id', $id)->delete();
+            Users::where('emp_id', $id)->delete();
 
             DB::commit();
             $return['status'] = 1;

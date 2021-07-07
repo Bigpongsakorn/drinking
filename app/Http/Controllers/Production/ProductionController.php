@@ -83,6 +83,21 @@ class ProductionController extends Controller
             $material_number = json_decode($request->material_number);
             $count2 = $request->count2;
 
+            foreach ($product_id as $key => $ttt) {
+                if (!$ttt) {
+                    $return['status'] = 3;
+                    $return['content'] = 'ไม่สำเร็จ';
+                    return json_encode($return);
+                }
+            }
+            foreach ($production_number as $key => $tttt) {
+                if (!$tttt) {
+                    $return['status'] = 3;
+                    $return['content'] = 'ไม่สำเร็จ';
+                    return json_encode($return);
+                }
+            }
+
             $id = null;
 
             for ($i = 0; $i < $count; $i++) {
@@ -237,9 +252,89 @@ class ProductionController extends Controller
      */
     public function update(Request $request)
     {
-        dd($request);
+        // dd($request);
         try {
+            Production::where('production_group', $request->production_group)->delete();
+            Production_m::where('production_group', $request->production_group)->delete();
+
+            $product_id = explode(",", $request->product_id);
+            $production_number = explode(",", $request->production_number);
+            $count = $request->count;
+            $production_name = $request->production_name;
+            $production_date = $request->production_date;
+            // $material_id = explode(",", $request->material_id);
+            $material_id = json_decode($request->material_id);
+            // $material_number = explode(",", $request->material_number);
+            $material_number = json_decode($request->material_number);
+            $count2 = $request->count2;
+
+            foreach ($product_id as $key => $ttt) {
+                if (!$ttt) {
+                    $return['status'] = 3;
+                    $return['content'] = 'ไม่สำเร็จ';
+                    return json_encode($return);
+                }
+            }
+            foreach ($production_number as $key => $tttt) {
+                if (!$tttt) {
+                    $return['status'] = 3;
+                    $return['content'] = 'ไม่สำเร็จ';
+                    return json_encode($return);
+                }
+            }
+// dd("ssss");
+            $id = null;
+
+            for ($i = 0; $i < $count; $i++) {
+                $table[] = [
+                    'production_number' => $production_number[$i],
+                    'product_id' => $product_id[$i],
+                    'production_name' => $production_name,
+                    'production_date' => $production_date,
+                    'production_status' => '0',
+                    'user_id' => Auth::user()->user_id,
+                ];
+            }
+
+            // dd($table);
+
             
+            // $idp = [];
+            $ss = 0;
+            foreach ($table as $key => $value) {
+                // dd($value);
+                $idp = Production::insertGetId($value);
+
+                // dd($key);
+                for ($i = 0; $i < count($material_number); $i++) {
+
+                    $this_ = $material_number[$i];
+                    // dd($material_number[$i]);
+
+                    if($material_number[$i][0] == $key+1){
+                        // dd('1');
+                        $table2 = [
+                            'material_id' => $material_id[$i][1],
+                            'production_m_num' => $material_number[$i][1],
+                            'production_id' => $idp,
+                        ];
+                        // dd($table2);
+                        Production_m::insert($table2);
+                    }
+                    
+                }
+
+            }
+
+            $id = Production::orderby('production_id', 'desc')->first();
+            $id = $id->production_id;
+            Production::where('production_id', $id)
+                ->update(['production_group' => $id]);
+
+            Production::whereNull('production_group')->update(['production_group' => $id]);
+
+            Production_m::whereNull('production_m_group')->update(['production_m_group' => $id]);   
+
             // $table = [
             //     'product_id' => $request->product,
             //     'production_number' => $request->number,

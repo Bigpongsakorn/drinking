@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Withdraw;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Models\ProductType;
-use App\Models\Unit;
 use App\Models\Withdraw;
+use App\Models\Withdraw_detail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,23 +20,15 @@ class WithdrawController extends Controller
     public function index()
     {
         $data['page'] = '/withdraw_product';
-        $data['with'] = Withdraw::groupby('withdraw_p_name')->groupby('withdraw_p_date')->groupby('withdraw_p_status')->groupby('withdraw_p_group')
-            ->select('withdraw_p_name', 'withdraw_p_date', 'withdraw_p_status', 'withdraw_p_group')
-            ->orderBy('withdraw_p_id', 'desc')
+        $data['with'] = Withdraw::leftJoin('empolyee', 'empolyee.emp_id', 'withdraw_product.emp_id')->orderBy('withdraw_p_id', 'desc')
             ->get();
-        $data['pending'] = Withdraw::groupby('withdraw_p_name')->groupby('withdraw_p_date')->groupby('withdraw_p_status')->groupby('withdraw_p_group')
-            ->select('withdraw_p_name', 'withdraw_p_date', 'withdraw_p_status', 'withdraw_p_group')
-            ->orderBy('withdraw_p_id', 'desc')
+        $data['pending'] = Withdraw::leftJoin('empolyee', 'empolyee.emp_id', 'withdraw_product.emp_id')->orderBy('withdraw_p_id', 'desc')
             ->where('withdraw_p_status', '0')
             ->get();
-        $data['dis'] = Withdraw::groupby('withdraw_p_name')->groupby('withdraw_p_date')->groupby('withdraw_p_status')->groupby('withdraw_p_group')
-            ->select('withdraw_p_name', 'withdraw_p_date', 'withdraw_p_status', 'withdraw_p_group')
-            ->orderBy('withdraw_p_id', 'desc')
+        $data['dis'] = Withdraw::leftJoin('empolyee', 'empolyee.emp_id', 'withdraw_product.emp_id')->orderBy('withdraw_p_id', 'desc')
             ->where('withdraw_p_status', '1')
             ->get();
-        $data['approve'] = Withdraw::groupby('withdraw_p_name')->groupby('withdraw_p_date')->groupby('withdraw_p_status')->groupby('withdraw_p_group')
-            ->select('withdraw_p_name', 'withdraw_p_date', 'withdraw_p_status', 'withdraw_p_group')
-            ->orderBy('withdraw_p_id', 'desc')
+        $data['approve'] = Withdraw::leftJoin('empolyee', 'empolyee.emp_id', 'withdraw_product.emp_id')->orderBy('withdraw_p_id', 'desc')
             ->where('withdraw_p_status', '2')
             ->get();
         // dd($data);
@@ -55,8 +46,6 @@ class WithdrawController extends Controller
         $data['product'] = Product::leftjoin('product_unit', 'product_unit.unit_id', 'product_data.unit_id')
             ->leftjoin('product_type', 'product_type.product_t_id', 'product_data.product_type')
             ->get();
-        $data['unit'] = Unit::get();
-        $data['type'] = ProductType::get();
         // dd($data);
         return view('withdraw.withdraw_create', $data);
     }
@@ -79,37 +68,50 @@ class WithdrawController extends Controller
             $withdraw_p_date = $request->withdraw_p_date;
             $id = null;
 
+            foreach ($product_id as $key => $ttt) {
+                if (!$ttt) {
+                    $return['status'] = 3;
+                    $return['content'] = 'ไม่สำเร็จ';
+                    return json_encode($return);
+                }
+            }
+
+            foreach ($withdraw_p_num as $key => $tttt) {
+                if (!$tttt) {
+                    $return['status'] = 3;
+                    $return['content'] = 'ไม่สำเร็จ';
+                    return json_encode($return);
+                }
+            }
+
+            // dd("stop");
+            $table = [
+                'withdraw_p_name' => $withdraw_p_name,
+                'withdraw_p_date' => $withdraw_p_date,
+                'withdraw_p_status' => '0',
+                'emp_id' => Auth::user()->emp_id,
+            ];
+
+            $w_id = Withdraw::insertGetId($table);
+            // $w_id = 1;
             for ($i = 0; $i < $count; $i++) {
-                $table[] = [
-                    'withdraw_p_num' => $withdraw_p_num[$i],
+                $table1[] = [
+                    'withdraw_p_d_num' => $withdraw_p_num[$i],
                     'product_id' => $product_id[$i],
-                    'withdraw_p_name' => $withdraw_p_name,
-                    'withdraw_p_date' => $withdraw_p_date,
-                    'withdraw_p_status' => '0',
-                    'user_id' => Auth::user()->user_id,
+                    'withdraw_p_id' => $w_id,
                 ];
             }
-
-            foreach ($table as $key => $value) {
-                Withdraw::insert($value);
+// dd($table1);
+            foreach ($table1 as $key => $value) {
+                Withdraw_detail::insert($value);
             }
 
-            $id = Withdraw::orderby('withdraw_p_id', 'desc')->first();
-            $id = $id->withdraw_p_id;
-            Withdraw::where('withdraw_p_id', $id)
-                ->update(['withdraw_p_group' => $id]);
+            // $id = Withdraw::orderby('withdraw_p_id', 'desc')->first();
+            // $id = $id->withdraw_p_id;
+            // Withdraw::where('withdraw_p_id', $id)
+            //     ->update(['withdraw_p_group' => $id]);
 
-            Withdraw::whereNull('withdraw_p_group')->update(['withdraw_p_group' => $id]);
-
-            // $table = [
-            //     'withdraw_p_num' => $request->number,
-            //     'withdraw_p_date' => $request->date,
-            //     'product_id' => $request->product,
-            //     'withdraw_p_status' => '0',
-            //     'user_id' => Auth::user()->user_id,
-            // ];
-
-            // Withdraw::insert($table);
+            // Withdraw::whereNull('withdraw_p_group')->update(['withdraw_p_group' => $id]);
 
             DB::commit();
             $return['status'] = 1;
@@ -117,7 +119,7 @@ class WithdrawController extends Controller
 
         } catch (\Throwable $th) {
             DB::rollBack();
-            $return['status'] = 3;
+            $return['status'] = 0;
             $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
 
         }
@@ -135,9 +137,8 @@ class WithdrawController extends Controller
     public function show($id)
     {
         $data['page'] = '/withdraw_product';
-        $data['detail'] = Withdraw::leftjoin('product_data', 'product_data.product_id', 'withdraw_producr.product_id')
-            ->leftjoin('user_data', 'user_data.user_id', 'withdraw_producr.user_id')
-            ->where('withdraw_p_group', $id)
+        $data['detail'] = Withdraw_detail::leftjoin('product_data', 'product_data.product_id', 'withdraw_product_detail.product_id')
+            ->where('withdraw_p_id', $id)
             ->get();
         // dd($data);
         return view('withdraw.withdraw_detail', $data);
@@ -152,8 +153,8 @@ class WithdrawController extends Controller
     public function edit($id)
     {
         $data['page'] = '/withdraw/withdraw_product_create';
-        $data['with'] = Withdraw::where('withdraw_p_group', $id)->orderby('withdraw_p_id', 'asc')->get();
-        $data['with1'] = Withdraw::where('withdraw_p_group', $id)->first();
+        $data['with'] = Withdraw_detail::where('withdraw_p_id', $id)->orderby('withdraw_p_d_id', 'asc')->get();
+        $data['with1'] = Withdraw::where('withdraw_p_id', $id)->first();
         $data['product'] = Product::get();
         // dd($data);
         return view('withdraw.withdraw_edit', $data);
@@ -171,36 +172,65 @@ class WithdrawController extends Controller
         // dd($request);
 
         try {
-            Withdraw::where('withdraw_p_group', $request->withdraw_p_group)->delete();
+            // Withdraw::where('withdraw_p_id', $request->withdraw_p_id)->delete();
+            $withdraw_p_id = $request->withdraw_p_id;
             $product_id = explode(",", $request->product_id);
-            $withdraw_p_num = explode(",", $request->withdraw_p_num);
+            $withdraw_p_d_num = explode(",", $request->withdraw_p_d_num);
             $count = $request->count;
             $withdraw_p_name = $request->withdraw_p_name;
             $withdraw_p_date = $request->withdraw_p_date;
-            $user_id = $request->user_id;
+            $emp_id = $request->emp_id;
             $id = null;
 
-            for ($i = 0; $i < $count; $i++) {
-                $table[] = [
-                    'withdraw_p_num' => $withdraw_p_num[$i],
-                    'product_id' => $product_id[$i],
+            foreach ($product_id as $key => $ttt) {
+                if (!$ttt) {
+                    $return['status'] = 3;
+                    $return['content'] = 'ไม่สำเร็จ';
+                    return json_encode($return);
+                }
+            }
+            foreach ($withdraw_p_d_num as $key => $tttt) {
+                if (!$tttt) {
+                    $return['status'] = 3;
+                    $return['content'] = 'ไม่สำเร็จ';
+                    return json_encode($return);
+                }
+            }
+
+            // for ($i = 0; $i < $count; $i++) {
+                $table = [
                     'withdraw_p_name' => $withdraw_p_name,
                     'withdraw_p_date' => $withdraw_p_date,
                     'withdraw_p_status' => '0',
-                    'user_id' => $user_id,
+                    'emp_id' => $emp_id,
+                ];
+            // }
+            // dd($table);
+            // foreach ($table as $key => $value) {
+                // Withdraw::insert($value);
+                Withdraw::where('withdraw_p_id', $withdraw_p_id)->update($table);
+            // }
+
+            for ($i = 0; $i < $count; $i++) {
+                $table1[] = [
+                    'withdraw_p_d_num' => $withdraw_p_d_num[$i],
+                    'product_id' => $product_id[$i],
+                    'withdraw_p_id' => $withdraw_p_id,
                 ];
             }
+// dd($table1);
+            Withdraw_detail::where('withdraw_p_id', $request->withdraw_p_id)->delete();
 
-            foreach ($table as $key => $value) {
-                Withdraw::insert($value);
+            foreach ($table1 as $key => $value) {
+                Withdraw_detail::insert($value);
             }
 
-            $id = Withdraw::orderby('withdraw_p_id', 'desc')->first();
-            $id = $id->withdraw_p_id;
-            Withdraw::where('withdraw_p_id', $id)
-                ->update(['withdraw_p_group' => $id]);
+            // $id = Withdraw::orderby('withdraw_p_id', 'desc')->first();
+            // $id = $id->withdraw_p_id;
+            // Withdraw::where('withdraw_p_id', $id)
+            //     ->update(['withdraw_p_group' => $id]);
 
-            Withdraw::whereNull('withdraw_p_group')->update(['withdraw_p_group' => $id]);
+            // Withdraw::whereNull('withdraw_p_group')->update(['withdraw_p_group' => $id]);
 
             // $table = [
             //     'withdraw_p_date' => $request->date,
@@ -214,7 +244,7 @@ class WithdrawController extends Controller
 
         } catch (\Throwable $th) {
             DB::rollBack();
-            $return['status'] = 3;
+            $return['status'] = 0;
             $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
 
         }
@@ -234,7 +264,8 @@ class WithdrawController extends Controller
         try {
 
             DB::beginTransaction();
-            Withdraw::where('withdraw_p_group', $id)->delete();
+            Withdraw::where('withdraw_p_id', $id)->delete();
+            Withdraw_detail::where('withdraw_p_id', $id)->delete();
 
             DB::commit();
             $return['status'] = 1;
@@ -254,12 +285,12 @@ class WithdrawController extends Controller
 // dd($request);
         try {
             if ($request->withdraw_p_status == 2) {
-                $id = Withdraw::where('withdraw_p_group', $request->withdraw_p_group)->get();
+                $id = Withdraw_detail::where('withdraw_p_id', $request->withdraw_p_id)->get();
                 foreach ($id as $key => $value) {
                     $idp = Product::where('product_id', $value->product_id)->get();
-                    // dd($value->withdraw_p_num);
+                    // dd($value->withdraw_p_d_num);
                     foreach ($idp as $key => $pid) {
-                        if ($pid->product_total < $value->withdraw_p_num) {
+                        if ($pid->product_total < $value->withdraw_p_d_num) {
                             // dd('ไม่สำเร็จ');
                             $return['status'] = 3;
                             $return['content'] = 'ไม่สำเร็จ';
@@ -267,13 +298,13 @@ class WithdrawController extends Controller
                         }
                     }
                 }
-                $id = Withdraw::where('withdraw_p_group', $request->withdraw_p_group)->get();
+                $id = Withdraw_detail::where('withdraw_p_id', $request->withdraw_p_id)->get();
                 foreach ($id as $key => $value) {
                     $idp = Product::where('product_id', $value->product_id)->get();
                     foreach ($idp as $key => $pid) {
                         // dd($pid->product_total); // ข้อมูล
-                        // dd($value->withdraw_p_num); // จำนวนเบิก
-                        $total = $pid->product_total - $value->withdraw_p_num;
+                        // dd($value->withdraw_p_d_num); // จำนวนเบิก
+                        $total = $pid->product_total - $value->withdraw_p_d_num;
                         $total1 = [
                             'product_total' => $total,
                         ];
@@ -287,7 +318,7 @@ class WithdrawController extends Controller
                 'withdraw_p_status' => $request->withdraw_p_status,
             ];
 
-            Withdraw::where('withdraw_p_group', $request->withdraw_p_group)->update($table);
+            Withdraw::where('withdraw_p_id', $request->withdraw_p_id)->update($table);
 
             DB::commit();
             $return['status'] = 1;

@@ -43,8 +43,8 @@
                                                         <input type="date" class="form-control production_date" name="date"
                                                             id="date" value="{{ $pd1->production_date }}">
                                                     </div>
-                                                    <input type="hidden" id="id" name="id"
-                                                        value="{{ $pd1->production_id }}">
+                                                    <input type="hidden" id="id" name="id" class="production_id" value="{{ $pd1->production_id }}">
+                                                    <input type="hidden" id="group" name="group" class="production_group" value="{{ $pd1->production_group }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -62,7 +62,7 @@
                                                     <div class="form-group row">
                                                         <div class="col-sm-6">
                                                             <label class="col-form-label">ชื่อสินค้า</label>
-                                                            <select name="select" class="form-control" name="product"
+                                                            <select name="select" class="form-control product_id" name="product"
                                                                 id="product">
                                                                 <option value="">ข้อมูลสินค้า</option>
                                                                 @foreach ($product as $value)
@@ -74,7 +74,7 @@
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <label class="col-form-label">จำนวนสินค้า</label>
-                                                            <input type="number" class="form-control" name="number"
+                                                            <input type="number" class="form-control production_number" name="number"
                                                                 id="number" value="{{ $item->production_number }}">
                                                         </div>
                                                     </div>
@@ -287,6 +287,10 @@
                 var material_id_ = $('.material_id')
                 var material_number = [];
                 var material_number_ = $('.material_number')
+                var production_id = [];
+                var production_id_ = $('.production_id')
+                var production_group = [];
+                var production_group_ = $('.production_group')
                 var fd = new FormData();
 
                 $.each(count_, function(index, value) {
@@ -308,7 +312,14 @@
                     var v = $(this).val()
                     production_number.push(v)
                 });
-
+                $.each(production_id_, function(index, value) {
+                    var v = $(this).val()
+                    production_id.push(v)
+                });
+                $.each(production_group_, function(index, value) {
+                    var v = $(this).val()
+                    production_group.push(v)
+                });
                 $.each(material_id_, function(index, value) {
                     // var v = $(this).val()
                     // material_id.push(v)
@@ -334,6 +345,8 @@
                     fd.append('production_date', production_date);
                     fd.append('product_id', product_id);
                     fd.append('production_number', production_number);
+                    fd.append('production_group', production_group);
+                    fd.append('production_id', production_id);
                     // fd.append('material_id', material_id);
                     // fd.append('material_number', material_number);
                     fd.append('material_id', JSON.stringify(material_id));
@@ -357,9 +370,19 @@
                                 type: 'success',
                                 padding: '2em'
                             }).then(function(then) {
-                                location.reload()
+                                // location.reload()
+                                location.href = '/production/production_index'
                             })
-                        } else {
+                        } 
+                        if (rec.status == '3') {
+                            swal({
+                                title: 'กรุณากรอกข้อมูลให้ครบถ้วน!',
+                                text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
+                                type: 'error',
+                                padding: '2em'
+                            })
+                        }
+                        if (rec.status == '0') {
                             swal({
                                 title: 'บันทึกไม่สำเร็จ!',
                                 text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
@@ -367,6 +390,7 @@
                                 padding: '2em'
                             })
                         }
+
                     }).fail(function() {
                         swal("Error!", "You clicked the button!", "error");
                     })

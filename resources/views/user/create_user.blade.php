@@ -283,7 +283,8 @@
                             type: 'success',
                             padding: '2em'
                         }).then(function (then) {
-                            location.reload()
+                            // location.reload()
+                            location.href = '/user/index'
                         })
                     } else {
                         swal({

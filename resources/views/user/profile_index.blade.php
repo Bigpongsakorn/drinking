@@ -31,10 +31,10 @@
                                 <div class="card-block">
                                     {{-- <form> --}}
                                     <div class="form-group row">
-                                        @if($user->user_d_image == null)
+                                        @if($user->emp_image == null)
                                         <img src="{{url('/upload/users/user.png')}}" alt="" style="margin: auto;" width="25%">
                                         @else
-                                        <img src="{{url('/upload/users/'.$user->user_d_image)}}" alt=""
+                                        <img src="{{url('/upload/users/'.$user->emp_image)}}" alt=""
                                             style="margin: auto;" width="25%">
                                         @endif
                                     </div>
@@ -59,7 +59,7 @@
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">เพศ : </label>
                                                     <label class="">
-                                                        @if ($user->user_d_gender == 1)
+                                                        @if ($user->emp_gender == 1)
                                                         ชาย
                                                         @else
                                                         หญิง
@@ -69,9 +69,9 @@
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">คำนำหน้า : </label>
                                                     <label class="">
-                                                        @if ($user->user_d_title == 1)
+                                                        @if ($user->emp_title == 1)
                                                         นาย
-                                                        @elseif ($user->user_d_title == 2)
+                                                        @elseif ($user->emp_title == 2)
                                                         นาง
                                                         @else
                                                         นางสาว
@@ -82,37 +82,37 @@
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">ชื่อจริง : </label>
-                                                    <label for="">{{$user->user_d_fname}}</label>
+                                                    <label for="">{{$user->emp_firstname}}</label>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">นามสกุล : </label>
-                                                    <label for="">{{$user->user_d_lanme}}</label>
+                                                    <label for="">{{$user->emp_lastname}}</label>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">วันเกิด : </label>
-                                                    <label for="">{{$user->user_d_birthday}}</label>
+                                                    <label for="">{{$user->emp_birthdate}}</label>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">หมายเลขบัตรประชาชน</label>
-                                                    <label for="">{{$user->user_d_idcart}}</label>
+                                                    <label for="">{{$user->emp_id_crad}}</label>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">อีเมล์ : </label>
-                                                    <label for="">{{$user->user_d_email}}</label>
+                                                    <label for="">{{$user->emp_email}}</label>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">เบอร์โทรศัพท์</label>
-                                                    <label for="">{{$user->user_d_tel}}</label>
+                                                    <label for="">{{$user->emp_phonenumber}}</label>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">บ้านเลขที่/หมู่บ้าน : </label>
                                                 <div class="col-sm-8 col-form-label">
-                                                    <label for="">{{$user->user_d_address}}</label>
+                                                    <label for="">{{$user->emp_address}}</label>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -132,7 +132,7 @@
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label">รหัสไปรษณีย์ : </label>
-                                                    <label for="">{{$user->user_d_zipcode}}</label>
+                                                    <label for="">{{$user->zip_code}}</label>
                                                 </div>
                                             </div>
 
@@ -142,7 +142,7 @@
                                     <div class="form-group row">
                                         <div style="margin: auto">
 
-                                            <a href="{{url('/user/profile_edit',$user->user_id)}}">
+                                            <a href="{{url('/user/profile_edit',$user->emp_id)}}">
                                                 <button class="btn btn-success btn-form">
                                                     แก้ไขข้อมูล
                                                 </button>

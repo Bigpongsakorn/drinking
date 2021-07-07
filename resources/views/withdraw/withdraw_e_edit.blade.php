@@ -43,10 +43,10 @@
                                                         <input type="date" class="form-control withdraw_m_date" name="date"
                                                             id="date" value="{{ $mate1->withdraw_m_date }}">
                                                     </div>
-                                                    <input type="hidden" name="user_id" id="user_id" class="user_id"
-                                                        value="{{ $mate1->user_id }}">
-                                                    <input type="hidden" name="withdraw_m_group" id="withdraw_m_group" class="withdraw_m_group"
-                                                        value="{{ $mate1->withdraw_m_group }}">
+                                                    <input type="hidden" name="emp_id" id="emp_id" class="emp_id"
+                                                        value="{{ $mate1->emp_id }}">
+                                                    <input type="hidden" name="withdraw_m_id" id="withdraw_m_id" class="withdraw_m_id"
+                                                        value="{{ $mate1->withdraw_m_id }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -78,7 +78,7 @@
                                                             <label class="col-form-label">จำนวนวัตถุดิบ</label>
                                                             <input type="number" class="form-control withdraw_m_num"
                                                                 name="number" id="number"
-                                                                value="{{ $item->withdraw_m_num }}" min="1">
+                                                                value="{{ $item->withdraw_m_d_num }}" min="1">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
@@ -197,8 +197,8 @@
                 // var date = $('#date').val();
                 var count = 0;
                 var count_ = $('.count')
-                var user_id = [];
-                var user_id_ = $('.user_id')
+                var emp_id = [];
+                var emp_id_ = $('.emp_id')
                 var withdraw_m_name = [];
                 var withdraw_m_name_ = $('.withdraw_m_name')
                 var withdraw_m_date = [];
@@ -207,19 +207,19 @@
                 var material_id_ = $('.material_id')
                 var withdraw_m_num = [];
                 var withdraw_m_num_ = $('.withdraw_m_num')
-                var withdraw_m_group = [];
-                var withdraw_m_group_ = $('.withdraw_m_group')
+                var withdraw_m_id = [];
+                var withdraw_m_id_ = $('.withdraw_m_id')
 
                 $.each(count_, function(index, value) {
                     count++
                 });
-                $.each(user_id_, function(index, value) {
+                $.each(emp_id_, function(index, value) {
                     var v = $(this).val()
-                    user_id.push(v)
+                    emp_id.push(v)
                 });
-                $.each(withdraw_m_group_, function(index, value) {
+                $.each(withdraw_m_id_, function(index, value) {
                     var v = $(this).val()
-                    withdraw_m_group.push(v)
+                    withdraw_m_id.push(v)
                 });
                 $.each(withdraw_m_name_, function(index, value) {
                     var v = $(this).val()
@@ -246,8 +246,8 @@
                     fd.append('withdraw_m_name', withdraw_m_name);
                     fd.append('withdraw_m_date', withdraw_m_date);
                     fd.append('withdraw_m_num', withdraw_m_num);
-                    fd.append('user_id', user_id);
-                    fd.append('withdraw_m_group', withdraw_m_group);
+                    fd.append('emp_id', emp_id);
+                    fd.append('withdraw_m_id', withdraw_m_id);
 
                     $.ajax({
                         method: "POST",
