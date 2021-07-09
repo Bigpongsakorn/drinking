@@ -204,25 +204,25 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="pcoded-hasmenu @if ($page=='/oder' ||
-                                            $page=='/oder/create' ) active pcoded-trigger @endif">
+                                        <li class="pcoded-hasmenu @if ($page=='/order' ||
+                                            $page=='/order/create' ) active pcoded-trigger @endif">
                                             <a href="javascript:void(0)" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon">
                                                     <i class="icon-notebook"></i>
                                                 </span>
-                                                <span class="pcoded-mtext">การสั่งซื้อสินค้า</span>
+                                                <span class="pcoded-mtext">จัดการข้อมูลสั่งซื้อสินค้า</span>
                                             </a>
                                             <ul class="pcoded-submenu">
-                                                <li class="@if ($page=='/oder' ) active pcoded-trigger @endif">
-                                                    <a href="{{ url('/customer/index_oder') }}"
+                                                <li class="@if ($page=='/order' ) active pcoded-trigger @endif">
+                                                    <a href="{{ url('/order/order_index') }}"
                                                         class="waves-effect waves-dark">
-                                                        <span class="pcoded-mtext">ข้อมูลจัดงาน</span>
+                                                        <span class="pcoded-mtext">ข้อมูลการสั่งซื้อ</span>
                                                     </a>
                                                 </li>
-                                                <li class="@if ($page=='/oder/create' ) active pcoded-trigger @endif">
-                                                    <a href="{{ url('/customer/create_oder') }}"
+                                                <li class="@if ($page=='/order/create' ) active pcoded-trigger @endif">
+                                                    <a href="{{ url('/order/order_create') }}"
                                                         class="waves-effect waves-dark">
-                                                        <span class="pcoded-mtext">เพิ่มข้อมูลจัดงาน</span>
+                                                        <span class="pcoded-mtext">เพิ่มข้อมูลการสั่งซื้อ</span>
                                                     </a>
                                                 </li>
                                             </ul>

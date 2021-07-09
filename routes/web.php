@@ -130,4 +130,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/withdraw_e/status', 'Withdraw\WithdrawMaterialController@status');
     Route::get('/withdraw/withdraw_material_detail/{id}', 'Withdraw\WithdrawMaterialController@show');
 
+    // ============================= ODER =============================
+    Route::get('/order/order_index', 'Customer\OrderController@index');
+    Route::get('/order/order_create', 'Customer\OrderController@create');
+    Route::post('/order/store', 'Customer\OrderController@store');
+    Route::get('/order/order_edit/{id}', 'Customer\OrderController@edit');
+    Route::post('/order/update', 'Customer\OrderController@update');
+    Route::get('/order/destroy/{id}', 'Customer\OrderController@destroy');
+    Route::get('/order/order_detail/{id}', 'Customer\OrderController@show');
+
 });

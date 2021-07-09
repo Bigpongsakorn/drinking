@@ -224,7 +224,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/customer/store",
+                    url: "/drinking/public/customer/store",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -241,7 +241,7 @@
                             padding: '2em'
                         }).then(function (then) {
                             // location.reload()
-                            location.href = '/customer/index'
+                            location.href = '/drinking/public/customer/index'
                         })
                     } else {
                         swal({
@@ -271,7 +271,7 @@
             $('#district').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/province",
+                    url: "/drinking/public/province",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),
@@ -296,7 +296,7 @@
             $('#zipcode').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/subdistrict",
+                    url: "/drinking/public/subdistrict",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),
