@@ -267,7 +267,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/drinking/public/user/store",
+                    url: "/user/store",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -314,7 +314,7 @@
             $('#district').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/drinking/public/province",
+                    url: "/province",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),
@@ -339,7 +339,7 @@
             $('#zipcode').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/drinking/public/subdistrict",
+                    url: "/subdistrict",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),

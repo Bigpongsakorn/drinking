@@ -113,7 +113,7 @@
 
                     $.ajax({
                         method: "GET",
-                        url: "/drinking/public/product/destroy/" + id,
+                        url: "/product/destroy/" + id,
                     }).done(function (rec) {
                         rec = JSON.parse(rec);
                         console.log(rec);

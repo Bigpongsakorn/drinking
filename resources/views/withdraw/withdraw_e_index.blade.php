@@ -378,7 +378,7 @@
 
                         $.ajax({
                             method: "GET",
-                            url: "/drinking/public/withdraw_e/destroy/" + id,
+                            url: "/withdraw_e/destroy/" + id,
                         }).done(function(rec) {
                             rec = JSON.parse(rec);
                             console.log(rec);
@@ -421,7 +421,7 @@
 
                     $.ajax({
                         method: "POST",
-                        url: "/drinking/public/withdraw_e/status",
+                        url: "/withdraw_e/status",
                         dataType: 'json',
                         cache: false,
                         contentType: false,

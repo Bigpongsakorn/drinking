@@ -354,7 +354,7 @@
 
                     $.ajax({
                         method: "POST",
-                        url: "/drinking/public/production/update",
+                        url: "/production/update",
                         dataType: 'json',
                         cache: false,
                         contentType: false,
@@ -371,7 +371,7 @@
                                 padding: '2em'
                             }).then(function(then) {
                                 // location.reload()
-                                location.href = '/drinking/public/production/production_index'
+                                location.href = '/production/production_index'
                             })
                         } 
                         if (rec.status == '3') {

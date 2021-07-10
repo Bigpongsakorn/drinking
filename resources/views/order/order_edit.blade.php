@@ -218,7 +218,7 @@
 
                     $.ajax({
                         method: "POST",
-                        url: "/drinking/public/order/update",
+                        url: "/order/update",
                         dataType: 'json',
                         cache: false,
                         contentType: false,
@@ -235,7 +235,7 @@
                                 padding: '2em'
                             }).then(function(then) {
                                 // location.reload()
-                                location.href = '/drinking/public/order/order_index'
+                                location.href = '/order/order_index'
                             })
                         }
                         if (rec.status == '3') {

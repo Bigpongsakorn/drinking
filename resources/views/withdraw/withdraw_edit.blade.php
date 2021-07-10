@@ -245,7 +245,7 @@
 
                         $.ajax({
                             method: "POST",
-                            url: "/drinking/public/withdraw/update",
+                            url: "/withdraw/update",
                             dataType: 'json',
                             cache: false,
                             contentType: false,
@@ -262,7 +262,7 @@
                                     padding: '2em'
                                 }).then(function(then) {
                                     // location.reload()
-                                    location.href = '/drinking/public/withdraw/withdraw_product'
+                                    location.href = '/withdraw/withdraw_product'
                                 })
                             }
                             if (rec.status == '3') {

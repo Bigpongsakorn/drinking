@@ -352,7 +352,7 @@
 
                     $.ajax({
                         method: "GET",
-                        url: "/drinking/public/production/destroy/" + id,
+                        url: "/production/destroy/" + id,
                     }).done(function (rec) {
                         rec = JSON.parse(rec);
                         console.log(rec);
@@ -395,7 +395,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/drinking/public/production/status",
+                    url: "/production/status",
                     dataType: 'json',
                     cache: false,
                     contentType: false,

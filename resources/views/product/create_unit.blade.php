@@ -86,7 +86,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/drinking/public/product_unit/store",
+                    url: "/product_unit/store",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -103,7 +103,7 @@
                             padding: '2em'
                         }).then(function (then) {
                             // location.reload()
-                            location.href = '/drinking/public/product/index_unit'
+                            location.href = '/product/index_unit'
                         })
                     } else {
                         swal({
