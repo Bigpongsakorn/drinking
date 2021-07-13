@@ -6,7 +6,7 @@
             <div class="row align-items-end">
                 <div class="col-lg-8">
                     <div class="page-header-title">
-                        <i class=" icon-layers bg-c-blue"></i>
+                        <i class="fa fa-shopping-bag bg-c-blue"></i>
                         <div class="d-inline">
                             <h5>จัดการข้อมูลสั่งซื้อสินค้า</h5>
                         </div>
@@ -37,22 +37,28 @@
                                                 <div class="form-group row">
                                                     <div class="col-sm-8">
                                                         <label for="">เลขที่ใบสั่งซื้อ : </label>
-                                                        <label for="">{{ $order_db->orderdetail_listnumber }}</label>
+                                                        <label for="">{{ sprintf('%05d', $order->order_id) }}</label>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <label for="">วันที่เริ่มสั่งซื้อ : </label>
-                                                        <label for="">{{ date('d-m-Y', strtotime($order->order_startdate)) }}</label>
+                                                        <label
+                                                            for="">{{ date('d-m-Y', strtotime($order->order_startdate)) }}</label>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-8">
                                                         <label for="">ชื่อลูกค้า : </label>
-                                                        <label for="">{{ $order->cus_fristname }} {{ $order->cus_lastname }}</label>
+                                                        @if ($order_db->cus_id == 99)
+                                                            <label for="">{{ $order->order_name }}</label>
+                                                        @else
+                                                            <label for="">{{ $order->cus_fristname }}
+                                                                {{ $order->cus_lastname }}</label>
+                                                        @endif
                                                     </div>
-                                                    <div class="col-sm-4">
+                                                    {{-- <div class="col-sm-4">
                                                         <label for="">วันที่สั่งซื้อเสร็จ : </label>
                                                         <label for="">{{ date('d-m-Y', strtotime($order->order_completeddate)) }}</label>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -75,14 +81,14 @@
                                                     @foreach ($order_d as $value)
                                                         <tr>
                                                             <td style="text-align: center;">{{ $i }}</td>
-                                                            <td style="text-align: center;">
+                                                            <td>
                                                                 {{ $value->product_name }}
                                                             </td>
                                                             <td style="text-align: right;">
                                                                 {{ $value->orderdetail_quantity_total }}
                                                             </td>
                                                             <td>
-                                                                หน่วย
+                                                                {{ $value->punit }}
                                                             </td>
                                                             <td style="text-align: right;">
                                                                 {{ $value->orderdetail_priceunit }}
@@ -108,7 +114,7 @@
                                                         @endphp
                                                         <th style="text-align: right;">
                                                             @foreach ($sum as $key)
-                                                            @php $total = $total + $key->sum @endphp
+                                                                @php $total = $total + $key->sum @endphp
                                                             @endforeach
                                                             {{ $total }}.00
                                                         </th>
@@ -116,6 +122,28 @@
                                                     </tr>
                                                 </tfoot>
                                             </table>
+                                        </div>
+                                        <hr>
+                                        <div class="form-group row">
+                                            <div class="col-sm-12">
+                                                <h5>สถานะการจ่ายเงิน</h5>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                @if ($order_db->order_status == 1)
+                                                    <label for="">จ่ายเงินสด</label>
+                                                @elseif ($order_db->order_status == 2)
+                                                    <label for="">จ่ายแบบโอน</label>
+                                                @else
+                                                    <label for="">ยังไม่ได้จ่ายเงิน</label>
+                                                @endif
+                                            </div>
+                                            <div class="col-sm-12">
+                                                @if ($order_db->order_bill != null)
+                                                    <img src="{{ url('/upload/slip/'.$order_db->order_bill) }}" alt="" width="25%">
+                                                @else
+
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                     <div style="margin:auto">

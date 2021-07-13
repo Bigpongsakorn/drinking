@@ -208,7 +208,7 @@
                                             $page=='/order/create' ) active pcoded-trigger @endif">
                                             <a href="javascript:void(0)" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon">
-                                                    <i class="icon-notebook"></i>
+                                                    <i class="fa fa-shopping-bag"></i>
                                                 </span>
                                                 <span class="pcoded-mtext">จัดการข้อมูลสั่งซื้อสินค้า</span>
                                             </a>
@@ -223,6 +223,30 @@
                                                     <a href="{{ url('/order/order_create') }}"
                                                         class="waves-effect waves-dark">
                                                         <span class="pcoded-mtext">เพิ่มข้อมูลการสั่งซื้อ</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="pcoded-hasmenu @if ($page=='/event' ||
+                                            $page=='/event/create' ) active
+                                        pcoded-trigger @endif">
+                                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon">
+                                                    <i class="icon-notebook"></i>
+                                                </span>
+                                                <span class="pcoded-mtext">ข้อมูลการจัดส่ง</span>
+                                            </a>
+                                            <ul class="pcoded-submenu">
+                                                <li class="@if ($page=='/event' ) active pcoded-trigger @endif">
+                                                    <a href="{{ url('/customer/index_event') }}"
+                                                        class="waves-effect waves-dark">
+                                                        <span class="pcoded-mtext">ข้อมูลการจัดส่ง</span>
+                                                    </a>
+                                                </li>
+                                                <li class="@if ($page=='/event/create' ) active pcoded-trigger @endif">
+                                                    <a href="{{ url('/customer/create_event') }}"
+                                                        class="waves-effect waves-dark">
+                                                        <span class="pcoded-mtext">เพิ่มข้อมูลการจัดส่ง</span>
                                                     </a>
                                                 </li>
                                             </ul>

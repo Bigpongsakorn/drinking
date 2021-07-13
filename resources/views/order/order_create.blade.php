@@ -6,7 +6,7 @@
             <div class="row align-items-end">
                 <div class="col-lg-8">
                     <div class="page-header-title">
-                        <i class=" fa fa-shopping-basket bg-c-blue"></i>
+                        <i class="fa fa-shopping-bag bg-c-blue"></i>
                         <div class="d-inline">
                             <h5>จัดการข้อมูลสั่งซื้อสินค้า</h5>
                         </div>
@@ -33,62 +33,50 @@
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-10">
                                                 <div class="form-group row">
-                                                    <div class="col-sm-6">
-                                                        <label class="col-form-label">เลขที่ใบสั่งซื้อ</label>
-                                                        <input type="text" class="form-control orderdetail_listnumber" name="orderdetail_listnumber"
-                                                            id="orderdetail_listnumber" placeholder="เลขที่ใบสั่งซื้อ">
-                                                    </div>
-                                                    {{-- <div class="col-sm-6">
-                                                        <label class="col-form-label">ราคารายละเอียดการสั่งซื้อทั้งหมด</label>
-                                                        <input type="text" class="form-control orderdetail_quantity_total" name="orderdetail_quantity_total"
-                                                            id="orderdetail_quantity_total" placeholder="ราคารายละเอียดการสั่งซื้อทั้งหมด">
-                                                    </div> --}}
-                                                </div>
-                                                {{-- <div class="form-group row">
-                                                    <div class="col-sm-6">
-                                                        <label class="col-form-label">รายละเอียดการสั่งซื้อ ราคาหน่วย</label>
-                                                        <input type="text" class="form-control orderdetail_priceunit" name="orderdetail_priceunit"
-                                                            id="orderdetail_priceunit" placeholder="รายละเอียดการสั่งซื้อ ราคาหน่วย">
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <label class="col-form-label">สั่งซื้อรายละเอียดราคารวม</label>
-                                                        <input type="text" class="form-control orderdetail_pricetotal" name="orderdetail_pricetotal"
-                                                            id="orderdetail_pricetotal" placeholder="สั่งซื้อรายละเอียดราคารวม">
-                                                    </div>
-                                                </div> --}}
-                                                <div class="form-group row">
-                                                    <div class="col-sm-6">
+                                                    <div class="col-sm-12">
                                                         <label class="col-form-label">หัวข้อการสั่งซื้อ</label>
                                                         <input type="text" class="form-control oder_name" name="oder_name"
                                                             id="oder_name" placeholder="หัวข้อการสั่งซื้อ">
                                                     </div>
-                                                    <div class="col-sm-6">
-                                                        <label class="col-form-label">วันที่เริ่มสั่งซื้อ</label>
-                                                        <input type="date" class="form-control order_startdate"
-                                                            name="order_startdate" id="order_startdate">
-                                                    </div>
                                                 </div>
-                                                <div class="form-group row">
+                                                {{-- <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">วันที่สั่งซื้อเสร็จ</label>
                                                         <input type="date" class="form-control order_completeddate" name="order_completeddate"
                                                             id="order_completeddate" placeholder="วันที่สั่งซื้อเสร็จ">
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="form-group row">
-                                                    <div class="col-sm-12">
+                                                    <div class="col-sm-6">
                                                         <label class=" col-form-label">ข้อมูลลูกค้า</label>
-                                                        <select name="select" class="form-control cus_id" name="cus_id"
-                                                            id="cus_id">
+                                                        <select name="select" class="form-control cus_id" name="cus_id" id="select_id">
                                                             <option value="">ข้อมูลลูกค้า</option>
                                                             @foreach ($customer as $value)
                                                                 <option value="{{ $value->cus_id }}">
-                                                                    {{ $value->cus_fristname }}
-                                                                    {{ $value->cus_lastname }}
+                                                                    {{ sprintf('%05d',$value->cus_id) }}
                                                                 </option>
                                                             @endforeach
+                                                            <option value="99">อื่นๆ</option>
                                                         </select>
                                                     </div>
+                                                    <div class="col-sm-6">
+                                                        <label class=" col-form-label">ชื่อลูกค้า</label><br>
+                                                        <label for="" id="cus_title"></label> <label for="" id="cus_fristname"></label> <label for="" id="cus_lastname"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row" style="display: none" id="show_description">
+                                                    <div class="col-sm-6">
+                                                        <label class=" col-form-label">กรอกข้อมูลลูกค้า</label>
+                                                        <input type="text" class="form-control other_name"
+                                                                name="other_name" id="other_name"
+                                                                placeholder="ชื่อลูกค้า">
+                                                    </div>
+                                                    {{-- <div class="col-sm-6">
+                                                        <label class=" col-form-label">ชื่อลูกค้า</label><br>
+                                                        <input type="text" class="form-control orderdetail_quantity_total"
+                                                                name="orderdetail_quantity_total" id="orderdetail_quantity_total"
+                                                                placeholder="จำนวนสินค้า">
+                                                    </div> --}}
                                                 </div>
                                                 <div id="addrow">
                                                     <div class="form-group row count">
@@ -175,19 +163,19 @@
                 var count_ = $('.count')
                 var oder_name = [];
                 var oder_name_ = $('.oder_name')
-                var order_startdate = [];
-                var order_startdate_ = $('.order_startdate')
+                // var order_startdate = [];
+                // var order_startdate_ = $('.order_startdate')
                 var cus_id = [];
                 var cus_id_ = $('.cus_id')
                 var product_id = [];
                 var product_id_ = $('.product_id')
                 var orderdetail_quantity_total = [];
                 var orderdetail_quantity_total_ = $('.orderdetail_quantity_total') //รายละเอียดการสั่งซื้อ จำนวน ทั้งหมด
-                var orderdetail_listnumber = $('.orderdetail_listnumber').val(); // เลขที่
-                var order_completeddate = $('.order_completeddate').val(); //วันที่สั่งซื้อเสร็จ
+                // var orderdetail_listnumber = $('.orderdetail_listnumber').val(); // เลขที่
+                // var order_completeddate = $('.order_completeddate').val(); //วันที่สั่งซื้อเสร็จ
                 // var orderdetail_priceunit = $('.orderdetail_priceunit').val(); //รายละเอียดการสั่งซื้อ ราคาหน่วย
                 // var orderdetail_pricetotal = $('.orderdetail_pricetotal').val(); //สั่งซื้อรายละเอียดราคารวม
-
+                var other_name = $('.other_name').val();
                 var fd = new FormData();
 
                 $.each(count_, function(index, value) {
@@ -197,10 +185,10 @@
                     var v = $(this).val()
                     oder_name.push(v)
                 });
-                $.each(order_startdate_, function(index, value) {
-                    var v = $(this).val()
-                    order_startdate.push(v)
-                });
+                // $.each(order_startdate_, function(index, value) {
+                //     var v = $(this).val()
+                //     order_startdate.push(v)
+                // });
                 $.each(cus_id_, function(index, value) {
                     var v = $(this).val()
                     cus_id.push(v)
@@ -214,18 +202,19 @@
                     orderdetail_quantity_total.push(v)
                 });
 
-                if (oder_name != "" && order_startdate != "" && cus_id != "" ) {
+                if (oder_name != "" && cus_id != "" ) {
                     fd.append('_token', "{{ csrf_token() }}");
                     fd.append('count', count);
                     fd.append('oder_name', oder_name);
-                    fd.append('order_startdate', order_startdate);
+                    // fd.append('order_startdate', order_startdate);
                     fd.append('cus_id', cus_id);
                     fd.append('product_id', product_id);
                     fd.append('orderdetail_quantity_total', orderdetail_quantity_total); //รายละเอียดการสั่งซื้อ จำนวน ทั้งหมด
-                    fd.append('orderdetail_listnumber', orderdetail_listnumber); // เลขที่
-                    fd.append('order_completeddate', order_completeddate); // วันที่สั่งซื้อเสร็จ
+                    // fd.append('orderdetail_listnumber', orderdetail_listnumber); // เลขที่
+                    // fd.append('order_completeddate', order_completeddate); // วันที่สั่งซื้อเสร็จ
                     // fd.append('orderdetail_priceunit', orderdetail_priceunit); //รายละเอียดการสั่งซื้อ ราคาหน่วย
                     // fd.append('orderdetail_pricetotal', orderdetail_pricetotal); //สั่งซื้อรายละเอียดราคารวม
+                    fd.append('other_name',other_name);
 
                     $.ajax({
                         method: "POST",
@@ -279,6 +268,58 @@
                     })
                 }
 
+            });
+            
+            $('body').on('change', '#select_id', function() {
+                var id = $('#select_id').val()
+                console.log(id)
+                if(id == 99){
+                    $('#show_description').show()
+                    $('#cus_title').hide()
+                    $('#cus_fristname').hide()
+                    $('#cus_lastname').hide()
+                }
+                if(id == ''){
+                    $('#other_name').attr('disabled', false).val('')
+                    $('#show_description').hide()
+                    $('#cus_title').hide()
+                    $('#cus_fristname').hide()
+                    $('#cus_lastname').hide()
+                }
+                if(id != 99 && id != ''){
+                    $('#other_name').attr('disabled', false).val('')
+                    $('#show_description').hide()
+                    $('#cus_title').show()
+                    $('#cus_fristname').show()
+                    $('#cus_lastname').show()
+
+                    $.ajax({
+                    method: "POST",
+                    url: "/select_order",
+                    data: {
+                        "id": id,
+                        "_token": $('meta[name="csrf-token"]').attr('content'),
+                    }
+                })
+                .done(function (msg) {
+                    var data = JSON.parse(msg);
+                    data = data.cus;
+                    var title =  '';
+                    console.log(data)
+                    if(data.cus_title == 1){
+                        title = 'นาย'
+
+                    }else if(data.cus_title == 2){
+                        title = 'นาง'
+                    }else{
+                        title = 'นางสาว'
+                    }
+                    $('#cus_fristname').html(data.cus_fristname)
+                    $('#cus_lastname').html(data.cus_lastname)
+                    $('#cus_title').html(title)
+                });
+                }
+               
             });
 
         });

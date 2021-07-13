@@ -138,5 +138,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/order/update', 'Customer\OrderController@update');
     Route::get('/order/destroy/{id}', 'Customer\OrderController@destroy');
     Route::get('/order/order_detail/{id}', 'Customer\OrderController@show');
-
+    Route::post('/select_order', 'Customer\OrderController@select_order');
+    Route::post('/order/status', 'Customer\OrderController@status');
 });

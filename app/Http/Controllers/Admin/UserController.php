@@ -52,75 +52,84 @@ class UserController extends Controller
     {
         // dd($request);
         $password = Hash::make($request->password);
+        $user = Users::where('username', $request->username)->select('username')->first();
 
-        try {
+        if ($user != null) {
 
-            if ($request->hasFile('input_file')) {
-                // upload new file
-                $path = public_path() . '/upload/users/';
-                $file = $request->file('input_file');
-                $extension = $file->getClientOriginalExtension(); // ส่วนขยายรูปภาพ
-                $filename = time() . '.' . $extension;
-                $file->move($path, $filename);
-                $request->news_pic = $filename;
-                $news_pic = $request->news_pic;
+            $return['status'] = 2;
+            $return['content'] = 'ชื่อซ้ำ';
+            return json_encode($return);
 
-                $table_data = [
-                    'username' => $request->username,
-                    'password' => $password,
-                    'position_id' => $request->type,
-                    'emp_firstname' => $request->fname,
-                    'emp_lastname' => $request->lname,
-                    'emp_title' => $request->title,
-                    'emp_gender' => $request->gender,
-                    'emp_birthdate' => $request->bday,
-                    'emp_id_crad' => $request->idcart,
-                    'emp_email' => $request->email,
-                    'emp_phonenumber' => $request->tel,
-                    'emp_address' => $request->address,
-                    'emp_province' => $request->province,
-                    'emp_district' => $request->district,
-                    'emp_subdistrict' => $request->subdistrict,
-                    'emp_zipcode' => $request->zipcode,
-                    'emp_image' => $news_pic,
-                ];
-                // dd($table_data);
-                Users::insertGetId($table_data);
+        } else {
+            try {
 
-            }else{
-                $table_data = [
-                    'username' => $request->username,
-                    'password' => $password,
-                    'position_id' => $request->type,
-                    'emp_firstname' => $request->fname,
-                    'emp_lastname' => $request->lname,
-                    'emp_title' => $request->title,
-                    'emp_gender' => $request->gender,
-                    'emp_birthdate' => $request->bday,
-                    'emp_id_crad' => $request->idcart,
-                    'emp_email' => $request->email,
-                    'emp_phonenumber' => $request->tel,
-                    'emp_address' => $request->address,
-                    'emp_province' => $request->province,
-                    'emp_district' => $request->district,
-                    'emp_subdistrict' => $request->subdistrict,
-                    'emp_zipcode' => $request->zipcode,
-                ];
-                // dd($table_data);
-                Users::insertGetId($table_data);
+                if ($request->hasFile('input_file')) {
+                    // upload new file
+                    $path = public_path() . '/upload/users/';
+                    $file = $request->file('input_file');
+                    $extension = $file->getClientOriginalExtension(); // ส่วนขยายรูปภาพ
+                    $filename = time() . '.' . $extension;
+                    $file->move($path, $filename);
+                    $request->news_pic = $filename;
+                    $news_pic = $request->news_pic;
+
+                    $table_data = [
+                        'username' => $request->username,
+                        'password' => $password,
+                        'position_id' => $request->type,
+                        'emp_firstname' => $request->fname,
+                        'emp_lastname' => $request->lname,
+                        'emp_title' => $request->title,
+                        'emp_gender' => $request->gender,
+                        'emp_birthdate' => $request->bday,
+                        'emp_id_crad' => $request->idcart,
+                        'emp_email' => $request->email,
+                        'emp_phonenumber' => $request->tel,
+                        'emp_address' => $request->address,
+                        'emp_province' => $request->province,
+                        'emp_district' => $request->district,
+                        'emp_subdistrict' => $request->subdistrict,
+                        'emp_zipcode' => $request->zipcode,
+                        'emp_image' => $news_pic,
+                    ];
+                    // dd($table_data);
+                    Users::insertGetId($table_data);
+
+                } else {
+                    $table_data = [
+                        'username' => $request->username,
+                        'password' => $password,
+                        'position_id' => $request->type,
+                        'emp_firstname' => $request->fname,
+                        'emp_lastname' => $request->lname,
+                        'emp_title' => $request->title,
+                        'emp_gender' => $request->gender,
+                        'emp_birthdate' => $request->bday,
+                        'emp_id_crad' => $request->idcart,
+                        'emp_email' => $request->email,
+                        'emp_phonenumber' => $request->tel,
+                        'emp_address' => $request->address,
+                        'emp_province' => $request->province,
+                        'emp_district' => $request->district,
+                        'emp_subdistrict' => $request->subdistrict,
+                        'emp_zipcode' => $request->zipcode,
+                    ];
+                    // dd($table_data);
+                    Users::insertGetId($table_data);
+                }
+
+                DB::commit();
+                $return['status'] = 1;
+                $return['content'] = 'สำเร็จ';
+
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                $return['status'] = 0;
+                $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
+
             }
-
-            DB::commit();
-            $return['status'] = 1;
-            $return['content'] = 'สำเร็จ';
-
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            $return['status'] = 0;
-            $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
-
+            return json_encode($return);
         }
-        return json_encode($return);
 
     }
 

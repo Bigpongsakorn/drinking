@@ -23,6 +23,8 @@ class ProductionController extends Controller
     public function index()
     {
         $data['page'] = '/production';
+        $data['user_id'] = Auth::user()->emp_id; // เก็บตัวแปล id ของผู้ใช้งานที่ Login อยู่
+        $data["user_type"] = Auth::user()->position_id;
         $data['production'] = Production::leftjoin('empolyee', 'empolyee.emp_id', 'production_data.emp_id')
             ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')
             ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname')
@@ -46,7 +48,13 @@ class ProductionController extends Controller
             ->orderBy('production_id', 'DESC')
             ->where('production_status', '2')
             ->get();
-        // dd($data['production']);
+        $data['finished'] = Production::leftjoin('empolyee', 'empolyee.emp_id', 'production_data.emp_id')
+            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')
+            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname')
+            ->orderBy('production_id', 'DESC')
+            ->where('production_status', '3')
+            ->get();
+        // dd($data);
         return view('production.production_index', $data);
     }
 
@@ -406,7 +414,7 @@ class ProductionController extends Controller
     {
         // dd($request);
         try {
-            if ($request->production_status == 2) {
+            if ($request->production_status == 3) {
                 // dd("sad");
                 // ตรวจสอบ วัตถุดิบ
                 $id = Production_m::where('production_m_group', $request->production_group)->get();

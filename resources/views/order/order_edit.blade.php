@@ -6,7 +6,7 @@
             <div class="row align-items-end">
                 <div class="col-lg-8">
                     <div class="page-header-title">
-                        <i class=" fa fa-shopping-basket bg-c-blue"></i>
+                        <i class="fa fa-shopping-bag bg-c-blue"></i>
                         <div class="d-inline">
                             <h5>จัดการข้อมูลสั่งซื้อสินค้า</h5>
                         </div>
@@ -32,14 +32,14 @@
                                         <div class="form-group row">
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-10">
-                                                <div class="form-group row">
+                                                {{-- <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">เลขที่ใบสั่งซื้อ</label>
                                                         <input type="text" class="form-control orderdetail_listnumber"
                                                             name="orderdetail_listnumber" id="orderdetail_listnumber"
                                                             value="{{ $order_db->orderdetail_listnumber }}">
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <input type="hidden" name="order_id" id="order_id" value="{{ $order->order_id }}">
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
@@ -54,29 +54,67 @@
                                                             value="{{ $order->order_startdate }}">
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
+                                                {{-- <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">วันที่สั่งซื้อเสร็จ</label>
                                                         <input type="date" class="form-control order_completeddate"
                                                             name="order_completeddate" id="order_completeddate"
                                                             value="{{ $order->order_completeddate }}">
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="form-group row">
-                                                    <div class="col-sm-12">
+                                                    <div class="col-sm-6">
                                                         <label class=" col-form-label">ข้อมูลลูกค้า</label>
-                                                        <select name="select" class="form-control cus_id" name="cus_id"
-                                                            id="cus_id">
+                                                        <select name="select" class="form-control cus_id" name="cus_id" id="select_id">
                                                             <option value="">ข้อมูลลูกค้า</option>
+                                                            @if ($order11->cus_id == 99)
                                                             @foreach ($customer as $value)
-                                                                <option value="{{ $value->cus_id }}" @if ($value->cus_id == $order->cus_id) {{ 'selected' }} @endif>
-                                                                    {{ $value->cus_fristname }}
-                                                                    {{ $value->cus_lastname }}
+                                                                <option value="{{ $value->cus_id }}">
+                                                                    {{ sprintf('%05d',$value->cus_id) }}
                                                                 </option>
                                                             @endforeach
+                                                            <option value="99" selected >อื่นๆ</option>
+                                                            @else
+                                                            @foreach ($customer as $value)
+                                                                <option value="{{ $value->cus_id }}" @if ($value->cus_id == $order->cus_id) {{ 'selected' }} @endif>
+                                                                    {{ sprintf('%05d',$value->cus_id) }}
+                                                                </option>
+                                                            @endforeach
+                                                                <option value="99">อื่นๆ</option>
+                                                            @endif
                                                         </select>
                                                     </div>
+                                                    <div class="col-sm-6">
+                                                        <label class=" col-form-label">ชื่อลูกค้า</label><br>
+                                                        <label for="" id="cus_title">@if ($order->cus_title == 1)
+                                                            นาย
+                                                        @elseif($order->cus_title == 2)
+                                                            นาง
+                                                        @elseif($order->cus_title == 3)
+                                                            นางสาว
+                                                        @else
+                                                        @endif</label> <label for="" id="cus_fristname">{{ $order->cus_fristname }}</label> <label for="" id="cus_lastname">{{ $order->cus_lastname }}</label>     
+                                                    </div>
                                                 </div>
+                                                @if ($order11->cus_id == 99)
+                                                <div class="form-group row" id="show_description">
+                                                    <div class="col-sm-6">
+                                                        <label class=" col-form-label">กรอกข้อมูลลูกค้า</label>
+                                                        <input type="text" class="form-control other_name"
+                                                                name="other_name" id="other_name"
+                                                                value="{{ $other->o_name }}">
+                                                    </div>
+                                                </div>
+                                                @else
+                                                <div class="form-group row" style="display: none" id="show_description">
+                                                    <div class="col-sm-6">
+                                                        <label class=" col-form-label">กรอกข้อมูลลูกค้า</label>
+                                                        <input type="text" class="form-control other_name"
+                                                                name="other_name" id="other_name"
+                                                                placeholder="ชื่อลูกค้า">
+                                                    </div>
+                                                </div>
+                                                @endif
                                                 <div id="addrow">
                                                     @foreach ($order_d as $item)
                                                         <div class="form-group row count">
@@ -175,9 +213,10 @@
                 var product_id_ = $('.product_id')
                 var orderdetail_quantity_total = [];
                 var orderdetail_quantity_total_ = $('.orderdetail_quantity_total')
-                var orderdetail_listnumber = $('.orderdetail_listnumber').val(); 
-                var order_completeddate = $('.order_completeddate').val(); 
+                // var orderdetail_listnumber = $('.orderdetail_listnumber').val(); 
+                // var order_completeddate = $('.order_completeddate').val(); 
                 var order_id = $('#order_id').val(); 
+                var other_name = $('.other_name').val();
                 var fd = new FormData();
 
                 $.each(count_, function(index, value) {
@@ -204,7 +243,7 @@
                     orderdetail_quantity_total.push(v)
                 });
 
-                if (order_name != "" && order_startdate != "" && cus_id != "") {
+                if (order_name != "" && cus_id != "") {
                     fd.append('_token', "{{ csrf_token() }}");
                     fd.append('count', count);
                     fd.append('order_name', order_name);
@@ -212,9 +251,10 @@
                     fd.append('cus_id', cus_id);
                     fd.append('product_id', product_id);
                     fd.append('orderdetail_quantity_total', orderdetail_quantity_total);
-                    fd.append('orderdetail_listnumber', orderdetail_listnumber);
-                    fd.append('order_completeddate', order_completeddate);
+                    // fd.append('orderdetail_listnumber', orderdetail_listnumber);
+                    // fd.append('order_completeddate', order_completeddate);
                     fd.append('order_id',order_id);
+                    fd.append('other_name',other_name);
 
                     $.ajax({
                         method: "POST",
@@ -268,6 +308,58 @@
                     })
                 }
 
+            });
+
+            $('body').on('change', '#select_id', function() {
+                var id = $('#select_id').val()
+                console.log(id)
+                if(id == 99){
+                    $('#show_description').show()
+                    $('#cus_title').hide()
+                    $('#cus_fristname').hide()
+                    $('#cus_lastname').hide()
+                }
+                if(id == ''){
+                    $('#other_name').attr('disabled', false).val('')
+                    $('#show_description').hide()
+                    $('#cus_title').hide()
+                    $('#cus_fristname').hide()
+                    $('#cus_lastname').hide()
+                }
+                if(id != 99 && id != ''){
+                    $('#other_name').attr('disabled', false).val('')
+                    $('#show_description').hide()
+                    $('#cus_title').show()
+                    $('#cus_fristname').show()
+                    $('#cus_lastname').show()
+
+                    $.ajax({
+                    method: "POST",
+                    url: "/select_order",
+                    data: {
+                        "id": id,
+                        "_token": $('meta[name="csrf-token"]').attr('content'),
+                    }
+                })
+                .done(function (msg) {
+                    var data = JSON.parse(msg);
+                    data = data.cus;
+                    var title =  '';
+                    console.log(data)
+                    if(data.cus_title == 1){
+                        title = 'นาย'
+
+                    }else if(data.cus_title == 2){
+                        title = 'นาง'
+                    }else{
+                        title = 'นางสาว'
+                    }
+                    $('#cus_fristname').html(data.cus_fristname)
+                    $('#cus_lastname').html(data.cus_lastname)
+                    $('#cus_title').html(title)
+                });
+                }
+               
             });
 
         });

@@ -286,9 +286,18 @@
                             // location.reload()
                             location.href = '/user/index'
                         })
-                    } else {
+                    } 
+                    if(rec.status == '0') {
                         swal({
                             title: 'บันทึกไม่สำเร็จ!',
+                            text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
+                            type: 'error',
+                            padding: '2em'
+                        })
+                    }
+                    if(rec.status == '2') {
+                        swal({
+                            title: 'มีชื่อผู้ใช้งานระบบนี้แล้ว!',
                             text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                             type: 'error',
                             padding: '2em'
