@@ -34,8 +34,8 @@
                                                 <tr style="text-align: center;">
                                                     <th>รหัสผู้ใข้งาน</th>
                                                     <th>ชื่อผู้ใช้งาน</th>
-                                                    <th>ชื่อจริง</th>
-                                                    <th>นามสกุล</th>
+                                                    <th>ชื่อ - นามสกุล</th>
+                                                    <th>เบอร์โทรศัพท์</th>
                                                     <th>ตำแหน่ง</th>
                                                     <th>แก้ไข / ลบ</th>
                                                     {{-- <th>ลบ</th> --}}
@@ -45,11 +45,11 @@
                                                 {{-- @php $i = 1 @endphp --}}
                                                 @foreach ($users as $value)
                                                 <tr>
-                                                    <td style="text-align: center;">{{$value->emp_id}}</td>
+                                                    <td style="text-align: center;">{{ sprintf('%05d',$value->emp_id) }}</td>
                                                     <td>{{$value->username}}</td>
-                                                    <td>{{$value->emp_firstname}}</td>
-                                                    <td>{{$value->emp_lastname}}</td>
-                                                    <td>{{$value->position_name}}</td>
+                                                    <td>{{$value->emp_firstname}} {{$value->emp_lastname}}</td>
+                                                    <td style="text-align: center;">{{$value->emp_phonenumber}}</td>
+                                                    <td style="text-align: center;">{{$value->position_name}}</td>
                                                     <td style="text-align: center;">
                                                         <a href="{{url('/user/edit_user/'.$value->emp_id)}}">
                                                             <button class="btn btn-sm btn-primary">edit</button>
@@ -105,7 +105,7 @@
 
                     $.ajax({
                         method: "GET",
-                        url: "/user/destroy/" + id,
+                        url: "/drinking/public/user/destroy/" + id,
                     }).done(function (rec) {
                         rec = JSON.parse(rec);
                         console.log(rec);

@@ -8,7 +8,7 @@
                 <div class="page-header-title">
                     <i class="fa fa-shopping-bag bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>จัดการข้อมูลสินค้า</h5>
+                        <h5>จัดการข้อมูลประเภทสินค้า</h5>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
 
                             <div class="card">
                                 <div class="card-header">
-                                    <h5>เพิ่มข้อมูลประเภทสินค้า</h5>
+                                    <h5>แก้ไขข้อมูลประเภทสินค้า</h5>
                                 </div>
                                 <div class="card-block">
                                     {{-- <form> --}}
@@ -90,7 +90,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/product_type/update",
+                    url: "/drinking/public/product_type/update",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -101,17 +101,17 @@
 
                     if (rec.status == '1') {
                         swal({
-                            title: 'บันทึกสำเร็จ!',
+                            title: 'บันทึกข้อมูลสำเร็จ!',
                             text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                             type: 'success',
                             padding: '2em'
                         }).then(function (then) {
                             // location.reload()
-                            location.href = '/product/index_type'
+                            location.href = '/drinking/public/product/index_type'
                         })
                     } else {
                         swal({
-                            title: 'บันทึกไม่สำเร็จ!',
+                            title: 'บันทึกข้อมูลไม่สำเร็จ!',
                             text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                             type: 'error',
                             padding: '2em'

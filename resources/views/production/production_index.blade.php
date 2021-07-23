@@ -614,9 +614,10 @@
             $('body').on('submit', '#create-product-category', function(e) {
                 e.preventDefault();
                 var production_group = $('#production_group').val()
-                var production_status = $('.production_status').val()
+                var production_status = $('#production_status').val()
                 var fd = new FormData();
-
+console.log(production_group);
+console.log(production_status);
                 if (production_status) {
 
                     fd.append('_token', "{{ csrf_token() }}");
@@ -645,7 +646,7 @@
                         }
                         if (rec.status == '3') {
                             swal({
-                                title: 'วัตถุดิบไม่พอผลิต!',
+                                title: 'วัตถุดิบไม่พอ!',
                                 text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                                 type: 'error',
                                 padding: '2em'

@@ -8,7 +8,7 @@
                 <div class="page-header-title">
                     <i class="feather icon-clipboard bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>จัดการข้อมูลสินค้า</h5>
+                        <h5>จัดการข้อมูลวัตถุดิบ</h5>
                     </div>
                 </div>
             </div>
@@ -122,7 +122,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/material/store",
+                    url: "/drinking/public/material/store",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -133,17 +133,17 @@
 
                     if (rec.status == '1') {
                         swal({
-                            title: 'บันทึกสำเร็จ!',
+                            title: 'บันทึกข้อมูลสำเร็จ!',
                             text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                             type: 'success',
                             padding: '2em'
                         }).then(function (then) {
                             // location.reload()
-                            location.href = '/product/material_index'
+                            location.href = '/drinking/public/product/material_index'
                         })
                     } else {
                         swal({
-                            title: 'บันทึกไม่สำเร็จ!',
+                            title: 'บันทึกข้อมูลไม่สำเร็จ!',
                             text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                             type: 'error',
                             padding: '2em'

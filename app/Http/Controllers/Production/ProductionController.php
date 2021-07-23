@@ -415,22 +415,6 @@ class ProductionController extends Controller
         // dd($request);
         try {
             if ($request->production_status == 3) {
-                // dd("sad");
-                // ตรวจสอบ วัตถุดิบ
-                $id = Production_m::where('production_m_group', $request->production_group)->get();
-                // dd($id->production_m_num);
-                foreach ($id as $key => $value) {
-                    $idp = Material::where('material_id', $value->material_id)->get();
-                    // dd($value->production_m_num);
-                    foreach ($idp as $key => $pid) {
-                        if ($pid->material_remaining < $value->production_m_num) {
-                            // dd('ไม่สำเร็จ');
-                            $return['status'] = 3;
-                            $return['content'] = 'ไม่สำเร็จ';
-                            return json_encode($return);
-                        }
-                    }
-                }
                 // dd("pazz");
                 $id = Production_m::where('production_m_group', $request->production_group)->get();
                 foreach ($id as $key => $value) {
@@ -460,8 +444,25 @@ class ProductionController extends Controller
                         Product::where('product_id', $value->product_id)->update($total2);
                     }
                 }
+            }elseif($request->production_status == 2){
+                // dd("sss2");
+                // ตรวจสอบ วัตถุดิบ
+                $id = Production_m::where('production_m_group', $request->production_group)->get();
+                // dd($id->production_m_num);
+                foreach ($id as $key => $value) {
+                    $idp = Material::where('material_id', $value->material_id)->get();
+                    // dd($value->production_m_num);
+                    foreach ($idp as $key => $pid) {
+                        if ($pid->material_remaining < $value->production_m_num) {
+                            // dd('ไม่สำเร็จ');
+                            $return['status'] = 3;
+                            $return['content'] = 'ไม่สำเร็จ';
+                            return json_encode($return);
+                        }
+                    }
+                }
             }
-
+            // dd("stop");
             $table = [
                 'production_status' => $request->production_status,
             ];

@@ -8,7 +8,7 @@
                 <div class="page-header-title">
                     <i class="fa fa-pause-circle bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>จัดการข้อมูลสินค้า</h5>
+                        <h5>จัดการข้อมูลปริมาณหน่วยสินค้า</h5>
                     </div>
                 </div>
             </div>
@@ -98,7 +98,7 @@
 
                     $.ajax({
                         method: "GET",
-                        url: "/product_unit/destroy/" + id,
+                        url: "/drinking/public/product_unit/destroy/" + id,
                     }).done(function (rec) {
                         rec = JSON.parse(rec);
                         console.log(rec);

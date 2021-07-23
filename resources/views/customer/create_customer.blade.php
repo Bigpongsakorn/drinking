@@ -34,23 +34,8 @@
                                         <div class="col-sm-1"></div>
                                         <div class="col-sm-10">
                                             <div class="form-group row">
-                                                <div class="col-sm-6">
-                                                    <label class="col-sm-2 col-form-label">เพศ : </label>
-                                                    <div class="form-check form-check-inline">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="gender"
-                                                                id="radio1" value="1"> ชาย
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="gender"
-                                                                value="2"> หญิง
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <label class="col-sm-3 col-form-label">คำนำหน้า : </label>
+                                                <div class="col-sm-12">
+                                                    <label class="col-sm-2 col-form-label">คำนำหน้า : </label>
                                                     <div class="form-check form-check-inline">
                                                         <label class="form-check-label">
                                                             <input class="form-check-input" type="radio" name="title"
@@ -75,21 +60,37 @@
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">ชื่อจริง</label>
+                                                    <label class="col-form-label" style="color: red">* ชื่อจริง</label>
                                                     <input type="text" class="form-control" name="fname" id="fname"
-                                                        placeholder="ชื่อจริง">
+                                                        placeholder="">
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">นามสกุล</label>
+                                                    <label class="col-form-label" style="color: red">* นามสกุล</label>
                                                     <input type="text" class="form-control" name="lname" id="lname"
-                                                        placeholder="นามสกุล">
+                                                        placeholder="">
                                                 </div>
                                             </div>
-
+                                            <div class="form-group row">
+                                                <div class="col-sm-12">
+                                                    <label class="col-sm-2 col-form-label">เพศ : </label>
+                                                    <div class="form-check form-check-inline">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="gender"
+                                                                id="radio1" value="1"> ชาย
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="gender"
+                                                                value="2"> หญิง
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="form-group row">
 
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">วันที่จัดส่ง</label>
+                                                    <label class="col-form-label" style="color: red">* วันที่จัดส่ง</label>
                                                     <select name="select" class="form-control" name="date" id="date">
                                                         <option value="">---วันที่จัดส่ง---</option>
                                                         <option value="จันทร์">จันทร์</option>
@@ -102,8 +103,8 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">เบอร์โทรศัพท์</label>
-                                                    <input type="text" class="form-control" placeholder="เบอร์โทรศัพท์"
+                                                    <label class="col-form-label" style="color: red">* เบอร์โทรศัพท์</label>
+                                                    <input type="text" class="form-control" placeholder="08xxxxxxxx"
                                                         maxlength="10" name="tel" id="tel">
                                                 </div>
                                             </div>
@@ -111,7 +112,7 @@
                                                 <label class="col-sm-2 col-form-label">บ้านเลขที่/หมู่บ้าน</label>
                                                 <div class="col-sm-10">
                                                     <textarea rows="5" cols="5" class="form-control" name="address"
-                                                        id="address" placeholder="กรุณากรอกรายละเอียด"></textarea>
+                                                        id="address" placeholder=""></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -205,7 +206,7 @@
 
             var fd = new FormData();
 
-            if (fname && lname && date && province && district && district && zipcode && tel) {
+            if (fname && lname && date && tel) {
                 fd.append('_token', "{{ csrf_token() }}");
 
 
@@ -224,7 +225,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/customer/store",
+                    url: "/drinking/public/customer/store",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -235,17 +236,17 @@
 
                     if (rec.status == '1') {
                         swal({
-                            title: 'บันทึกสำเร็จ!',
+                            title: 'บันทึกข้อมูลสำเร็จ!',
                             text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                             type: 'success',
                             padding: '2em'
                         }).then(function (then) {
                             // location.reload()
-                            location.href = '/customer/index'
+                            location.href = '/drinking/public/customer/index'
                         })
                     } else {
                         swal({
-                            title: 'บันทึกไม่สำเร็จ!',
+                            title: 'บันทึกข้อมูลไม่สำเร็จ!',
                             text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                             type: 'error',
                             padding: '2em'
@@ -260,7 +261,7 @@
                     title: 'กรุณากรอกข้อมูลให้ครบถ้วน!',
                     text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                     type: 'error',
-                    padding: '2em'
+                    padding: '2em',
                 })
             }
 
@@ -271,7 +272,7 @@
             $('#district').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/province",
+                    url: "/drinking/public/province",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),
@@ -296,7 +297,7 @@
             $('#zipcode').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/subdistrict",
+                    url: "/drinking/public/subdistrict",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),

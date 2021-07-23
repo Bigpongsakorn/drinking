@@ -42,44 +42,27 @@
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">ชื่อผู้ใช้งานระบบ</label>
+                                                    <label class="col-form-label" style="color: red;">* ชื่อผู้ใช้งานระบบ</label>
                                                     <input type="text" class="form-control" name="username"
-                                                        id="username" placeholder="ชื่อผู้ใช้งานระบบ">
+                                                        id="username">
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">รหัสผ่าน</label>
+                                                    <label class="col-form-label" style="color: red;">* รหัสผ่าน</label>
                                                     <input type="password" class="form-control" name="password"
-                                                        id="password" placeholder="รหัสผ่าน">
+                                                        id="password" >
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">ประเภทผู้ใช้งาน</label>
-                                                <div class="col-sm-10">
+                                                <label class="col-sm-2 col-form-label" style="color: red;">* ตำแหน่งผู้ใช้</label>
+                                                <div class="col-sm-4">
                                                     <select name="select" class="form-control" name="type" id="type">
-                                                        <option value="">ประเภทผู้ใช้งาน</option>
+                                                        <option value="">ตำแหน่งผู้ใช้</option>
                                                         @foreach ($position as $value)
                                                         <option value="{{$value->position_id}}">
                                                             {{$value->position_name}}
                                                         </option>
                                                         @endforeach
                                                     </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <div class="col-sm-6">
-                                                    <label class="col-sm-2 col-form-label">เพศ : </label>
-                                                    <div class="form-check form-check-inline">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="gender"
-                                                                id="radio1" value="1"> ชาย
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="gender"
-                                                                value="2"> หญิง
-                                                        </label>
-                                                    </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="col-sm-3 col-form-label">คำนำหน้า : </label>
@@ -107,14 +90,31 @@
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">ชื่อจริง</label>
+                                                    <label class="col-form-label" style="color: red;">* ชื่อจริง</label>
                                                     <input type="text" class="form-control" name="fname" id="fname"
-                                                        placeholder="ชื่อจริง">
+                                                        placeholder="">
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">นามสกุล</label>
+                                                    <label class="col-form-label" style="color: red;">* นามสกุล</label>
                                                     <input type="text" class="form-control" name="lname" id="lname"
-                                                        placeholder="นามสกุล">
+                                                        placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-12">
+                                                    <label class="col-sm-2 col-form-label">เพศ : </label>
+                                                    <div class="form-check form-check-inline">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="gender"
+                                                                id="radio1" value="1"> ชาย
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="gender"
+                                                                value="2"> หญิง
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -123,20 +123,20 @@
                                                     <input type="date" class="form-control" name="bday" id="bday">
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">หมายเลขบัตรประชาชน</label>
+                                                    <label class="col-form-label" style="color: red;">* หมายเลขบัตรประชาชน</label>
                                                     <input type="text" class="form-control" name="idcart" id="idcart"
-                                                        placeholder="หมายเลขบัตรประชาชน" maxlength="13">
+                                                        placeholder="" maxlength="13">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">อีเมล์</label>
+                                                    <label class="col-form-label" style="color: red;">* อีเมล์</label>
                                                     <input type="text" class="form-control" name="email" id="email"
-                                                        placeholder="อีเมล์">
+                                                        placeholder="xxxx@gmail.com">
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">เบอร์โทรศัพท์</label>
-                                                    <input type="text" class="form-control" placeholder="เบอร์โทรศัพท์"
+                                                    <label class="col-form-label" style="color: red;">* เบอร์โทรศัพท์</label>
+                                                    <input type="text" class="form-control" placeholder="08xxxxxxxx"
                                                         maxlength="10" name="tel" id="tel">
                                                 </div>
                                             </div>
@@ -144,7 +144,7 @@
                                                 <label class="col-sm-2 col-form-label">บ้านเลขที่/หมู่บ้าน</label>
                                                 <div class="col-sm-10">
                                                     <textarea rows="5" cols="5" class="form-control" name="address"
-                                                        id="address" placeholder="กรุณากรอกรายละเอียด"></textarea>
+                                                        id="address" placeholder=""></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -242,7 +242,7 @@
             var input_file = $('#input_file').prop('files');
             var fd = new FormData();
 
-            if (username && password && email && type && gender && province && tel) {
+            if (username && password && fname && lname && email && type && idcart && tel) {
                 fd.append('_token', "{{ csrf_token() }}");
                 fd.append('username', username);
                 fd.append('password', password);
@@ -267,7 +267,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/user/store",
+                    url: "/drinking/public/user/store",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -278,18 +278,18 @@
 
                     if (rec.status == '1') {
                         swal({
-                            title: 'บันทึกสำเร็จ!',
+                            title: 'บันทึกข้อมูลสำเร็จ!',
                             text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                             type: 'success',
                             padding: '2em'
                         }).then(function (then) {
                             // location.reload()
-                            location.href = '/user/index'
+                            location.href = '/drinking/public/user/index'
                         })
                     } 
                     if(rec.status == '0') {
                         swal({
-                            title: 'บันทึกไม่สำเร็จ!',
+                            title: 'บันทึกข้อมูลไม่สำเร็จ!',
                             text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                             type: 'error',
                             padding: '2em'
@@ -323,7 +323,7 @@
             $('#district').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/province",
+                    url: "/drinking/public/province",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),
@@ -348,7 +348,7 @@
             $('#zipcode').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/subdistrict",
+                    url: "/drinking/public/subdistrict",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),

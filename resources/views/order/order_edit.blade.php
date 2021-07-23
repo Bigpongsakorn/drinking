@@ -286,6 +286,14 @@
                                 padding: '2em'
                             })
                         }
+                        if (rec.status == '4') {
+                            swal({
+                                title: 'สินค้าไม่พอสั่งซื้อ!',
+                                text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
+                                type: 'error',
+                                padding: '2em'
+                            })
+                        }
                         if (rec.status == '0') {
                             swal({
                                 title: 'บันทึกไม่สำเร็จ!',

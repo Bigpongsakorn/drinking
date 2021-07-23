@@ -35,24 +35,7 @@
                                         <div class="col-sm-10">
                                             <input type="hidden" name="id" id="id" value="{{$customer->cus_id}}">
                                             <div class="form-group row">
-                                                <div class="col-sm-6">
-                                                    <label class="col-sm-2 col-form-label">เพศ : </label>
-                                                    <div class="form-check form-check-inline">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="gender"
-                                                                id="radio1" value="1" @if($customer->cus_gender == 1 )
-                                                            {{"checked"}} @endif > ชาย
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="gender"
-                                                                value="2" @if($customer->cus_gender == 2 )
-                                                            {{"checked"}} @endif> หญิง
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-12">
                                                     <label class="col-sm-3 col-form-label">คำนำหน้า : </label>
                                                     <div class="form-check form-check-inline">
                                                         <label class="form-check-label">
@@ -81,21 +64,38 @@
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">ชื่อจริง</label>
+                                                    <label class="col-form-label" style="color: red">* ชื่อจริง</label>
                                                     <input type="text" class="form-control" name="fname" id="fname"
                                                         value="{{$customer->cus_fristname}}">
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">นามสกุล</label>
+                                                    <label class="col-form-label" style="color: red">* นามสกุล</label>
                                                     <input type="text" class="form-control" name="lname" id="lname"
                                                         value="{{$customer->cus_lastname}}">
                                                 </div>
                                             </div>
-
                                             <div class="form-group row">
-
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">วันที่จัดส่ง</label>
+                                                    <label class="col-sm-2 col-form-label">เพศ : </label>
+                                                    <div class="form-check form-check-inline">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="gender"
+                                                                id="radio1" value="1" @if($customer->cus_gender == 1 )
+                                                            {{"checked"}} @endif > ชาย
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="gender"
+                                                                value="2" @if($customer->cus_gender == 2 )
+                                                            {{"checked"}} @endif> หญิง
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-6">
+                                                    <label class="col-form-label" style="color: red">* วันที่จัดส่ง</label>
                                                     <select name="select" class="form-control" name="date" id="date">
                                                         <option value="">---วันที่จัดส่ง---</option>
                                                         <option value="จันทร์" @if($customer->cus_date == "จันทร์")
@@ -123,7 +123,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">เบอร์โทรศัพท์</label>
+                                                    <label class="col-form-label" style="color: red">* เบอร์โทรศัพท์</label>
                                                     <input type="text" class="form-control"
                                                         value="{{$customer->cus_phonenumber}}" maxlength="10" name="tel"
                                                         id="tel">
@@ -134,7 +134,7 @@
                                                 <div class="col-sm-10">
                                                     <textarea rows="5" cols="5" class="form-control" name="address"
                                                         id="address"
-                                                        placeholder="กรุณากรอกรายละเอียด">{{$customer->cus_address}}</textarea>
+                                                        placeholder="">{{$customer->cus_address}}</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -256,7 +256,7 @@
 
             var fd = new FormData();
 
-            if (fname && lname && date && province && district && district && zipcode && tel) {
+            if (fname && lname && date && tel) {
                 fd.append('_token', "{{ csrf_token() }}");
 
                 fd.append('id', id);
@@ -275,7 +275,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/customer/update",
+                    url: "/drinking/public/customer/update",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -286,17 +286,17 @@
 
                     if (rec.status == '1') {
                         swal({
-                            title: 'บันทึกสำเร็จ!',
+                            title: 'บันทึกข้อมูลสำเร็จ!',
                             text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                             type: 'success',
                             padding: '2em'
                         }).then(function (then) {
                             // location.reload()
-                            location.href = '/customer/index'
+                            location.href = '/drinking/public/customer/index'
                         })
                     } else {
                         swal({
-                            title: 'บันทึกไม่สำเร็จ!',
+                            title: 'บันทึกข้อมูลไม่สำเร็จ!',
                             text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                             type: 'error',
                             padding: '2em'
@@ -322,7 +322,7 @@
             $('#district').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/province",
+                    url: "/drinking/public/province",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),
@@ -347,7 +347,7 @@
             $('#zipcode').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/subdistrict",
+                    url: "/drinking/public/subdistrict",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),

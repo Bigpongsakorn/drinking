@@ -53,19 +53,19 @@
                                             <input type="hidden" name="id" id="id" value="{{$user->emp_id}}">
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">ชื่อผู้ใช้งานระบบ</label>
+                                                    <label class="col-form-label" style="color: red;">* ชื่อผู้ใช้งานระบบ</label>
                                                     <input type="text" class="form-control" name="username"
                                                         id="username" value="{{$user->username}}" readonly>
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">รหัสผ่าน</label>
+                                                    <label class="col-form-label" style="color: red;">* รหัสผ่าน</label>
                                                     <input type="password" class="form-control" name="password"
                                                         id="password" value="********" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">ประเภทผู้ใช้งาน</label>
-                                                <div class="col-sm-10">
+                                                <label class="col-sm-2 col-form-label" style="color: red;">* ประเภทผู้ใช้งาน</label>
+                                                <div class="col-sm-4">
                                                     <select name="select" class="form-control" name="type" id="type">
                                                         <option value="">ประเภทผู้ใช้งาน</option>
                                                         @foreach ($position as $value)
@@ -76,26 +76,6 @@
                                                         </option>
                                                         @endforeach
                                                     </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <div class="col-sm-6">
-                                                    <label class="col-sm-2 col-form-label">เพศ : </label>
-                                                    <div class="form-check form-check-inline">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="gender"
-                                                                @if($user->emp_gender == 1 ) {{"checked"}} @endif
-                                                            value="1"> ชาย
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="gender"
-                                                                @if($user->emp_gender == 2 ) {{"checked"}} @endif
-                                                            value="2">
-                                                            หญิง
-                                                        </label>
-                                                    </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <label class="col-sm-3 col-form-label">คำนำหน้า : </label>
@@ -126,14 +106,34 @@
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">ชื่อจริง</label>
+                                                    <label class="col-form-label" style="color: red;">* ชื่อจริง</label>
                                                     <input type="text" class="form-control" name="fname" id="fname"
                                                         value="{{$user->emp_firstname}}">
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">นามสกุล</label>
+                                                    <label class="col-form-label" style="color: red;">* นามสกุล</label>
                                                     <input type="text" class="form-control" name="lname" id="lname"
                                                         value="{{$user->emp_lastname}}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-6">
+                                                    <label class="col-sm-2 col-form-label">เพศ : </label>
+                                                    <div class="form-check form-check-inline">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="gender"
+                                                                @if($user->emp_gender == 1 ) {{"checked"}} @endif
+                                                            value="1"> ชาย
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="gender"
+                                                                @if($user->emp_gender == 2 ) {{"checked"}} @endif
+                                                            value="2">
+                                                            หญิง
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -143,19 +143,19 @@
                                                         value="{{$user->emp_birthdate}}">
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">หมายเลขบัตรประชาชน</label>
+                                                    <label class="col-form-label" style="color: red;">* หมายเลขบัตรประชาชน</label>
                                                     <input type="text" class="form-control" name="idcart" id="idcart"
                                                         value="{{$user->emp_id_crad}}" maxlength="13">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">อีเมล์</label>
+                                                    <label class="col-form-label" style="color: red;">* อีเมล์</label>
                                                     <input type="text" class="form-control" name="email" id="email"
                                                         value="{{$user->emp_email}}">
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">เบอร์โทรศัพท์</label>
+                                                    <label class="col-form-label" style="color: red;">* เบอร์โทรศัพท์</label>
                                                     <input type="text" class="form-control"
                                                         value="{{$user->emp_phonenumber}}" maxlength="10" name="tel"
                                                         id="tel">
@@ -289,7 +289,7 @@
             var input_file = $('#input_file').prop('files');
             var fd = new FormData();
 
-            if (username && password && email && type) {
+            if (username && password && fname && lname && email && type && idcart && tel) {
                 fd.append('_token', "{{ csrf_token() }}");
                 fd.append('id', id);
                 fd.append('username', username);
@@ -315,7 +315,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/user/update",
+                    url: "/drinking/public/user/update",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -326,17 +326,17 @@
 
                     if (rec.status == '1') {
                         swal({
-                            title: 'บันทึกสำเร็จ!',
+                            title: 'บันทึกข้อมูลสำเร็จ!',
                             text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                             type: 'success',
                             padding: '2em'
                         }).then(function (then) {
                             // location.reload()
-                            location.href = '/user/index'
+                            location.href = '/drinking/public/user/index'
                         })
                     } else {
                         swal({
-                            title: 'บันทึกไม่สำเร็จ!',
+                            title: 'บันทึกข้อมูลไม่สำเร็จ!',
                             text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                             type: 'error',
                             padding: '2em'
@@ -362,7 +362,7 @@
             $('#district').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/province",
+                    url: "/drinking/public/province",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),
@@ -387,7 +387,7 @@
             $('#zipcode').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/subdistrict",
+                    url: "/drinking/public/subdistrict",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),

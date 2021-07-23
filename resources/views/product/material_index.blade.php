@@ -8,7 +8,7 @@
                 <div class="page-header-title">
                     <i class="fa fa-archive bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>จัดการข้อมูลสินค้า</h5>
+                        <h5>จัดการข้อมูลวัตถุดิบ</h5>
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                                                     <td style="text-align: center;">{{$i}}</td>
                                                     <td style="text-align: center">
                                                         <img src="{{url('/upload/material/'.$value->material_img)}}"
-                                                            alt="" width="100%">
+                                                            alt="" width="50%">
                                                     </td>
                                                     <td>
                                                         {{$value->material_name}}
@@ -110,7 +110,7 @@
 
                     $.ajax({
                         method: "GET",
-                        url: "/material/destroy/" + id,
+                        url: "/drinking/public/material/destroy/" + id,
                     }).done(function (rec) {
                         rec = JSON.parse(rec);
                         console.log(rec);

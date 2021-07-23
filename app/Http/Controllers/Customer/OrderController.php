@@ -144,6 +144,14 @@ class OrderController extends Controller
 
                     for ($i = 0; $i < $count; $i++) {
 
+                        // dd($values->product_total);
+                        if($orderdetail_quantity_total[$i] > $values->product_total){
+                            // dd("error");
+                            $return['status'] = 4;
+                            $return['content'] = 'สินค้าไม่พอ';
+                            return json_encode($return);
+                        }
+// dd("sss");
                         if ($product_id[$i] == $values->product_id) {
                             // dd($values->product_price);
                             $orderdetail_pricetotal = $orderdetail_quantity_total[$i] * $values->product_price;
@@ -306,6 +314,13 @@ class OrderController extends Controller
 
                     for ($i = 0; $i < $count; $i++) {
 
+                        if($orderdetail_quantity_total[$i] > $values->product_total){
+                            // dd("error");
+                            $return['status'] = 4;
+                            $return['content'] = 'สินค้าไม่พอ';
+                            return json_encode($return);
+                        }
+
                         if ($product_id[$i] == $values->product_id) {
 
                             $table1[] = [
@@ -416,9 +431,26 @@ class OrderController extends Controller
                 }
 
             } else {
+                $oo = Order_detail::where('order_id',$request->order_id)->get();
+                // dd($oo);
+                foreach ($oo as $key => $value) {
+                    // dd($value->orderdetail_quantity_total);
+                    $idp = Product::where('product_id', $value->product_id)->get();
+                    // dd($idp);
+                    foreach ($idp as $key => $pid) {
+                        // dd($pid->product_total);
+                        $total = $pid->product_total - $value->orderdetail_quantity_total;
+                        $p_total = [
+                            'product_total' => $total,
+                        ];
+                        // dd($p_total);
+                        Product::where('product_id', $value->product_id)->update($p_total);
+                    }
+                }
                 $table1 = [
                     'order_status' => $request->order_status,
                 ];
+                // dd($table1);
                 Order_data::where('order_id', $request->order_id)->update($table1);
             }
 

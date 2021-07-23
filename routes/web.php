@@ -59,6 +59,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/customer/update', 'Customer\CustomerController@update');
     Route::get('/customer/destroy/{id}', 'Customer\CustomerController@destroy');
     Route::get('/customer/map', 'Customer\CustomerController@show');
+    Route::get('/customer/product_customer/{id}', 'Customer\CustomerController@product');
+    Route::post('/customer/insert', 'Customer\CustomerController@insertproduct');
 
 // ============================= EVENT =============================
     // Route::get('/customer/index_event', 'Customer\EventController@index');
@@ -140,4 +142,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/order/order_detail/{id}', 'Customer\OrderController@show');
     Route::post('/select_order', 'Customer\OrderController@select_order');
     Route::post('/order/status', 'Customer\OrderController@status');
+
+    // ============================= DELIVERY =============================
+    Route::get('/delivery/delivery_index', 'Customer\DeliveryController@index');
+    Route::get('/delivery/delivery_create', 'Customer\DeliveryController@create');
+    Route::post('/delivery/store', 'Customer\DeliveryController@store');
+    Route::post('/select_customer', 'Customer\DeliveryController@select_customer');
+
 });

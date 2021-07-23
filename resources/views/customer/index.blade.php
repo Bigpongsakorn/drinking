@@ -33,11 +33,12 @@
                                             <thead>
                                                 <tr style="text-align: center;">
                                                     <th>ลำดับ</th>
-                                                    <th>ชื่อลูกค้า</th>
+                                                    <th>ชื่อ - นามสกุล</th>
                                                     <th>เบอร์โทรศัพท์</th>
                                                     <th>วันที่จัดส่ง</th>
                                                     {{-- <th>ที่อยู่</th> --}}
                                                     <th>ตำแหน่ง</th>
+                                                    <th>ข้อมูลลูกค้า</th>
                                                     <th>แก้ไข / ลบ</th>
                                                     {{-- <th>ลบ</th> --}}
                                                 </tr>
@@ -46,7 +47,7 @@
                                                 @php $i = 1 @endphp
                                                 @foreach ($customer as $value)
                                                 <tr>
-                                                    <td style="text-align: center;">{{$i}}</td>
+                                                    <td style="text-align: center;">{{ sprintf('%05d',$value->cus_id) }}</td>
                                                     <td>
                                                        {{$value->cus_fristname}} {{$value->cus_lastname}}
                                                     </td>
@@ -56,9 +57,13 @@
                                                     <td style="text-align: center;">
                                                         {{$value->cus_date}}
                                                     </td>
-                                                    {{-- <td>{{$value->cus_address}}</td> --}}
                                                     <td style="text-align: center;">
                                                         ดูตำแหน่ง
+                                                    </td>
+                                                    <td style="text-align: center;">
+                                                        <a href="{{ url('/customer/product_customer/'.$value->cus_id) }}">
+                                                            <button class="btn btn-sm btn-primary">ดูข้อมูล</button>   
+                                                        </a>
                                                     </td>
                                                     <td style="text-align: center;">
                                                         <a href="{{url('/customer/edit/'.$value->cus_id)}}">
@@ -113,7 +118,7 @@
 
                     $.ajax({
                         method: "GET",
-                        url: "/customer/destroy/" + id,
+                        url: "/drinking/public/customer/destroy/" + id,
                     }).done(function (rec) {
                         rec = JSON.parse(rec);
                         console.log(rec);

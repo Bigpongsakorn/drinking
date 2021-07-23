@@ -49,8 +49,8 @@
                                                 @foreach ($product as $value)
                                                 <tr>
                                                     <td style="text-align: center;">{{$i}}</td>
-                                                    <td>
-                                                        <img src="{{url('/upload/store/'.$value->product_img)}}" alt="" width="100%">
+                                                    <td style="text-align: center">
+                                                        <img src="{{url('/upload/store/'.$value->product_img)}}" alt="" width="50%">
                                                     </td>
                                                     <td>
                                                         {{$value->product_name}}

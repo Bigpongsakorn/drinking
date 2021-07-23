@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\CustomerProduct;
 use App\Models\District;
+use App\Models\Product;
 use App\Models\Province;
 use App\Models\Subdistrict;
 use Illuminate\Http\Request;
@@ -59,7 +61,7 @@ class CustomerController extends Controller
                 'cus_zipcode' => $request->zipcode,
                 'cus_phonenumber' => $request->tel,
             ];
-
+// dd($table);
             Customer::insert($table);
 
             DB::commit();
@@ -168,5 +170,41 @@ class CustomerController extends Controller
         }
         return json_encode($return);
 
+    }
+
+    public function product($id)
+    {
+        $data['page'] = '/customer';
+        $data['cus'] = Customer::leftjoin('provinces', 'provinces.province_id', 'customer_data.cus_province')
+        ->leftjoin('districts', 'districts.district_id', 'customer_data.cus_district')
+        ->leftjoin('subdistricts', 'subdistricts.subdistrict_id', 'customer_data.cus_subdistrict')
+        ->where('cus_id',$id)->first();
+        $data['product'] = Product::get();
+        $data['cus_p'] = CustomerProduct::leftjoin('product_data','product_data.product_id','customer_product.product_id')
+        ->where('cus_id',$id)->get();
+        // dd($data);
+        return view('customer.product_customer', $data);
+    }
+
+    public function insertproduct(Request $request)
+    {
+        // dd($request);
+        try {
+            $table = [
+                'cus_id' => $request->cus_id,
+                'product_id' => $request->product_id,
+            ];
+            // dd($table);
+            CustomerProduct::insert($table);
+
+            DB::commit();
+            $return['status'] = 1;
+            $return['content'] = 'สำเร็จ';
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $return['status'] = 0;
+            $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
+        }
+        return json_encode($return);
     }
 }
