@@ -20,11 +20,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-// Route::get('/home', 'HomeController@index')->name('home');
-
+//Route for normal user
 Route::group(['middleware' => ['auth']], function () {
-
     Route::get('/home', 'HomeController@index');
+});
+
+//Route for admin
+// Route::group(['prefix' => 'admin'], function(){
+Route::group(['middleware' => ['admin']], function () {
 
     Route::POST('/province', 'HomeController@province');
     Route::POST('/subdistrict', 'HomeController@subdistrict');
@@ -45,6 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/user/edit_user/{id}', 'Admin\UserController@edit');
     Route::post('/user/update', 'Admin\UserController@update');
     Route::get('/user/destroy/{id}', 'Admin\UserController@destroy');
+    Route::post('/user/status', 'Admin\UserController@status');
 
     // ============================= PROFILE =============================
     Route::get('/user/profile_index', 'Admin\ProfileController@index');
@@ -61,6 +65,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/customer/map', 'Customer\CustomerController@show');
     Route::get('/customer/product_customer/{id}', 'Customer\CustomerController@product');
     Route::post('/customer/insert', 'Customer\CustomerController@insertproduct');
+    Route::post('/customer/status', 'Customer\CustomerController@status');
 
 // ============================= EVENT =============================
     // Route::get('/customer/index_event', 'Customer\EventController@index');
@@ -150,3 +155,4 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/select_customer', 'Customer\DeliveryController@select_customer');
 
 });
+// });

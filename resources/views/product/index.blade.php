@@ -35,9 +35,9 @@
                                                     <th>ลำดับ</th>
                                                     <th style="width: 20%">รูปภาพสินค้า</th>
                                                     <th>ชื่อสินค้า</th>
-                                                    <th>ประเภทสินค้า</th>
+                                                    <th>ประเภท</th>
                                                     <th>ปริมาณ</th>
-                                                    <th>ราคาสินค้า</th>
+                                                    <th>ราคา</th>
                                                     <th>จำนวน</th>
                                                     <th>หน่วย</th>
                                                     <th>แก้ไข / ลบ</th>
@@ -48,9 +48,10 @@
                                                 @php $i = 1 @endphp
                                                 @foreach ($product as $value)
                                                 <tr>
-                                                    <td style="text-align: center;">{{$i}}</td>
+                                                    <td style="text-align: center;">{{ sprintf('%05d', $value->product_id) }}</td>
                                                     <td style="text-align: center">
-                                                        <img src="{{url('/upload/store/'.$value->product_img)}}" alt="" width="50%">
+                                                        <img src="{{url('/upload/store/'.$value->product_img)}}" alt="" width="50%" class="open_modal"
+                                                        data-toggle="modal" data-target=".bd-example-modal-xl" data-product_img="{{ $value->product_img }}">
                                                     </td>
                                                     <td>
                                                         {{$value->product_name}}
@@ -92,11 +93,28 @@
     </div>
 </div>
 
+<!-- Extra large modal -->
+<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <span id="product_img_show" style="margin: auto;"></span>
+      </div>
+    </div>
+  </div>
+
 @endsection
 
 @section('js')
 <script>
     $(document).ready(function () {
+
+        $('body').on('click', '.open_modal', function() {
+                var product_img = $(this).data('product_img');
+                console.log(product_img);
+                var html = '';
+                html += `<img src="{{ asset('/upload/store/`+product_img+`') }}">`;
+                $('#product_img_show').html('').append(html);
+            });
 
         $('body').on('click', '.delete', function () {
             let id = $(this).data('id');

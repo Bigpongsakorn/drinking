@@ -91,6 +91,7 @@ class UserController extends Controller
                         'emp_subdistrict' => $request->subdistrict,
                         'emp_zipcode' => $request->zipcode,
                         'emp_image' => $news_pic,
+                        'emp_status' => "0",
                     ];
                     // dd($table_data);
                     Users::insertGetId($table_data);
@@ -113,6 +114,7 @@ class UserController extends Controller
                         'emp_district' => $request->district,
                         'emp_subdistrict' => $request->subdistrict,
                         'emp_zipcode' => $request->zipcode,
+                        'emp_status' => "0",
                     ];
                     // dd($table_data);
                     Users::insertGetId($table_data);
@@ -278,6 +280,39 @@ class UserController extends Controller
             $return['status'] = 0;
             $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
 
+        }
+        return json_encode($return);
+    }
+
+    public function status(Request $request)
+    {
+        // dd($request);
+        try {
+            if ($request->emp_status == 2) {
+                if($request->emp_status_data == null ){
+                    $return['status'] = 3;
+                    $return['content'] = 'ไม่สำเร็จ';
+                    return json_encode($return);
+                }else{
+                    $table = [
+                        'emp_status' => $request->emp_status,
+                        'emp_status_data' => $request->emp_status_data,
+                    ];
+                    Users::where('emp_id', $request->emp_id)->update($table);
+                }
+            } else {
+                $table = [
+                    'emp_status' => $request->emp_status,
+                ];
+                Users::where('emp_id', $request->emp_id)->update($table);
+            }
+            DB::commit();
+            $return['status'] = 1;
+            $return['content'] = 'สำเร็จ';
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $return['status'] = 0;
+            $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
         }
         return json_encode($return);
     }

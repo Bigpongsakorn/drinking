@@ -60,6 +60,7 @@ class CustomerController extends Controller
                 'cus_subdistrict' => $request->subdistrict,
                 'cus_zipcode' => $request->zipcode,
                 'cus_phonenumber' => $request->tel,
+                'cus_status' => '0',
             ];
 // dd($table);
             Customer::insert($table);
@@ -197,6 +198,38 @@ class CustomerController extends Controller
             // dd($table);
             CustomerProduct::insert($table);
 
+            DB::commit();
+            $return['status'] = 1;
+            $return['content'] = 'สำเร็จ';
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $return['status'] = 0;
+            $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
+        }
+        return json_encode($return);
+    }
+    public function status(Request $request)
+    {
+        // dd($request);
+        try {
+            if ($request->cus_status == 1) {
+                if($request->cus_status_data == null ){
+                    $return['status'] = 3;
+                    $return['content'] = 'ไม่สำเร็จ';
+                    return json_encode($return);
+                }else{
+                    $table = [
+                        'cus_status' => $request->cus_status,
+                        'cus_status_data' => $request->cus_status_data,
+                    ];
+                    Customer::where('cus_id', $request->cus_id)->update($table);
+                }
+            } else {
+                $table = [
+                    'cus_status' => $request->cus_status,
+                ];
+                Customer::where('cus_id', $request->cus_id)->update($table);
+            }
             DB::commit();
             $return['status'] = 1;
             $return['content'] = 'สำเร็จ';

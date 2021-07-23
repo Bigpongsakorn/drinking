@@ -84,7 +84,7 @@
                     Laravel Drinking
                 </div>
                 <div class="title m-b-md">
-                    <a href="{{url('/dashboard')}}">Home</a>
+                    <a href="{{url('/login')}}">Home</a>
                 </div>
                 {{-- <div class="links">
                     <a href="https://laravel.com/docs">Docs</a>

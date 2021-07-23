@@ -27,9 +27,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // return view('home');
-        $data['page'] = '/index';
-        return view('dashboard.index',$data);
+        return view('home');
+        // $data['page'] = '/index';
+        // return view('dashboard.index',$data);
     }
     
      // ======= City =======

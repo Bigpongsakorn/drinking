@@ -46,9 +46,9 @@ class LoginController extends Controller
     {
         if (auth()->user()->isAdmin()) {
             // return '/admin/dashboard';
-            return '/dashboard/index';
+            return '/dashboard';
         } else {
-            return '/login';
+            return '/home';
         }
     }
 }

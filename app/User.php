@@ -19,9 +19,11 @@ class User extends Authenticatable
     protected $table = 'empolyee'; // ใส่ชื่อตาราง
     protected $primaryKey = 'emp_id'; // ใส่ Primary Key
 
-    // protected $fillable = [
-    //     'username', 'password', 'user_type'
-    // ];
+    protected $fillable = [
+        'username', 
+        'password', 
+        'emp_status',
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -43,12 +45,12 @@ class User extends Authenticatable
 
     // User Type ****
 
-    const ADMIN_TYPE = 1;
-    const DEFAULT_TYPE = 2;
+    const ADMIN_TYPE = 0;
+    // const DEFAULT_TYPE = 2;
     
     public function isAdmin()
     {
-        return $this->position_id === self::ADMIN_TYPE;
+        return $this->emp_status === self::ADMIN_TYPE;
     }
     
 }
