@@ -56,7 +56,7 @@
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">ชื่อสินค้า</label>
-                                                        <select name="select" class="form-control product_id" name="product"
+                                                        <select name="select" class="form-control product_id select_p" name="product" data-count="1" data-product_id="product_id"
                                                             id="product">
                                                             <option value="">ข้อมูลสินค้า</option>
                                                             @foreach ($product as $value)
@@ -69,34 +69,13 @@
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">จำนวนสินค้า</label>
                                                         <input type="number" class="form-control production_number"
-                                                            name="number" id="number" placeholder="จำนวนสินค้า">
+                                                            name="number" id="number" data-count="1" data-material_number="material_number" >
                                                     </div>
                                                 </div>
-                                                <hr>
-                                                <div id="addcol" data-count="1">
-                                                    <div class="form-group row count2">
-                                                        <div class="col-sm-6">
-                                                            <label class="col-form-label">ชื่อวัตถุดิบ</label>
-                                                            <select name="select" class="form-control material_id"
-                                                                name="material_id" id="material_id" data-material="1">
-                                                                <option value="">ข้อมูลวัตถุดิบ</option>
-                                                                @foreach ($mat as $value)
-                                                                    <option value="{{ $value->material_id }}">
-                                                                        {{ $value->material_name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <label class="col-form-label">จำนวนวัตถุดิบ</label>
-                                                            <input type="number" class="form-control material_number"
-                                                                name="number" id="number" placeholder="จำนวนวัตถุดิบ" data-material="1">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <button class="btn btn-sm btn-primary addcol" data-count="1">+</button>
-                                                </div>
+                                                <div id="show_data" data-count="1"></div>
+                                                {{-- <div id="calculate" data-count="1"></div> --}}
+                                                <button class="btn btn-sm btn-primary calculate" data-count="1" style="display: none">คำนวณ</button><hr>
+                                                <div id="show_total" data-count="1"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -143,7 +122,6 @@
     <script>
         $(document).ready(function() {
             var count = 1;
-
             $("#btnrow").click(function() {
                 count++;
                 $("#addrow").append('<div class="card count">\
@@ -154,8 +132,7 @@
                                                             <div class="form-group row">\
                                                                 <div class="col-sm-6">\
                                                                     <label class="col-form-label">ชื่อสินค้า</label>\
-                                                                    <select name="select" class="form-control product_id" name="product"\
-                                                                        id="product">\
+                                                                    <select name="select" class="form-control product_id select_p" name="product" id="product" data-count="' + count + '">\
                                                                         <option value="">ข้อมูลสินค้า</option>\
                                                                         @foreach ($product as $value)\
                                                                             <option value="{{ $value->product_id }}">\
@@ -166,65 +143,42 @@
                                                                 </div>\
                                                                 <div class="col-sm-6">\
                                                                     <label class="col-form-label">จำนวนสินค้า</label>\
-                                                                    <input type="number" class="form-control production_number" name="number" id="number"\
-                                                                        placeholder="จำนวนสินค้า">\
+                                                                    <input type="number" class="form-control production_number" data-count="' + count + '" name="number" id="number">\
                                                                 </div>\
                                                             </div>\
-                                                            <hr>\
-                                                            <div id="addcol" data-count="' + count +
-                    '">\
-                                                                <div class="form-group row count2">\
-                                                                    <div class="col-sm-6">\
-                                                                        <label class="col-form-label">ชื่อวัตถุดิบ</label>\
-                                                                        <select name="select" class="form-control material_id" name="material_id"\
-                                                                            id="material_id" data-material="'+ count + '">\
-                                                                            <option value="">ข้อมูลวัตถุดิบ</option>\
-                                                                            @foreach ($mat as $value)\
-                                                                                <option value="{{ $value->material_id }}">\
-                                                                                    {{ $value->material_name }}\
-                                                                                </option>\
-                                                                            @endforeach\
-                                                                        </select>\
-                                                                    </div>\
-                                                                    <div class="col-sm-6">\
-                                                                        <label class="col-form-label">จำนวนวัตถุดิบ</label>\
-                                                                        <input type="number" class="form-control material_number" data-material="'+ count + '" name="number" id="number"\
-                                                                            placeholder="จำนวนวัตถุดิบ">\
-                                                                    </div>\
-                                                                </div>\
-                                                            </div>\
-                                                            <div class="form-group row">\
-                                                                <button class="btn btn-sm btn-primary addcol" data-count="' + count + '">+</button>\
-                                                            </div>\
+                                                            <div id="show_data" data-count="' + count + '"></div>\
+                                                            <button class="btn btn-sm btn-primary calculate" data-count="' + count + '" style="display: none" >คำนวณ</button><hr>\
+                                                            <h5>จำนวนวันถุดิบที่ใช้ในการผลิต</h5>\
+                                                            <div id="show_total" data-count="' + count + '"></div>\
                                                         </div>\
                                                     </div>\
                                                 </div>\
                                             </div>');
             });
 
-            $("body").on('click', '.addcol', function() {
-                var count_ = $(this).data('count');
-                console.log(count_);
-                $("#addcol[data-count='" + count_ + "']").append(' <div class="form-group row count2">\
-                                                                    <div class="col-sm-6">\
-                                                                        <label class="col-form-label">ชื่อวัตถุดิบ</label>\
-                                                                        <select name="select" class="form-control material_id" name="material_id"\
-                                                                            id="material_id" data-material="'+ count_ + '">\
-                                                                            <option value="">ข้อมูลวัตถุดิบ</option>\
-                                                                            @foreach ($mat as $value)\
-                                                                                <option value="{{ $value->material_id }}">\
-                                                                                    {{ $value->material_name }}\
-                                                                                </option>\
-                                                                            @endforeach\
-                                                                        </select>\
-                                                                    </div>\
-                                                                    <div class="col-sm-6">\
-                                                                        <label class="col-form-label">จำนวนวัตถุดิบ</label>\
-                                                                        <input type="number" class="form-control material_number" name="number" id="number" data-material="'+ count_ + '"\
-                                                                            placeholder="จำนวนวัตถุดิบ">\
-                                                                    </div>\
-                                                                </div>');
-            });
+            // $("body").on('click', '.addcol', function() {
+            //     var count_ = $(this).data('count');
+            //     console.log(count_);
+            //     $("#addcol[data-count='" + count_ + "']").append(' <div class="form-group row count2">\
+            //                                                         <div class="col-sm-6">\
+            //                                                             <label class="col-form-label">ชื่อวัตถุดิบ</label>\
+            //                                                             <select name="select" class="form-control material_id" name="material_id"\
+            //                                                                 id="material_id" data-material="'+ count_ + '">\
+            //                                                                 <option value="">ข้อมูลวัตถุดิบ</option>\
+            //                                                                 @foreach ($mat as $value)\
+            //                                                                     <option value="{{ $value->material_id }}">\
+            //                                                                         {{ $value->material_name }}\
+            //                                                                     </option>\
+            //                                                                 @endforeach\
+            //                                                             </select>\
+            //                                                         </div>\
+            //                                                         <div class="col-sm-6">\
+            //                                                             <label class="col-form-label">จำนวนวัตถุดิบ</label>\
+            //                                                             <input type="number" class="form-control material_number" name="number" id="number" data-material="'+ count_ + '"\
+            //                                                                 placeholder="จำนวนวัตถุดิบ">\
+            //                                                         </div>\
+            //                                                     </div>');
+            // });
 
             $('body').on('click', '#create-user', function() {
                 // console.log('submit');
@@ -351,6 +305,83 @@
                     })
                 }
 
+            });
+
+            $('body').on('change', '.select_p', function() {
+                var count = $(this).data('count');
+                var id =  $(this).val()
+                $('.calculate').show()
+                console.log(count);
+                $.ajax({
+                        method: "POST",
+                        url: "/production/select_product",
+                        data: {
+                            "id": id,
+                            "_token": $('meta[name="csrf-token"]').attr('content'),
+                        }
+                    }) .done(function(msg) {
+                        var data = JSON.parse(msg);
+                        material_p = data.material_p;
+                        console.log(material_p)
+                        var html = '';
+                        $.each(material_p, function(index, value) {
+                            // console.log(value.material_id)
+                            html += `<div class="form-group row">
+                                                    <div class="col-sm-6">
+                                                        <label class="col-form-label">ชื่อวัตถุดิบ</label>
+                                                        <input type="text" name="" id="" value="`+value.material_name+`" class="form-control" readonly>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label class="col-form-label">จำนวนวัตถุดิบ</label>
+                                                        <input type="text" name="" id="" value="`+value.mp_quantity+`" class="form-control" readonly>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                </div>`;
+                            
+                        });
+                        $("#show_data[data-count='" + count + "']").html('').append(html)
+                        // $("#calculate[data-count='" + count + "']").html('').append('<button class="btn btn-sm btn-primary calculate" >คำนวณ</button>')
+                    });
+            });
+
+            $('body').on('click', '.calculate', function() {
+                var count = $(this).data('count');
+                var product_id = $('.product_id').val();
+                // var material_number = $('.production_number').val();
+
+
+                // material_id
+                // console.log(product_id);
+                // console.log(material_number);
+                console.log('-----------------');
+                var product_id = $('.product_id[data-count="'+count+'"]').val();
+                console.log(product_id);
+                var production_number = $('.production_number[data-count="'+count+'"]').val();
+                console.log(production_number);
+                console.log('-----------------');
+
+                console.log(count);
+                $.ajax({
+                        method: "POST",
+                        url: "/production/calculate",
+                        data: {
+                            "product_id": product_id,
+                            "production_number" : production_number,
+                            "_token": $('meta[name="csrf-token"]').attr('content'),
+                        }
+                    }).done(function(msg) {
+                        var data = JSON.parse(msg);
+                        returns = data.returns;
+                        console.log(returns);
+                        // iasd = data.iasd;
+                        // console.log(iasd);
+                        var html = '';
+                        $.each(data, function(index, value) {
+                            html += `<p>`+value.text+` จำนวนในการผลิต `+value.total+` `+value.unit+`</p>`;
+                        });
+                        $("#show_total[data-count='" + count + "']").html('').append(html)
+                    });
             });
 
         });

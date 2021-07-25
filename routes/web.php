@@ -107,7 +107,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/material/update', 'Product\MaterialController@update');
     Route::get('/material/destroy/{id}', 'Product\MaterialController@destroy');
 
-    // ============================= PRODUCT =============================
+    // ============================= PRODUCTION =============================
     Route::get('/production/production_index', 'Production\ProductionController@index');
     Route::get('/production/production_create', 'Production\ProductionController@create');
     Route::post('/production/store', 'Production\ProductionController@store');
@@ -116,6 +116,8 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/production/destroy/{id}', 'Production\ProductionController@destroy');
     Route::post('/production/status', 'Production\ProductionController@status');
     Route::get('/production/production_detail/{id}', 'Production\ProductionController@show');
+    Route::post('/production/select_product', 'Production\ProductionController@select_product');
+    Route::post('/production/calculate', 'Production\ProductionController@calculate');
 
     // ============================= WITHDRAW PRODUCT =============================
     Route::get('/withdraw/withdraw_product', 'Withdraw\WithdrawController@index');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Production;
 
 use App\Http\Controllers\Controller;
 use App\Models\Material;
+use App\Models\Material_Product;
 use App\Models\Product;
 use App\Models\Production;
 use App\Models\Production_m;
@@ -70,9 +71,38 @@ class ProductionController extends Controller
         $data['unit'] = Unit::get();
         $data['type'] = ProductType::get();
         $data['mat'] = Material::get();
+        $data['mat_p'] = Material_Product::get();
+        // dd($data);
         return view('production.production_create', $data);
     }
 
+    public function select_product(Request $request)
+    {
+        // dd($request);
+        $data['material_p'] = Material_Product::leftjoin('product_material','product_material.material_id','material_product.material_id')
+        ->where('product_id',$request->id)->get();
+        return json_encode($data);
+    }
+
+    public function calculate(Request $request)
+    {
+        // dd($request);
+        $data['material_p'] = Material_Product::leftjoin('product_material','product_material.material_id','material_product.material_id')
+        ->where('product_id',$request->product_id)->get();
+        // dd($data['material_p']);
+        foreach ($data['material_p'] as $key => $value) {
+            // dd($value->mp_quantity);
+            $total = $value->mp_quantity * $request->production_number;
+            $table[] = [
+                'text' => $value->material_name,
+                'total' => $total,
+                'unit' => $value->material_unit,
+            ];
+        }
+        $returns = $table;
+        return json_encode($returns);
+
+    }
     /**
      * Store a newly created resource in storage.
      *
