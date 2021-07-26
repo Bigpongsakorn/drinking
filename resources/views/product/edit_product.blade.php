@@ -112,7 +112,7 @@
                                                         <div class="col-sm-6">
                                                             <label class="col-form-label">จำนวน</label>
                                                             <input type="text" class="form-control quan" name="" id=""
-                                                                value="{{ $item->mp_quantity }}">
+                                                                value="{{ $item->pm_quantity }}">
                                                         </div>
                                                     </div>
                                                 @endforeach

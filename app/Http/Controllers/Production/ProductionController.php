@@ -79,7 +79,7 @@ class ProductionController extends Controller
     public function select_product(Request $request)
     {
         // dd($request);
-        $data['material_p'] = Material_Product::leftjoin('product_material','product_material.material_id','material_product.material_id')
+        $data['material_p'] = Material_Product::leftjoin('material','material.material_id','product_material.material_id')
         ->where('product_id',$request->id)->get();
         return json_encode($data);
     }
@@ -87,12 +87,12 @@ class ProductionController extends Controller
     public function calculate(Request $request)
     {
         // dd($request);
-        $data['material_p'] = Material_Product::leftjoin('product_material','product_material.material_id','material_product.material_id')
+        $data['material_p'] = Material_Product::leftjoin('material','material.material_id','product_material.material_id')
         ->where('product_id',$request->product_id)->get();
         // dd($data['material_p']);
         foreach ($data['material_p'] as $key => $value) {
             // dd($value->mp_quantity);
-            $total = $value->mp_quantity * $request->production_number;
+            $total = $value->pm_quantity * $request->production_number;
             $table[] = [
                 'text' => $value->material_name,
                 'total' => $total,
@@ -100,6 +100,7 @@ class ProductionController extends Controller
             ];
         }
         $returns = $table;
+        // dd($returns);
         return json_encode($returns);
 
     }
@@ -162,50 +163,24 @@ class ProductionController extends Controller
                 $idp = Production::insertGetId($value);
 
                 // dd($key);
-                for ($i = 0; $i < count($material_number); $i++) {
+                // for ($i = 0; $i < count($material_number); $i++) {
 
-                    $this_ = $material_number[$i];
-                    // dd($material_number[$i]);
+                //     $this_ = $material_number[$i];
+                //     // dd($material_number[$i]);
 
-                    if ($material_number[$i][0] == $key + 1) {
-                        // dd('1');
-                        $table2 = [
-                            'material_id' => $material_id[$i][1],
-                            'production_m_num' => $material_number[$i][1],
-                            'production_id' => $idp,
-                        ];
-                        // dd($table2);
-                        Production_m::insert($table2);
-                    }
-
-                }
-
-                // for ($i = 0; $i < $count; $i++) {
-                //     $table2 = [
-                //         'material_id' => $material_id[$i],
-                //         'production_m_num' => $material_number[$i],
-                //         'production_id' => $idp,
-                //     ];
-                //     Production_m::insert($table2);
-                //     if($i == 1){
-                //         dd($table2);
-
+                //     if ($material_number[$i][0] == $key + 1) {
+                //         // dd('1');
+                //         $table2 = [
+                //             'material_id' => $material_id[$i][1],
+                //             'production_m_num' => $material_number[$i][1],
+                //             'production_id' => $idp,
+                //         ];
+                //         // dd($table2);
+                //         Production_m::insert($table2);
                 //     }
+
                 // }
             }
-            // dd($ss);
-
-            // for ($i = 0; $i < $count2; $i++) {
-            //     $table2[] = [
-            //         'material_id' => $material_id[$i],
-            //         'production_m_num' => $material_number[$i],
-            //         'production_id' => $idp,
-            //     ];
-            // }
-            // foreach($table2 as $key2 => $value2){
-            //     // dd($value2);
-            //     Production_m::insert($value2);
-            // }
 
             $id = Production::orderby('production_id', 'desc')->first();
             $id = $id->production_id;
@@ -214,7 +189,7 @@ class ProductionController extends Controller
 
             Production::whereNull('production_group')->update(['production_group' => $id]);
 
-            Production_m::whereNull('production_m_group')->update(['production_m_group' => $id]);
+            // Production_m::whereNull('production_m_group')->update(['production_m_group' => $id]);
 // dd("stop");
             // $table = [
             //     'product_id' => $request->product,
@@ -255,9 +230,13 @@ class ProductionController extends Controller
         $data['pro'] = Production::leftjoin('product_data', 'product_data.product_id', 'production_data.product_id')
             ->where('production_group', $id)
             ->get();
-        $data['mat'] = Production_m::leftjoin('product_material', 'product_material.material_id', 'production_m_data.material_id')
-            ->where('production_m_group', $id)
-            ->get();
+        // $data['mat'] = Production_m::leftjoin('material', 'material.material_id', 'production_m_data.material_id')
+        //     ->where('production_m_group', $id)
+        //     ->get();
+
+        $data['mat'] = Production::leftjoin('product_material','product_material.product_id','production_data.product_id')
+        ->leftjoin('material','material.material_id','product_material.material_id')
+        ->where('production_group',$id)->get();
 
         $data['sum'] = DB::table('product_data')
         ->leftJoin('production_data','product_data.product_id','production_data.product_id')
@@ -266,12 +245,12 @@ class ProductionController extends Controller
         ->where('production_data.production_group', $id)
         ->get();
 
-        $data['sumT'] = DB::table('product_material')
-        ->leftJoin('production_m_data','product_material.material_id','production_m_data.material_id')
-        ->select('product_material.material_id',DB::raw('SUM(product_material.material_price * production_m_data.production_m_num) as sumt'))
-        ->groupBy('product_material.material_id')
-        ->where('production_m_data.production_m_group', $id)
-        ->get();
+        // $data['sumT'] = DB::table('material')
+        // ->leftJoin('production_m_data','material.material_id','production_m_data.material_id')
+        // ->select('material.material_id',DB::raw('SUM(material.material_price * production_m_data.production_m_num) as sumt'))
+        // ->groupBy('material.material_id')
+        // ->where('production_m_data.production_m_group', $id)
+        // ->get();
 
         // dd($data);
         return view('production.production_detail', $data);
@@ -290,9 +269,18 @@ class ProductionController extends Controller
         $data['pd1'] = Production::where('production_group', $id)->first();
         $data['product'] = Product::get();
         $data['mate'] = Material::get();
-        $data['mate1'] = Production_m::leftjoin('production_data', 'production_data.production_id', 'production_m_data.production_id')
-            ->where('production_m_group', $id)
-            ->get();
+
+        // $data['mate1'] = Production_m::leftjoin('production_data', 'production_data.production_id', 'production_m_data.production_id')
+        //     ->where('production_m_group', $id)
+        //     ->get();
+        // $data['p_mat'] = Material_Product::leftjoin('material','material.material_id','product_material.material_id')
+        // ->where('product_id',$id)->get();
+
+        // $data['p_mat'] = Production::leftjoin('product_material','product_material.product_id','production_data.product_id')
+        // ->leftjoin('material','material.material_id','product_material.material_id')
+        // ->where('production_group',$id)->get();
+
+        // dd($data);
         return view('production.production_edit', $data);
     }
 
@@ -308,7 +296,7 @@ class ProductionController extends Controller
         // dd($request);
         try {
             Production::where('production_group', $request->production_group)->delete();
-            Production_m::where('production_m_group', $request->production_group)->delete();
+            // Production_m::where('production_m_group', $request->production_group)->delete();
 
             $product_id = explode(",", $request->product_id);
             $production_number = explode(",", $request->production_number);
@@ -358,23 +346,23 @@ class ProductionController extends Controller
                 $idp = Production::insertGetId($value);
 
                 // dd($key);
-                for ($i = 0; $i < count($material_number); $i++) {
+                // for ($i = 0; $i < count($material_number); $i++) {
 
-                    $this_ = $material_number[$i];
-                    // dd($material_number[$i]);
+                //     $this_ = $material_number[$i];
+                //     // dd($material_number[$i]);
 
-                    if ($material_number[$i][0] == $key + 1) {
-                        // dd('1');
-                        $table2 = [
-                            'material_id' => $material_id[$i][1],
-                            'production_m_num' => $material_number[$i][1],
-                            'production_id' => $idp,
-                        ];
-                        // dd($table2);
-                        Production_m::insert($table2);
-                    }
+                //     if ($material_number[$i][0] == $key + 1) {
+                //         // dd('1');
+                //         $table2 = [
+                //             'material_id' => $material_id[$i][1],
+                //             'production_m_num' => $material_number[$i][1],
+                //             'production_id' => $idp,
+                //         ];
+                //         // dd($table2);
+                //         Production_m::insert($table2);
+                //     }
 
-                }
+                // }
 
             }
 
@@ -385,7 +373,7 @@ class ProductionController extends Controller
 
             Production::whereNull('production_group')->update(['production_group' => $id]);
 
-            Production_m::whereNull('production_m_group')->update(['production_m_group' => $id]);
+            // Production_m::whereNull('production_m_group')->update(['production_m_group' => $id]);
 
             // $table = [
             //     'product_id' => $request->product,
@@ -424,7 +412,7 @@ class ProductionController extends Controller
         try {
             DB::beginTransaction();
             Production::where('production_group', $id)->delete();
-            Production_m::where('production_m_group', $id)->delete();
+            // Production_m::where('production_m_group', $id)->delete();
 
             DB::commit();
             $return['status'] = 1;
@@ -445,18 +433,47 @@ class ProductionController extends Controller
         // dd($request);
         try {
             if ($request->production_status == 3) {
-                // dd("pazz");
-                $id = Production_m::where('production_m_group', $request->production_group)->get();
-                foreach ($id as $key => $value) {
-                    $idp = Material::where('material_id', $value->material_id)->get();
-                    foreach ($idp as $key => $pid) {
-                        // dd($pid->product_total); // ข้อมูล
-                        // dd($value->withdraw_p_d_num); // จำนวนเบิก
-                        $total = $pid->material_remaining - $value->production_m_num;
-                        $total1 = [
-                            'material_remaining' => $total,
-                        ];
-                        Material::where('material_id', $value->material_id)->update($total1);
+                // dd("ผลิตเสร็จ");
+                // วัตถุดิบ
+                // $id = Production_m::where('production_m_group', $request->production_group)->get();
+                // foreach ($id as $key => $value) {
+                //     $idp = Material::where('material_id', $value->material_id)->get();
+                //     foreach ($idp as $key => $pid) {
+                //         // dd($pid->product_total); // ข้อมูล
+                //         // dd($value->withdraw_p_d_num); // จำนวนเบิก
+                //         $total = $pid->material_remaining - $value->production_m_num;
+                //         $total1 = [
+                //             'material_remaining' => $total,
+                //         ];
+                //         Material::where('material_id', $value->material_id)->update($total1);
+                //     }
+                // }
+                $id = Production::where('production_group', $request->production_group)->get();
+                foreach ($id as $key => $value_pi) {
+                    // dd($value_pi->product_id);
+                    $p_id = Product::where('product_id', $value_pi->product_id)->get();
+                    // dd($p_id);
+                    foreach ($p_id as $key => $value_p) {
+                        $mp_id = Material_Product::where('product_id', $value_p->product_id)->get();
+                        // dd($mp_id);
+                        foreach ($mp_id as $key => $value_mp) {
+                            // dd($value_mp->pm_quantity);
+                            $m_id = Material::where('material_id', $value_mp->material_id)->get();
+                            // dd($m_id);
+                            foreach ($m_id as $key => $pid) {
+                                // dd($value_pi->production_number);
+                                // dd($value_mp->pm_quantity);
+                                $sum = $value_pi->production_number * $value_mp->pm_quantity;
+                                // dd($sum);
+                                // dd($pid->material_remaining);
+                                $total = $pid->material_remaining - $sum;
+                                $total1 = [
+                                    'material_remaining' => $total,
+                                ];
+                                // dd($total1);
+                                Material::where('material_id', $pid->material_id)->update($total1);
+                            }
+                        }
                     }
                 }
                 // สินค้า
@@ -475,19 +492,33 @@ class ProductionController extends Controller
                     }
                 }
             }elseif($request->production_status == 2){
-                // dd("sss2");
+                // dd("ตรวจสอบ วัตถุดิบ");
                 // ตรวจสอบ วัตถุดิบ
-                $id = Production_m::where('production_m_group', $request->production_group)->get();
-                // dd($id->production_m_num);
-                foreach ($id as $key => $value) {
-                    $idp = Material::where('material_id', $value->material_id)->get();
-                    // dd($value->production_m_num);
-                    foreach ($idp as $key => $pid) {
-                        if ($pid->material_remaining < $value->production_m_num) {
-                            // dd('ไม่สำเร็จ');
-                            $return['status'] = 3;
-                            $return['content'] = 'ไม่สำเร็จ';
-                            return json_encode($return);
+                $id = Production::where('production_group', $request->production_group)->get();
+                // dd($id);
+                foreach ($id as $key => $value_pi) {
+                    // dd($value_pi->product_id);
+                    $p_id = Product::where('product_id', $value_pi->product_id)->get();
+                    // dd($p_id);
+                    foreach ($p_id as $key => $value_p) {
+                        $mp_id = Material_Product::where('product_id', $value_p->product_id)->get();
+                        // dd($mp_id);
+                        foreach ($mp_id as $key => $value_mp) {
+                            // dd($value_mp->pm_quantity);
+                            $m_id = Material::where('material_id', $value_mp->material_id)->get();
+                            // dd($m_id);
+                            foreach ($m_id as $key => $pid) {
+                                // dd($value_pi->production_number);
+                                // dd($value_mp->pm_quantity);
+                                $sum = $value_pi->production_number * $value_mp->pm_quantity;
+                                // dd($sum);
+                                if ($pid->material_remaining < $sum) {
+                                    // dd('ไม่สำเร็จ');
+                                    $return['status'] = 3;
+                                    $return['content'] = 'ไม่สำเร็จ';
+                                    return json_encode($return);
+                                }
+                            }
                         }
                     }
                 }

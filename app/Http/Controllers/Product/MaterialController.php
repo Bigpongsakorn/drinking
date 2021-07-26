@@ -42,7 +42,6 @@ class MaterialController extends Controller
     {
         // dd($request);
         try {
-
             // upload new file
             $path = public_path() . '/upload/material/';
             $file = $request->file('input_file');

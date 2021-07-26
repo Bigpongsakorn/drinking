@@ -114,7 +114,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @php $i = 1 @endphp
+                                                    @php $i = 1; $sum = 0 @endphp
                                                     @foreach ($mat as $value)
                                                         <tr>
                                                             <td style="text-align: center;">{{ $i }}</td>
@@ -125,7 +125,7 @@
                                                                 {{ $value->material_name }}
                                                             </td>
                                                             <td style="text-align: right;">
-                                                                {{ $value->production_m_num }}
+                                                                {{ $total = $value->production_number * $value->pm_quantity }}
                                                             </td>
                                                             <td style="text-align: left;">
                                                                 {{ $value->material_unit }}
@@ -137,26 +137,26 @@
                                                                 บาท
                                                             </td>
                                                             <td style="text-align: right;">
-                                                                {{ $value->material_price * $value->production_m_num }}.00
+                                                                {{ $value->material_price * $total }}.00
                                                             </td>
                                                             <td>
                                                                 บาท
                                                             </td>
                                                         </tr>
-                                                        @php $i++ @endphp
+                                                        @php $i++; $sum += $value->material_price * $total @endphp
                                                     @endforeach
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
                                                         <th colspan="7" style="text-align:right">รวม : </th>
                                                         @php
-                                                            $total = 0;
+                                                            // $total = 0;
                                                         @endphp
                                                         <th style="text-align: right;">
-                                                            @foreach ($sumT as $key)
+                                                            {{-- @foreach ($sumT as $key)
                                                             @php $total = $total + $key->sumt @endphp
-                                                            @endforeach
-                                                            {{ $total }}.00
+                                                            @endforeach --}}
+                                                            {{ $sum }}.00
                                                         </th>
                                                         <th>บาท</th>
                                                     </tr>

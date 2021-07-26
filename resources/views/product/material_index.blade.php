@@ -46,7 +46,7 @@
                                                 @php $i = 1 @endphp
                                                 @foreach ($mater as $value)
                                                 <tr>
-                                                    <td style="text-align: center;">{{$i}}</td>
+                                                    <td style="text-align: center;">{{ sprintf('%05d', $value->material_id) }}</td>
                                                     <td style="text-align: center">
                                                         <img src="{{url('/upload/material/'.$value->material_img)}}"
                                                             alt="" width="50%" class="open_modal"

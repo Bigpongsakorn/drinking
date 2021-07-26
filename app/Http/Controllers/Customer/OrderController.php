@@ -83,7 +83,7 @@ class OrderController extends Controller
     public function create()
     {
         $data['page'] = '/order/create';
-        $data['customer'] = Customer::get();
+        $data['customer'] = Customer::where('cus_status','!=',1)->get();
         $data['product'] = Product::get();
         // dd($data);
         return view('order.order_create', $data);
@@ -241,7 +241,8 @@ class OrderController extends Controller
     {
         // dd($id);
         $data['page'] = '/order/create';
-        $data['customer'] = Customer::get();
+        // $data['customer'] = Customer::get();
+        $data['customer'] = Customer::where('cus_status','!=',1)->get();
         $data['product'] = Product::get();
 
         $data['order'] = Order_data::leftjoin('customer_data', 'customer_data.cus_id', 'order_data.cus_id')

@@ -31,6 +31,22 @@
                                         <button class="btn btn-sm btn-dark">พิมพ์</button>
                                     </div>
                                     <div class="card-block">
+                                        <h5>สถานะ : 
+                                        @if ($wid->withdraw_p_status == 0)
+                                        <span style="color: rgb(221, 208, 21)">รออนุมัติ</span>
+                                        @elseif ($wid->withdraw_p_status == 1)
+                                        <span style="color: red">ไม่อนุมัติ</span> : * หมายเหตุ {{ $wid->withdraw_p_status_detail }}
+                                        @elseif ($wid->withdraw_p_status == 2)
+                                        <span style="color: rgb(24, 126, 75)">อนุมัติ</span>
+                                        @else
+                                        <span style="color:green">ขนของขึ้นรถ</span> โดย {{ $wid->emp_firstname }} {{ $wid->emp_lastname }}
+                                        @endif
+                                        </h5><br>
+                                        @if ($wid->withdraw_p_status == 3)
+                                            <h5>วันที่อนุมัติ : {{ date('d-m-Y H:i:s',strtotime($wid->withdraw_p_status_time)) }}</h5>
+                                        @else
+                                            
+                                        @endif
                                         <div class="table-responsive dt-responsive">
                                             <table id="multi-colum-dt" class="table table-striped table-bordered nowrap">
                                                 <thead>
@@ -52,7 +68,8 @@
                                                         <tr>
                                                             <td style="text-align: center;">{{ $i }}</td>
                                                             <td>
-                                                                <img src="{{url('/upload/store/'.$value->product_img)}}" alt="" width="100%">
+                                                                <img src="{{ url('/upload/store/' . $value->product_img) }}"
+                                                                    alt="" width="100%">
                                                             </td>
                                                             <td>
                                                                 {{ $value->product_name }}
@@ -87,7 +104,7 @@
                                                         @endphp
                                                         <th style="text-align: right;">
                                                             @foreach ($sum as $key)
-                                                            @php $total = $total + $key->sum @endphp
+                                                                @php $total = $total + $key->sum @endphp
                                                             @endforeach
                                                             {{ $total }}.00
                                                         </th>

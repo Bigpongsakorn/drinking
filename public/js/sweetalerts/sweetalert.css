@@ -165,7 +165,7 @@ body.swal2-iosfix {
   margin: 0;
   padding: 0;
   line-height: normal;
-  color: #e95f2b !important;
+  /* color: #e95f2b !important; */
   word-wrap: break-word; }
 
 .swal2-modal .swal2-input, .swal2-modal .swal2-file, .swal2-modal .swal2-textarea, .swal2-modal .swal2-select, .swal2-modal .swal2-radio, .swal2-modal .swal2-checkbox {

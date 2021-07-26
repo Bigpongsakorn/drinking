@@ -129,7 +129,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/drinking/public/material/update",
+                    url: "/material/update",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -146,7 +146,7 @@
                             padding: '2em'
                         }).then(function (then) {
                             // location.reload()
-                            location.href = '/drinking/public/product/material_index'
+                            location.href = '/product/material_index'
                         })
                     } else {
                         swal({

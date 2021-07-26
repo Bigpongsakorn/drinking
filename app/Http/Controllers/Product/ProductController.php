@@ -74,22 +74,29 @@ class ProductController extends Controller
             ];
 
             $p_id = Product::insertGetId($table);
-
+            // $p_id = 1;
+            $count = 0;
             $material = explode(",", $request->material);
             $quan = explode(",", $request->quan);
             foreach ($material as $key => $value) {
                 // dd($value);
-                foreach ($quan as $key => $vque) {
-                    // dd($vque);
-                    $mate = [
-                        'product_id' => $p_id,
-                        'material_id' => $value,
-                        'mp_quantity' => $vque,
-                    ];
-                }
-                // dd($mate);
-                Material_Product::insert($mate);
+                $count++;
             }
+            // dd($count);
+            // foreach ($quan as $key => $vque) {
+            //     // dd($vque);
+            // }
+            for ($i = 0; $i < $count; $i++) {
+                $mate[] = [
+                    'product_id' => $p_id,
+                    'material_id' => $material[$i],
+                    'pm_quantity' => $quan[$i],
+                ];
+            }
+            
+            // dd($mate);
+            Material_Product::insert($mate);
+
             // dd("ssss");
             DB::commit();
             $return['status'] = 1;
@@ -128,7 +135,7 @@ class ProductController extends Controller
         $data['unit'] = Unit::get();
         $data['type'] = ProductType::get();
         $data['mat'] = Material::get();
-        $data['mat_p'] = Material_Product::where('product_id', $id)->orderby('mp_id', 'asc')->get();
+        $data['mat_p'] = Material_Product::where('product_id', $id)->orderby('pm_id', 'asc')->get();
         // dd($data);
         return view('product.edit_product', $data);
     }
@@ -176,21 +183,42 @@ class ProductController extends Controller
 
                 Product::where('product_id', $request->id)->update($table);
                 Material_Product::where('product_id', $request->id)->delete();
+                // $material = explode(",", $request->material);
+                // $quan = explode(",", $request->quan);
+                // foreach ($material as $key => $value) {
+                //     // dd($value);
+                //     foreach ($quan as $key => $vque) {
+                //         // dd($vque);
+                //         $mate = [
+                //             'product_id' => $request->id,
+                //             'material_id' => $value,
+                //             'pm_quantity' => $vque,
+                //         ];
+                //     }
+                //     // dd($mate);
+                //     Material_Product::insert($mate);
+                // }
+                $count = 0;
                 $material = explode(",", $request->material);
                 $quan = explode(",", $request->quan);
                 foreach ($material as $key => $value) {
                     // dd($value);
-                    foreach ($quan as $key => $vque) {
-                        // dd($vque);
-                        $mate = [
-                            'product_id' => $request->id,
-                            'material_id' => $value,
-                            'mp_quantity' => $vque,
-                        ];
-                    }
-                    // dd($mate);
-                    Material_Product::insert($mate);
+                    $count++;
                 }
+                // dd($count);
+                // foreach ($quan as $key => $vque) {
+                //     // dd($vque);
+                // }
+                for ($i = 0; $i < $count; $i++) {
+                    $mate[] = [
+                        'product_id' => $request->id,
+                        'material_id' => $material[$i],
+                        'pm_quantity' => $quan[$i],
+                    ];
+                }
+                
+                // dd($mate);
+                Material_Product::insert($mate);
             }
 
             $table = [
@@ -204,21 +232,43 @@ class ProductController extends Controller
 // dd($table);
             Product::where('product_id', $request->id)->update($table);
             Material_Product::where('product_id', $request->id)->delete();
-            $material = explode(",", $request->material);
-            $quan = explode(",", $request->quan);
+            // $material = explode(",", $request->material);
+            // $quan = explode(",", $request->quan);
+                // foreach ($material as $key => $value) {
+                //     // dd($value);
+                //     foreach ($quan as $key => $vque) {
+                //         // dd($vque);
+                //         $mate = [
+                //             'product_id' => $request->id,
+                //             'material_id' => $value,
+                //             'pm_quantity' => $vque,
+                //         ];
+                //     }
+                //     dd($mate);
+                //     Material_Product::insert($mate);
+                // }
+
+                $count = 0;
+                $material = explode(",", $request->material);
+                $quan = explode(",", $request->quan);
                 foreach ($material as $key => $value) {
                     // dd($value);
-                    foreach ($quan as $key => $vque) {
-                        // dd($vque);
-                        $mate = [
-                            'product_id' => $request->id,
-                            'material_id' => $value,
-                            'mp_quantity' => $vque,
-                        ];
-                    }
-                    // dd($mate);
-                    Material_Product::insert($mate);
+                    $count++;
                 }
+                // dd($count);
+                // foreach ($quan as $key => $vque) {
+                //     // dd($vque);
+                // }
+                for ($i = 0; $i < $count; $i++) {
+                    $mate[] = [
+                        'product_id' => $request->id,
+                        'material_id' => $material[$i],
+                        'pm_quantity' => $quan[$i],
+                    ];
+                }
+                
+                // dd($mate);
+                Material_Product::insert($mate);
 
             DB::commit();
             $return['status'] = 1;

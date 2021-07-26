@@ -39,8 +39,8 @@
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">วันที่</label>
-                                                        <input type="date" class="form-control withdraw_p_date" name="date"
-                                                            id="date" value="{{ $with1->withdraw_p_date }}">
+                                                        <input type="datetime-local" class="form-control withdraw_p_date" name="date"
+                                                            id="date" value="{{ date('Y-m-d\TH:i:s', strtotime($with1->withdraw_p_date)) }}">
                                                     </div>
                                                     <input type="hidden" name="u_id" id="u_id" class="emp_id"
                                                         value="{{ $with1->emp_id }}">
@@ -256,7 +256,7 @@
 
                             if (rec.status == '1') {
                                 swal({
-                                    title: 'บันทึกสำเร็จ!',
+                                    title: 'บันทึกข้อมูลสำเร็จ!',
                                     text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                                     type: 'success',
                                     padding: '2em'
@@ -275,7 +275,7 @@
                             }
                             if (rec.status == '0') {
                                 swal({
-                                    title: 'บันทึกไม่สำเร็จ!',
+                                    title: 'บันทึกข้อมูลไม่สำเร็จ!',
                                     text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                                     type: 'error',
                                     padding: '2em'

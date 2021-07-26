@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Withdraw;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Users;
 use App\Models\Withdraw;
 use App\Models\Withdraw_detail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +22,7 @@ class WithdrawController extends Controller
     public function index()
     {
         $data['page'] = '/withdraw_product';
+        $data['emp'] = Users::get();
         $data['with'] = Withdraw::leftJoin('empolyee', 'empolyee.emp_id', 'withdraw_product.emp_id')->orderBy('withdraw_p_id', 'desc')
             ->get();
         $data['pending'] = Withdraw::leftJoin('empolyee', 'empolyee.emp_id', 'withdraw_product.emp_id')->orderBy('withdraw_p_id', 'desc')
@@ -31,6 +34,9 @@ class WithdrawController extends Controller
         $data['approve'] = Withdraw::leftJoin('empolyee', 'empolyee.emp_id', 'withdraw_product.emp_id')->orderBy('withdraw_p_id', 'desc')
             ->where('withdraw_p_status', '2')
             ->get();
+        $data['fin'] = Withdraw::leftJoin('empolyee', 'empolyee.emp_id', 'withdraw_product.emp_id')->orderBy('withdraw_p_id', 'desc')
+        ->where('withdraw_p_status', '3')
+        ->get();
         // dd($data);
         return view('withdraw.withdraw_index', $data);
     }
@@ -137,6 +143,8 @@ class WithdrawController extends Controller
     public function show($id)
     {
         $data['page'] = '/withdraw_product';
+        $data['wid'] = Withdraw::leftjoin('empolyee','empolyee.emp_id','withdraw_product.w_emp_id')
+        ->where('withdraw_p_id',$id)->first();
         $data['detail'] = Withdraw_detail::leftjoin('product_data', 'product_data.product_id', 'withdraw_product_detail.product_id')
             ->where('withdraw_p_id', $id)
             ->get();
@@ -292,7 +300,7 @@ class WithdrawController extends Controller
     {
 // dd($request);
         try {
-            if ($request->withdraw_p_status == 2) {
+            if ($request->withdraw_p_status == 3) {
                 $id = Withdraw_detail::where('withdraw_p_id', $request->withdraw_p_id)->get();
                 foreach ($id as $key => $value) {
                     $idp = Product::where('product_id', $value->product_id)->get();
@@ -324,6 +332,9 @@ class WithdrawController extends Controller
 
             $table = [
                 'withdraw_p_status' => $request->withdraw_p_status,
+                'withdraw_p_status_time' => Carbon::now(),
+                'withdraw_p_status_detail' =>$request->withdraw_p_status_detail,
+                'w_emp_id' => $request->w_emp_id,
             ];
 
             Withdraw::where('withdraw_p_id', $request->withdraw_p_id)->update($table);

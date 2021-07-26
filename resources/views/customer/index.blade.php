@@ -199,7 +199,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/drinking/public/customer/status",
+                    url: "/customer/status",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -252,7 +252,7 @@
 
                         $.ajax({
                             method: "GET",
-                            url: "/drinking/public/customer/destroy/" + id,
+                            url: "/customer/destroy/" + id,
                         }).done(function(rec) {
                             rec = JSON.parse(rec);
                             console.log(rec);

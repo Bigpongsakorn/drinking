@@ -74,8 +74,9 @@
                                                 </div>
                                                 <div id="show_data" data-count="1"></div>
                                                 {{-- <div id="calculate" data-count="1"></div> --}}
-                                                <button class="btn btn-sm btn-primary calculate" data-count="1" style="display: none">คำนวณ</button><hr>
                                                 <div id="show_total" data-count="1"></div>
+                                                <button class="btn btn-sm btn-primary calculate" data-count="1" style="display: none">คำนวณ</button>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -147,9 +148,8 @@
                                                                 </div>\
                                                             </div>\
                                                             <div id="show_data" data-count="' + count + '"></div>\
-                                                            <button class="btn btn-sm btn-primary calculate" data-count="' + count + '" style="display: none" >คำนวณ</button><hr>\
-                                                            <h5>จำนวนวันถุดิบที่ใช้ในการผลิต</h5>\
                                                             <div id="show_total" data-count="' + count + '"></div>\
+                                                            <button class="btn btn-sm btn-primary calculate" data-count="' + count + '" style="display: none" >คำนวณ</button><hr>\
                                                         </div>\
                                                     </div>\
                                                 </div>\
@@ -333,10 +333,8 @@
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">จำนวนวัตถุดิบ</label>
-                                                        <input type="text" name="" id="" value="`+value.mp_quantity+`" class="form-control" readonly>
+                                                        <input type="text" name="" id="" value="`+value.pm_quantity+`" class="form-control" readonly>
                                                     </div>
-                                                </div>
-                                                <div>
                                                 </div>`;
                             
                         });
@@ -361,6 +359,8 @@
                 console.log(production_number);
                 console.log('-----------------');
 
+                $('#show_data[data-count="'+count+'"]').hide()
+
                 console.log(count);
                 $.ajax({
                         method: "POST",
@@ -374,11 +374,21 @@
                         var data = JSON.parse(msg);
                         returns = data.returns;
                         console.log(returns);
-                        // iasd = data.iasd;
-                        // console.log(iasd);
+
                         var html = '';
                         $.each(data, function(index, value) {
-                            html += `<p>`+value.text+` จำนวนในการผลิต `+value.total+` `+value.unit+`</p>`;
+                            // html += `<p>`+value.text+` จำนวนในการผลิต `+value.total+` `+value.unit+`</p>`;
+
+                            html += `<div class="form-group row">
+                                                    <div class="col-sm-6">
+                                                        <label class="col-form-label">ชื่อวัตถุดิบ</label>
+                                                        <input type="text" name="" id="" value="`+value.text+`" class="form-control" readonly>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label class="col-form-label">จำนวนวัตถุดิบ</label>
+                                                        <input type="text" name="" id="" value="`+value.total+`" class="form-control" readonly>
+                                                    </div>
+                                                </div>`;
                         });
                         $("#show_total[data-count='" + count + "']").html('').append(html)
                     });

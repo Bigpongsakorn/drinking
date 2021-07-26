@@ -260,7 +260,7 @@
 
                         $.ajax({
                             method: "GET",
-                            url: "/drinking/public/user/destroy/" + id,
+                            url: "/user/destroy/" + id,
                         }).done(function(rec) {
                             rec = JSON.parse(rec);
                             console.log(rec);
