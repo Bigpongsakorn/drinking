@@ -36,7 +36,7 @@
                                             <input type="hidden" name="id" id="id" value="{{$customer->cus_id}}">
                                             <div class="form-group row">
                                                 <div class="col-sm-12">
-                                                    <label class="col-sm-3 col-form-label">คำนำหน้า : </label>
+                                                    <label class="col-sm-2 col-form-label">คำนำหน้า : </label>
                                                     <div class="form-check form-check-inline">
                                                         <label class="form-check-label">
                                                             <input class="form-check-input" type="radio" name="title"
@@ -76,24 +76,32 @@
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
-                                                    <label class="col-sm-2 col-form-label">เพศ : </label>
-                                                    <div class="form-check form-check-inline">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="gender"
-                                                                id="radio1" value="1" @if($customer->cus_gender == 1 )
-                                                            {{"checked"}} @endif > ชาย
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="gender"
-                                                                value="2" @if($customer->cus_gender == 2 )
-                                                            {{"checked"}} @endif> หญิง
-                                                        </label>
+                                                    <label class="col-form-label">เพศ : </label>
+                                                    <div>
+                                                        <div class="form-check form-check-inline">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="radio" name="gender"
+                                                                    id="radio1" value="1" @if($customer->cus_gender == 1 )
+                                                                {{"checked"}} @endif > ชาย
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="radio" name="gender"
+                                                                    value="2" @if($customer->cus_gender == 2 )
+                                                                {{"checked"}} @endif> หญิง
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div class="col-sm-6">
+                                                    <label class="col-form-label" style="color: red">* เบอร์โทรศัพท์</label>
+                                                    <input type="text" class="form-control"
+                                                        value="{{$customer->cus_phonenumber}}" maxlength="10" name="tel"
+                                                        id="tel">
+                                                </div>
                                             </div>
-                                            <div class="form-group row">
+                                            {{-- <div class="form-group row">
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label" style="color: red">* วันที่จัดส่ง</label>
                                                     <select name="select" class="form-control" name="date" id="date">
@@ -128,7 +136,7 @@
                                                         value="{{$customer->cus_phonenumber}}" maxlength="10" name="tel"
                                                         id="tel">
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">บ้านเลขที่/หมู่บ้าน</label>
                                                 <div class="col-sm-10">
@@ -256,7 +264,7 @@
 
             var fd = new FormData();
 
-            if (fname && lname && date && tel) {
+            if (fname && lname && tel) {
                 fd.append('_token', "{{ csrf_token() }}");
 
                 fd.append('id', id);

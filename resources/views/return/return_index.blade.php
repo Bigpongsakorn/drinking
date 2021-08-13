@@ -6,9 +6,9 @@
             <div class="row align-items-end">
                 <div class="col-lg-8">
                     <div class="page-header-title">
-                        <i class="icon-people bg-c-blue"></i>
+                        <i class="fa fa-truck bg-c-blue"></i>
                         <div class="d-inline">
-                            <h5>จัดการข้อมูลลูกค้า</h5>
+                            <h5>จัดการข้อมูลเก็บคืน</h5>
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                             <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>ข้อมูลลูกค้า</h5>
+                                        <h5>ข้อมูลเก็บคืน</h5>
                                     </div>
                                     <div class="card-block">
                                         <div class="table-responsive dt-responsive">
@@ -36,15 +36,16 @@
                                                         <th>ชื่อ - นามสกุล</th>
                                                         <th>เบอร์โทรศัพท์</th>
                                                         {{-- <th>วันที่จัดส่ง</th> --}}
-                                                        <th>สถานะ</th>
+                                                        {{-- <th>สถานะ</th> --}}
+                                                        {{-- <th>ตำแหน่ง</th> --}}
                                                         <th>ตำแหน่ง</th>
-                                                        <th>ข้อมูลลูกค้า</th>
-                                                        <th>แก้ไข / ลบ</th>
+                                                        <th>ข้อมูลเก็บคืน</th>
+                                                        {{-- <th>แก้ไข / ลบ</th> --}}
                                                         {{-- <th>ลบ</th> --}}
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @php $i = 1 @endphp
+                                                    {{-- @php $i = 1 @endphp --}}
                                                     @foreach ($customer as $value)
                                                         <tr>
                                                             <td style="text-align: center;">
@@ -58,7 +59,7 @@
                                                             {{-- <td style="text-align: center;">
                                                                 {{ $value->cus_date }}
                                                             </td> --}}
-                                                            <td style="text-align: center;">
+                                                            {{-- <td style="text-align: center;">
                                                                 @if ($value->cus_status == 0)
                                                                     <button class="btn btn-sm btn-success open_modal"
                                                                         type="button" data-toggle="modal"
@@ -78,22 +79,24 @@
                                                                         ไม่ได้ใช้งาน
                                                                     </button>
                                                                 @endif
-                                                            </td>
-                                                            <td style="text-align: center;">
+                                                            </td> --}}
+                                                            {{-- <td style="text-align: center;">
                                                                 ดูตำแหน่ง
+                                                            </td> --}}
+                                                            <td style="text-align: center;">
+                                                                ตำแหน่ง
                                                             </td>
                                                             <td style="text-align: center;">
                                                                 <a
-                                                                    href="{{ url('/customer/product_customer/' . $value->cus_id) }}">
+                                                                    href="{{ url('/return/return_detail/' . $value->cus_id) }}">
                                                                     <button class="btn btn-sm btn-primary">ดูข้อมูล</button>
                                                                 </a>
                                                             </td>
-                                                            <td style="text-align: center;">
+                                                            {{-- <td style="text-align: center;">
                                                                 <a href="{{ url('/customer/edit/' . $value->cus_id) }}">
                                                                     <button class="btn btn-sm btn-primary">edit</button>
                                                                 </a>
-                                                                {{-- </td>
-                                                    <td style="text-align: center;"> --}}
+                                                               
                                                                 <a href="javascript:void(0);" class="delete"
                                                                     data-id="{{ $value->cus_id }}">
                                                                     <button class="btn btn-sm btn-danger">
@@ -101,9 +104,9 @@
                                                                     </button>
                                                                 </a>
 
-                                                            </td>
+                                                            </td> --}}
                                                         </tr>
-                                                        @php $i++ @endphp
+                                                        {{-- @php $i++ @endphp --}}
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -121,7 +124,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    {{-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -150,11 +153,11 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 @endsection
 
-@section('js')
+{{-- @section('js')
     <script>
         $(document).ready(function() {
 
@@ -282,4 +285,4 @@
             })
         });
     </script>
-@endsection
+@endsection --}}

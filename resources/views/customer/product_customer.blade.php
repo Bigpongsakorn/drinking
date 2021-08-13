@@ -51,16 +51,16 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <div class="col-sm-6">
+                                                    {{-- <div class="col-sm-6">
                                                         <label class="col-form-label">วันที่จัดส่ง : </label>
                                                         <label for="">{{ $cus->cus_date }}</label>
-                                                    </div>
+                                                    </div> --}}
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">เบอร์โทรศัพท์ : </label>
                                                         <label for="">{{ $cus->cus_phonenumber }}</label>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
+                                                {{-- <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">ข้อมูลสินค้า : </label>
                                                         @foreach ($cus_p as $item)
@@ -74,7 +74,7 @@
                                                                 class="btn btn-sm btn-primary">เพิ่มข้อมูลสินค้า</button>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label class=" col-form-label">บ้านเลขที่/หมู่บ้าน : </label>

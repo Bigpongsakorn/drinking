@@ -93,7 +93,7 @@
                                                             </div>
                                                             <div class="col-sm-6">
                                                                 <label class="col-form-label">จำนวนวัตถุดิบ</label>
-                                                                <input type="text" name="" id="" value="{{ $item1->pm_quantity }}" class="form-control" readonly>
+                                                                <input type="number" name="" id="" value="{{ $item1->pm_quantity * $item1->production_number }}" class="form-control" readonly>
                                                             </div>
                                                         </div>
                                                         @endforeach

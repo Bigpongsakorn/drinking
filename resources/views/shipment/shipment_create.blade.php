@@ -6,9 +6,9 @@
             <div class="row align-items-end">
                 <div class="col-lg-8">
                     <div class="page-header-title">
-                        <i class="icon-people bg-c-blue"></i>
+                        <i class="fa fa-shopping-bag bg-c-blue"></i>
                         <div class="d-inline">
-                            <h5>จัดการข้อมูลลูกค้า</h5>
+                            <h5>จัดการข้อมูลส่งสินค้า</h5>
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                             <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>ข้อมูลสินค้าของลูกค้า</h5>
+                                        <h5>เพิ่มข้อมูลส่งสินค้า</h5>
                                     </div>
                                     <div class="card-block">
                                         <div class="form-group row">
@@ -55,30 +55,26 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">วันที่จัดส่ง : </label>
-                                                        <label for="" id="cus_date"></label>
-                                                    </div>
-                                                    <div class="col-sm-6">
                                                         <label class="col-form-label">เบอร์โทรศัพท์ : </label>
                                                         <label id="cus_phonenumber"></label>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
+                                                {{-- <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">ข้อมูลสินค้า : </label><br>
-                                                        <label class="col-sm-12" id="product_name"></label>
-                                                        {{-- @foreach ($cus_p as $item)
+                                                        <label class="col-sm-12" id="product_name"></label> --}}
+                                                {{-- @foreach ($cus_p as $item)
                                                             <div>
                                                                 <label style="font-weight: bold;">{{ $item->product_name }}</label>
                                                             </div>
                                                         @endforeach --}}
-                                                        {{-- <div>
+                                                {{-- <div>
                                                             <button type="button" data-target="#exampleModal"
                                                                 data-toggle="modal"
                                                                 class="btn btn-sm btn-primary">เพิ่มข้อมูลสินค้า</button>
                                                         </div> --}}
-                                                    </div>
-                                                </div>
+                                                {{-- </div>
+                                                </div> --}}
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label class=" col-form-label">บ้านเลขที่/หมู่บ้าน : </label>
@@ -105,6 +101,57 @@
                                                         <label id="cus_zipcode"></label>
                                                     </div>
                                                 </div>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-6">
+                                                        <label class="col-form-label">วันที่จัดส่ง</label>
+                                                        {{-- <label for="" id="cus_date"></label> --}}
+                                                        <input type="date" class="form-control" id="ship_date">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-6">
+                                                        <label class="col-form-label">ข้อมูลสินค้า</label>
+                                                        <select name="" id="" class="form-control product_id">
+                                                            <option value="">--เลือกสินค้า--</option>
+                                                            @foreach ($product as $item)
+                                                            <option value="{{ $item->product_id }}">
+                                                                    {{ $item->product_name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label class="col-form-label">จำนวน</label>
+                                                        <input type="number" class="form-control product_num" id="">
+                                                    </div>
+                                                </div>
+                                                <div id="add-row"></div>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-12" style="margin-bottom: 2%"><br>
+                                                        <button id="addrow" class="btn btn-sm btn-primary">+</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-block">
+                                        <div class="form-group row">
+                                            <div class="col-sm-1"></div>
+                                            <div class="col-sm-10">
+                                                <div class="form-group row">
+                                                    <div style="margin: auto">
+                                                        <button type="submit" class="btn btn-sm btn-success"
+                                                            id="create-insert">เพิ่มข้อมูล</button>
+                                                        <a href="{{ url('/customer/index') }}">
+                                                            <button class="btn btn-sm btn-secondary btn-form" type="reset">
+                                                                กลับไปหน้าก่อนหน้า
+                                                            </button>
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -119,54 +166,70 @@
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">เลือกสินค้า</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {{-- <form class="" id="create-product">
-                    <div class="modal-body">
-                        <input type="hidden" id="cus_id" name="" value="{{ $cus->cus_id }}">
-                        <select name="" id="product_id" class="form-control">
-                            <option value="">-- เลือกสินค้า --</option>
-                            @foreach ($product as $item)
-                                <option value="{{ $item->product_id }}">{{ $item->product_name }}</option>
-                            @endforeach
-                        </select>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">ปิด</button>
-                            <button type="submit" class="btn btn-sm btn-primary">บันทึก</button>
-                    </div>
-                </form> --}}
-            </div>
-        </div>
-    </div>
-
 @endsection
 
 @section('js')
     <script>
         $(document).ready(function() {
 
-            $('body').on('submit', '#create-product', function(e) {
-                e.preventDefault();
+            $("body").on('click', '#addrow', function() {
+                // console.log("good");
+                var html = "";
+                html += `<div class="form-group row">
+                            <div class="col-sm-6">
+                                <label class="col-form-label">ข้อมูลสินค้า</label>
+                                <select name="" id="" class="form-control product_id">
+                                    <option value="">--เลือกสินค้า--</option>
+                                    @foreach ($product as $item)
+                                    <option value="{{ $item->product_id }}">
+                                            {{ $item->product_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="col-form-label">จำนวน</label>
+                                <input type="number" class="form-control product_num" id="">
+                            </div>
+                        </div>`;
+                $("#add-row").append(html);
+            });
+
+            $('body').on('click', '#create-insert', function() {
+                // e.preventDefault();
+                // console.log('insert');
+                var product_id = [];
+                var product_id_ = $('.product_id')
+                var product_num = [];
+                var product_num_ = $('.product_num')
+                
                 var cus_id = $('#cus_id').val()
-                var product_id = $('#product_id').val()
+                var ship_date = $('#ship_date').val()
                 var fd = new FormData();
 
-                if (product_id) {
+                $.each(product_id_, function(index, value) {
+                    var v = $(this).val()
+                    product_id.push(v)
+                });
+
+                $.each(product_num_, function(index, value) {
+                    var v = $(this).val()
+                    product_num.push(v)
+                });
+
+                console.log(cus_id);
+                console.log(product_id);
+                console.log(product_num);
+
+                if (cus_id != "" && product_id != "" && product_num != "") {
                     fd.append('_token', "{{ csrf_token() }}");
                     fd.append('cus_id', cus_id);
                     fd.append('product_id', product_id);
+                    fd.append('product_num', product_num);
+                    fd.append('ship_date', ship_date);
 
                     $.ajax({
                         method: "POST",
-                        url: "/customer/insert",
+                        url: "/shipment/insert",
                         dataType: 'json',
                         cache: false,
                         contentType: false,
@@ -176,18 +239,18 @@
                         // rec = JSON.parse(rec);
                         if (rec.status == '1') {
                             swal({
-                                title: 'บันทึกสำเร็จ!',
+                                title: 'บันทึกข้อมูลสำเร็จ!',
                                 text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                                 type: 'success',
                                 padding: '2em'
                             }).then(function(then) {
                                 // location.reload()
-                                location.href = '/customer/index'
+                                location.href = '/shipment/shipment_index'
                             })
                         }
                         if (rec.status == '0') {
                             swal({
-                                title: 'บันทึกไม่สำเร็จ!',
+                                title: 'บันทึกข้อมูลไม่สำเร็จ!',
                                 text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                                 type: 'error',
                                 padding: '2em'
@@ -196,8 +259,14 @@
                     }).fail(function() {
                         swal("Error!", "You clicked the button!", "error");
                     })
+                } else {
+                    swal({
+                        title: 'กรุณากรอกข้อมูลให้ครบถ้วน!',
+                        text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
+                        type: 'error',
+                        padding: '2em'
+                    })
                 }
-
             });
 
             $('body').on('change', '.select_cus', function() {
@@ -231,7 +300,7 @@
                         $('#cus_fristname').html(data.cus_fristname)
                         $('#cus_lastname').html(data.cus_lastname)
                         $('#cus_title').html(title)
-                        $('#cus_date').html(data.cus_date)
+                        // $('#cus_date').html(data.cus_date)
                         $('#cus_phonenumber').html(data.cus_phonenumber)
                         $('#cus_address').html(data.cus_address)
                         $('#province_name').html(data.province_name)
@@ -241,12 +310,12 @@
 
                         // $('#product_name').html(pro.product_name)
 
-                        $.each(pro, function(index, value) {
-                            console.log(value.product_name)
-                            $('#product_name').append('<label id="">' + value.product_name +
-                                '</label><input type="number" class="form-control" name="" id="" placeholder="" ><br>'
-                            )
-                        });
+                        // $.each(pro, function(index, value) {
+                        //     console.log(value)
+                        //     $('#product_name').append('<label id="">' + value.product_name +
+                        //         '</label><input type="number" class="form-control" name="" id="" placeholder="" ><br>'
+                        //     )
+                        // });
 
                     });
 

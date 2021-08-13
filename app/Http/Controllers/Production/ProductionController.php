@@ -27,8 +27,8 @@ class ProductionController extends Controller
         $data['user_id'] = Auth::user()->emp_id; // เก็บตัวแปล id ของผู้ใช้งานที่ Login อยู่
         $data["user_type"] = Auth::user()->position_id;
         $data['production'] = Production::leftjoin('empolyee', 'empolyee.emp_id', 'production_data.emp_id')
-            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')
-            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname')
+            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')->groupby('production_note')
+            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname','production_note')
             ->orderBy('production_id', 'DESC')
             ->get();
         $data['pending'] = Production::leftjoin('empolyee', 'empolyee.emp_id', 'production_data.emp_id')
@@ -38,8 +38,8 @@ class ProductionController extends Controller
             ->where('production_status', '0')
             ->get();
         $data['dis'] = Production::leftjoin('empolyee', 'empolyee.emp_id', 'production_data.emp_id')
-            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')
-            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname')
+            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')->groupby('production_note')
+            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname','production_note')
             ->orderBy('production_id', 'DESC')
             ->where('production_status', '1')
             ->get();
@@ -526,8 +526,9 @@ class ProductionController extends Controller
             // dd("stop");
             $table = [
                 'production_status' => $request->production_status,
+                'production_note' => $request->emp_data,
             ];
-
+// dd($table);
             Production::where('production_group', $request->production_group)->update($table);
 
             DB::commit();

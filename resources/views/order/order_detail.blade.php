@@ -49,7 +49,7 @@
                                                     <div class="col-sm-8">
                                                         <label for="">ชื่อลูกค้า : </label>
                                                         @if ($order_db->cus_id == 99)
-                                                            <label for="">{{ $order->order_name }}</label>
+                                                            <label for="">{{ $order->o_name }}</label>
                                                         @else
                                                             <label for="">{{ $order->cus_fristname }}
                                                                 {{ $order->cus_lastname }}</label>
@@ -67,6 +67,7 @@
                                                 <thead>
                                                     <tr style="text-align: center;">
                                                         <th>ลำดับ</th>
+                                                        <th>รูปสินค้า</th>
                                                         <th>สินค้า</th>
                                                         <th>จำนวน</th>
                                                         <th>หน่วย</th>
@@ -81,6 +82,10 @@
                                                     @foreach ($order_d as $value)
                                                         <tr>
                                                             <td style="text-align: center;">{{ $i }}</td>
+                                                            <td style="text-align: center">
+                                                                <img src="{{url('/upload/store/'.$value->product_img)}}" alt="" width="50%" class="open_modal"
+                                                                data-toggle="modal" data-target=".bd-example-modal-xl" data-product_img="{{ $value->product_img }}">
+                                                            </td>
                                                             <td>
                                                                 {{ $value->product_name }}
                                                             </td>
@@ -124,7 +129,7 @@
                                             </table>
                                         </div>
                                         <hr>
-                                        <div class="form-group row">
+                                        {{-- <div class="form-group row">
                                             <div class="col-sm-12">
                                                 <h5>สถานะการจ่ายเงิน</h5>
                                             </div>
@@ -144,7 +149,7 @@
 
                                                 @endif
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                     <div style="margin:auto">
                                         <a href="{{ url('/order/order_index') }}">
@@ -163,5 +168,26 @@
 
         </div>
     </div>
+<!-- Extra large modal -->
+<div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <span id="product_img_show" style="margin: auto;"></span>
+      </div>
+    </div>
+  </div>
+@endsection
 
+@section('js')
+<script>
+$(document).ready(function () {
+    $('body').on('click', '.open_modal', function() {
+                var product_img = $(this).data('product_img');
+                console.log(product_img);
+                var html = '';
+                html += `<img src="{{ asset('/upload/store/`+product_img+`') }}">`;
+                $('#product_img_show').html('').append(html);
+            });
+});
+</script>
 @endsection

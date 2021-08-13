@@ -122,7 +122,7 @@ class CustomerController extends Controller
                 'cus_fristname' => $request->fname,
                 'cus_lastname' => $request->lname,
                 'cus_gender' => $request->gender,
-                'cus_date' => $request->date,
+                // 'cus_date' => $request->date,
                 'cus_title' => $request->title,
                 'cus_address' => $request->address,
                 'cus_province' => $request->province,
@@ -227,6 +227,7 @@ class CustomerController extends Controller
             } else {
                 $table = [
                     'cus_status' => $request->cus_status,
+                    'cus_status_data' => null,
                 ];
                 Customer::where('cus_id', $request->cus_id)->update($table);
             }

@@ -150,11 +150,27 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/select_order', 'Customer\OrderController@select_order');
     Route::post('/order/status', 'Customer\OrderController@status');
 
-    // ============================= DELIVERY =============================
-    Route::get('/delivery/delivery_index', 'Customer\DeliveryController@index');
-    Route::get('/delivery/delivery_create', 'Customer\DeliveryController@create');
-    Route::post('/delivery/store', 'Customer\DeliveryController@store');
-    Route::post('/select_customer', 'Customer\DeliveryController@select_customer');
+    // ============================= SHIPMENT =============================
+    Route::get('/shipment/shipment_index', 'Customer\ShipmentController@index');
+    Route::get('/shipment/shipment_create', 'Customer\ShipmentController@create');
+    Route::post('/shipment/store', 'Customer\ShipmentController@store');
+    Route::post('/select_customer', 'Customer\ShipmentController@select_customer');
+    Route::post('/shipment/insert', 'Customer\ShipmentController@insert');
+    Route::get('/shipment/shipment_edit/{id}', 'Customer\ShipmentController@edit');
+    Route::post('/shipment/update', 'Customer\ShipmentController@update');
+    Route::get('/shipment/destroy/{id}', 'Customer\ShipmentController@destroy');
+    Route::post('/shipment/status', 'Customer\ShipmentController@status');
+    Route::get('/shipment/shipment_detail/{id}', 'Customer\ShipmentController@show');
+    Route::post('/shipment/price', 'Customer\ShipmentController@price');
 
+    // ============================= RETURN =============================
+    Route::get('/return/return_index', 'Customer\ReturnController@index');
+    
+    Route::get('/return/return_detail/{id}', 'Customer\ReturnController@show');
+    Route::get('/return/return_product_detail/{id}', 'Customer\ReturnController@show_p');
+    Route::get('/return/return_form/{id}', 'Customer\ReturnController@edit');
+    Route::post('/return/update', 'Customer\ReturnController@update');
+    Route::post('/return/ship_select', 'Customer\ReturnController@ship_select');
+    
 });
 // });

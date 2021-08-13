@@ -32,11 +32,13 @@ class OrderController extends Controller
         DB::raw('SUM(orderdetail_pricetotal) as total'),
         'order_data.order_name',
         'order_data.order_startdate',
-        'order_data.order_status')
+        'order_data.order_status',
+        'order_data.order_bill')
         ->groupBy('order_data.order_id')
         ->groupBy('order_data.order_name')
         ->groupBy('order_data.order_startdate')
         ->groupBy('order_data.order_status')
+        ->groupBy('order_data.order_bill')
         ->orderBy('order_data.order_id', 'desc')
         ->get();
 
@@ -46,11 +48,13 @@ class OrderController extends Controller
         DB::raw('SUM(orderdetail_pricetotal) as total'),
         'order_data.order_name',
         'order_data.order_startdate',
-        'order_data.order_status')
+        'order_data.order_status',
+        'order_data.order_bill')
         ->groupBy('order_data.order_id')
         ->groupBy('order_data.order_name')
         ->groupBy('order_data.order_startdate')
         ->groupBy('order_data.order_status')
+        ->groupBy('order_data.order_bill')
         ->orderBy('order_data.order_id', 'desc')
         ->where('order_data.order_status','0')
         ->get();
@@ -61,11 +65,13 @@ class OrderController extends Controller
         DB::raw('SUM(orderdetail_pricetotal) as total'),
         'order_data.order_name',
         'order_data.order_startdate',
-        'order_data.order_status')
+        'order_data.order_status',
+        'order_data.order_bill')
         ->groupBy('order_data.order_id')
         ->groupBy('order_data.order_name')
         ->groupBy('order_data.order_startdate')
         ->groupBy('order_data.order_status')
+        ->groupBy('order_data.order_bill')
         ->orderBy('order_data.order_id', 'desc')
         ->where('order_data.order_status','1')
         ->orwhere('order_data.order_status','2')
@@ -124,6 +130,20 @@ class OrderController extends Controller
                 }
             }
 // dd("stop");
+            foreach ($product_id as $key => $value_pid) {
+                $p_ids = Product::where('product_id', $value_pid)->get();
+                foreach ($p_ids as $key => $value_id2) {
+                    for ($i = 0; $i < $count; $i++) {
+                        // dd($values->product_total);
+                        if($orderdetail_quantity_total[$i] > $value_id2->product_total){
+                            // dd("error");
+                            $return['status'] = 4;
+                            $return['content'] = 'สินค้าไม่พอ';
+                            return json_encode($return);
+                        }
+                    }
+                }
+            }
 
             $table = [
                 'order_name' => $oder_name,
@@ -145,13 +165,13 @@ class OrderController extends Controller
                     for ($i = 0; $i < $count; $i++) {
 
                         // dd($values->product_total);
-                        if($orderdetail_quantity_total[$i] > $values->product_total){
-                            // dd("error");
-                            $return['status'] = 4;
-                            $return['content'] = 'สินค้าไม่พอ';
-                            return json_encode($return);
-                        }
-// dd("sss");
+                        // if($orderdetail_quantity_total[$i] > $values->product_total){
+                        //     // dd("error");
+                        //     $return['status'] = 4;
+                        //     $return['content'] = 'สินค้าไม่พอ';
+                        //     return json_encode($return);
+                        // }
+                        // dd("sss");
                         if ($product_id[$i] == $values->product_id) {
                             // dd($values->product_price);
                             $orderdetail_pricetotal = $orderdetail_quantity_total[$i] * $values->product_price;
@@ -208,7 +228,8 @@ class OrderController extends Controller
         $data['product'] = Product::get();
         $data['order_db'] = Order_data::where('order_id', $id)->first();
         $data['order'] = Order_data::leftJoin('customer_data', 'customer_data.cus_id', 'order_data.cus_id')
-            ->where('order_id', $id)
+            ->leftJoin('other','other.order_id','order_data.order_id')
+            ->where('order_data.order_id', $id)
             ->first();
         // $data['order_d'] = Order_detail::groupby('orderdetail_listnumber')->groupby('orderdetail_quantity_total')->groupby('orderdetail_priceunit')->groupby('orderdetail_pricetotal')->groupby('product_id')->groupby('order_id')
         // ->select('orderdetail_listnumber','orderdetail_quantity_total','orderdetail_priceunit','orderdetail_pricetotal','product_id','order_id')
@@ -217,9 +238,9 @@ class OrderController extends Controller
         $data['order_d'] = Order_detail::leftJoin('product_data', 'product_data.product_id', 'orderdetail.product_id')
             ->where('order_id', $id)
             ->get();
-        $data['other'] = Other::leftjoin('order_data', 'order_data.order_id', 'other.order_id')
-            ->where('order_data.order_id', $id)
-            ->first();
+        // $data['other'] = Other::leftjoin('order_data', 'order_data.order_id', 'other.order_id')
+        //     ->where('order_data.order_id', $id)
+        //     ->first();
         $data['sum'] = DB::table('product_data')
             ->leftJoin('orderdetail', 'product_data.product_id', 'orderdetail.product_id')
             ->select('product_data.product_id', DB::raw('SUM(product_data.product_price * orderdetail.orderdetail_quantity_total) as sum'))

@@ -227,8 +227,8 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="pcoded-hasmenu @if ($page=='/delivery' ||
-                                            $page=='/delivery/create' ) active
+                                        <li class="pcoded-hasmenu @if ($page=='/shipment' ||
+                                            $page=='/shipment/create' ) active
                                         pcoded-trigger @endif">
                                             <a href="javascript:void(0)" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon">
@@ -237,21 +237,45 @@
                                                 <span class="pcoded-mtext">ข้อมูลการจัดส่ง</span>
                                             </a>
                                             <ul class="pcoded-submenu">
-                                                <li class="@if ($page=='/delivery' ) active pcoded-trigger @endif">
-                                                    <a href="{{ url('/delivery/delivery_index') }}"
+                                                <li class="@if ($page=='/shipment' ) active pcoded-trigger @endif">
+                                                    <a href="{{ url('/shipment/shipment_index') }}"
                                                         class="waves-effect waves-dark">
                                                         <span class="pcoded-mtext">ข้อมูลการจัดส่ง</span>
                                                     </a>
                                                 </li>
-                                                <li class="@if ($page=='/delivery/create' ) active pcoded-trigger @endif">
-                                                    <a href="{{ url('/delivery/delivery_create') }}"
+                                                <li class="@if ($page=='/shipment/create' ) active pcoded-trigger @endif">
+                                                    <a href="{{ url('/shipment/shipment_create') }}"
                                                         class="waves-effect waves-dark">
                                                         <span class="pcoded-mtext">เพิ่มข้อมูลการจัดส่ง</span>
                                                     </a>
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li class="pcoded-hasmenu @if ($page=='/event' ||
+                                        <li class="pcoded-hasmenu @if ($page=='/return' ||
+                                            $page=='/return/create' ) active
+                                        pcoded-trigger @endif">
+                                            <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon">
+                                                    <i class="fa fa-truck"></i>
+                                                </span>
+                                                <span class="pcoded-mtext">ข้อมูลการเก็บคืน</span>
+                                            </a>
+                                            <ul class="pcoded-submenu">
+                                                <li class="@if ($page=='/return' ) active pcoded-trigger @endif">
+                                                    <a href="{{ url('/return/return_index') }}"
+                                                        class="waves-effect waves-dark">
+                                                        <span class="pcoded-mtext">ข้อมูลการเก็บคืน</span>
+                                                    </a>
+                                                </li>
+                                                {{-- <li class="@if ($page=='/return/create' ) active pcoded-trigger @endif">
+                                                    <a href="{{ url('/return/return_create') }}"
+                                                        class="waves-effect waves-dark">
+                                                        <span class="pcoded-mtext">เพิ่มข้อมูลการเก็บคืน</span>
+                                                    </a>
+                                                </li> --}}
+                                            </ul>
+                                        </li>
+                                        {{-- <li class="pcoded-hasmenu @if ($page=='/event' ||
                                             $page=='/event/create' ) active
                                         pcoded-trigger @endif">
                                             <a href="javascript:void(0)" class="waves-effect waves-dark">
@@ -274,7 +298,7 @@
                                                     </a>
                                                 </li>
                                             </ul>
-                                        </li>
+                                        </li> --}}
                                     </ul>
                                 @endif
                                 @if ($id == 2 || $id == 3)
@@ -430,7 +454,7 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li class="pcoded-hasmenu @if ($page=='/withdraw_material' ||
+                                    {{-- <li class="pcoded-hasmenu @if ($page=='/withdraw_material' ||
                                         $page=='/withdraw/withdraw_material_create' ) active
                                         pcoded-trigger @endif">
                                         <a href="javascript:void(0)" class="waves-effect waves-dark">
@@ -454,7 +478,7 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                                 @endif
                             </div>

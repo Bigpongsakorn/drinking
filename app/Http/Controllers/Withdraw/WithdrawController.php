@@ -23,6 +23,8 @@ class WithdrawController extends Controller
     {
         $data['page'] = '/withdraw_product';
         $data['emp'] = Users::get();
+        $data['user_id'] = Auth::user()->emp_id; // เก็บตัวแปล id ของผู้ใช้งานที่ Login อยู่
+        $data["user_type"] = Auth::user()->position_id;
         $data['with'] = Withdraw::leftJoin('empolyee', 'empolyee.emp_id', 'withdraw_product.emp_id')->orderBy('withdraw_p_id', 'desc')
             ->get();
         $data['pending'] = Withdraw::leftJoin('empolyee', 'empolyee.emp_id', 'withdraw_product.emp_id')->orderBy('withdraw_p_id', 'desc')
@@ -301,19 +303,19 @@ class WithdrawController extends Controller
 // dd($request);
         try {
             if ($request->withdraw_p_status == 3) {
-                $id = Withdraw_detail::where('withdraw_p_id', $request->withdraw_p_id)->get();
-                foreach ($id as $key => $value) {
-                    $idp = Product::where('product_id', $value->product_id)->get();
-                    // dd($value->withdraw_p_d_num);
-                    foreach ($idp as $key => $pid) {
-                        if ($pid->product_total < $value->withdraw_p_d_num) {
-                            // dd('ไม่สำเร็จ');
-                            $return['status'] = 3;
-                            $return['content'] = 'ไม่สำเร็จ';
-                            return json_encode($return);
-                        }
-                    }
-                }
+                // $id = Withdraw_detail::where('withdraw_p_id', $request->withdraw_p_id)->get();
+                // foreach ($id as $key => $value) {
+                //     $idp = Product::where('product_id', $value->product_id)->get();
+                //     // dd($value->withdraw_p_d_num);
+                //     foreach ($idp as $key => $pid) {
+                //         if ($pid->product_total < $value->withdraw_p_d_num) {
+                //             // dd('ไม่สำเร็จ');
+                //             $return['status'] = 3;
+                //             $return['content'] = 'ไม่สำเร็จ';
+                //             return json_encode($return);
+                //         }
+                //     }
+                // }
                 $id = Withdraw_detail::where('withdraw_p_id', $request->withdraw_p_id)->get();
                 foreach ($id as $key => $value) {
                     $idp = Product::where('product_id', $value->product_id)->get();
@@ -326,6 +328,20 @@ class WithdrawController extends Controller
                         ];
                         // dd($total1);
                         Product::where('product_id', $value->product_id)->update($total1);
+                    }
+                }
+            }elseif($request->withdraw_p_status == 2){
+                $id = Withdraw_detail::where('withdraw_p_id', $request->withdraw_p_id)->get();
+                foreach ($id as $key => $value) {
+                    $idp = Product::where('product_id', $value->product_id)->get();
+                    // dd($value->withdraw_p_d_num);
+                    foreach ($idp as $key => $pid) {
+                        if ($pid->product_total < $value->withdraw_p_d_num) {
+                            // dd('ไม่สำเร็จ');
+                            $return['status'] = 3;
+                            $return['content'] = 'ไม่สำเร็จ';
+                            return json_encode($return);
+                        }
                     }
                 }
             }

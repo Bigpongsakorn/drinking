@@ -71,23 +71,30 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <div class="col-sm-12">
-                                                    <label class="col-sm-2 col-form-label">เพศ : </label>
-                                                    <div class="form-check form-check-inline">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="gender"
-                                                                id="radio1" value="1"> ชาย
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="gender"
-                                                                value="2"> หญิง
-                                                        </label>
+                                                <div class="col-sm-6">
+                                                    <label class="col-form-label">เพศ</label>
+                                                    <div>
+                                                        <div class="form-check form-check-inline">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="radio" name="gender"
+                                                                    id="radio1" value="1"> ชาย
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="radio" name="gender"
+                                                                    value="2"> หญิง
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div class="col-sm-6">
+                                                    <label class="col-form-label" style="color: red">* เบอร์โทรศัพท์</label>
+                                                    <input type="text" class="form-control" placeholder="08xxxxxxxx"
+                                                        maxlength="10" name="tel" id="tel">
+                                                </div>
                                             </div>
-                                            <div class="form-group row">
+                                            {{-- <div class="form-group row">
 
                                                 <div class="col-sm-6">
                                                     <label class="col-form-label" style="color: red">* วันที่จัดส่ง</label>
@@ -107,7 +114,7 @@
                                                     <input type="text" class="form-control" placeholder="08xxxxxxxx"
                                                         maxlength="10" name="tel" id="tel">
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">บ้านเลขที่/หมู่บ้าน</label>
                                                 <div class="col-sm-10">
@@ -206,7 +213,7 @@
 
             var fd = new FormData();
 
-            if (fname && lname && date && tel) {
+            if (fname && lname && tel) {
                 fd.append('_token', "{{ csrf_token() }}");
 
 

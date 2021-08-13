@@ -80,7 +80,8 @@
                                                                         <button type="button" data-toggle="modal"
                                                                             data-target="#exampleModal"
                                                                             data-production_group="{{ $value->production_group }}"
-                                                                            data-production_status="{{ $value->production_status }}"
+                                                                            data-production_status="{{ $value->production_status }}"   
+                                                                            data-production_note="{{ $value->production_note }}" 
                                                                             class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
                                                                     @elseif($value->production_status == 2)
                                                                         <button type="button" data-toggle="modal"
@@ -255,6 +256,7 @@
                                                                             data-target="#exampleModal"
                                                                             data-production_group="{{ $value->production_group }}"
                                                                             data-production_status="{{ $value->production_status }}"
+                                                                            data-production_note="{{ $value->production_note }}" 
                                                                             class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
                                                                     @elseif($value->production_status == 2)
                                                                         <button type="button" data-toggle="modal"
@@ -512,11 +514,15 @@
                 <form class="" id="create-product-category">
                     <div class="modal-body">
                         <input type="hidden" id="production_group" name="" value="">
-                        <select name="production_status" id="production_status" class="form-control">
+                        <select name="production_status" id="production_status" class="form-control change_emp">
                             <option value="0">รออนุมัติ</option>
                             <option value="2">อนุมัติการผลิต</option>
                             <option value="1">ไม่อนุมัติ</option>
                         </select>
+                    </div>
+                    <div class="modal-body pro_note" style="display: none">
+                        <span style="color: red">* หมายเหตุ</span>
+                        <input type="text" class="form-control emp_data">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">ปิด</button>
@@ -559,12 +565,31 @@
     <script>
         $(document).ready(function() {
 
+            $('body').on('change', '.change_emp', function() {
+                var id = $('.change_emp').val()
+                console.log(id);
+                if (id == 1) {
+                    $('.pro_note').show()
+                }else {
+                    $('.pro_note').hide()
+                    $('.emp_data').val(null)
+                }
+            });
+
             $('body').on('click', '.open_modal', function() {
                 var production_group = $(this).data('production_group');
                 var production_status = $(this).data('production_status');
-
+                var production_note = $(this).data('production_note');
+console.log(production_note);
+if(production_status == 1){
+    $('.pro_note').show()
+}else{
+    $('.pro_note').hide()
+    $('.emp_data').val(null)
+}
                 $('#production_group').val(production_group)
                 $('#production_status').val(production_status)
+                $('.emp_data').val(production_note)
             })
 
             $('body').on('click', '.delete', function() {
@@ -615,6 +640,7 @@
                 e.preventDefault();
                 var production_group = $('#production_group').val()
                 var production_status = $('#production_status').val()
+                var emp_data = $('.emp_data').val()
                 var fd = new FormData();
 console.log(production_group);
 console.log(production_status);
@@ -623,6 +649,7 @@ console.log(production_status);
                     fd.append('_token', "{{ csrf_token() }}");
                     fd.append('production_group', production_group);
                     fd.append('production_status', production_status);
+                    fd.append('emp_data', emp_data);
 
                     $.ajax({
                         method: "POST",

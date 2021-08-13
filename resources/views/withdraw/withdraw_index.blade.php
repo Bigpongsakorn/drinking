@@ -72,31 +72,56 @@
                                                                 </a>
                                                             </td>
                                                             <td style="text-align: center;">
-                                                                @if ($value->withdraw_p_status == 0)
+                                                                @if ($user_type == 1 || $user_type == 2)
+                                                                    @if ($value->withdraw_p_status == 0)
                                                                     <button type="button" data-toggle="modal"
                                                                         data-target="#exampleModal"
                                                                         data-withdraw_p_id="{{ $value->withdraw_p_id }}"
                                                                         data-withdraw_p_status="{{ $value->withdraw_p_status }}"
                                                                         data-withdraw_p_status_detail="{{ $value->withdraw_p_status_detail }}"
                                                                         class="btn btn-sm btn-warning open_modal">รออนุมัติ</button>
-                                                                @elseif($value->withdraw_p_status == 1)
-                                                                    <button type="button" data-toggle="modal"
-                                                                        data-target="#exampleModal"
-                                                                        data-withdraw_p_id="{{ $value->withdraw_p_id }}"
-                                                                        data-withdraw_p_status="{{ $value->withdraw_p_status }}"
-                                                                        data-withdraw_p_status_detail="{{ $value->withdraw_p_status_detail }}"
-                                                                        class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
-                                                                @elseif($value->withdraw_p_status == 2)
-                                                                    <button type="button" data-toggle="modal"
-                                                                        data-target="#exampleModal2"
-                                                                        data-withdraw_p_id="{{ $value->withdraw_p_id }}"
-                                                                        data-withdraw_p_status="{{ $value->withdraw_p_status }}"
-                                                                        data-w_emp_id="{{ $value->w_emp_id }}"
-                                                                        class="btn btn-sm btn-success open_modal">อนุมัติ</button>
+                                                                    @elseif($value->withdraw_p_status == 1)
+                                                                        <button type="button" data-toggle="modal"
+                                                                            data-target="#exampleModal"
+                                                                            data-withdraw_p_id="{{ $value->withdraw_p_id }}"
+                                                                            data-withdraw_p_status="{{ $value->withdraw_p_status }}"
+                                                                            data-withdraw_p_status_detail="{{ $value->withdraw_p_status_detail }}"
+                                                                            class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
+                                                                    @elseif($value->withdraw_p_status == 2)
+                                                                        <button type="button" data-toggle="modal"
+                                                                            data-target="#exampleModal2"
+                                                                            data-withdraw_p_id="{{ $value->withdraw_p_id }}"
+                                                                            data-withdraw_p_status="{{ $value->withdraw_p_status }}"
+                                                                            data-w_emp_id="{{ $value->w_emp_id }}"
+                                                                            class="btn btn-sm btn-success open_modal">อนุมัติ</button>
+                                                                    @else
+                                                                        <button type="button"
+                                                                            style="color: #fff; background: #218838;"
+                                                                            class="btn btn-sm open_modal">ขนของขึ้นรถ</button>
+                                                                    @endif
                                                                 @else
+                                                                    @if ($value->withdraw_p_status == 0)
                                                                     <button type="button"
-                                                                        style="color: #fff; background: #218838;"
-                                                                        class="btn btn-sm open_modal">ขนของขึ้นรถ</button>
+                                                                        class="btn btn-sm btn-warning open_modal">รออนุมัติ</button>
+                                                                    @elseif($value->withdraw_p_status == 1)
+                                                                        <button type="button" data-toggle="modal"
+                                                                            data-target="#exampleModal"
+                                                                            data-withdraw_p_id="{{ $value->withdraw_p_id }}"
+                                                                            data-withdraw_p_status="{{ $value->withdraw_p_status }}"
+                                                                            data-withdraw_p_status_detail="{{ $value->withdraw_p_status_detail }}"
+                                                                            class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
+                                                                    @elseif($value->withdraw_p_status == 2)
+                                                                        <button type="button" data-toggle="modal"
+                                                                            data-target="#exampleModal2"
+                                                                            data-withdraw_p_id="{{ $value->withdraw_p_id }}"
+                                                                            data-withdraw_p_status="{{ $value->withdraw_p_status }}"
+                                                                            data-w_emp_id="{{ $value->w_emp_id }}"
+                                                                            class="btn btn-sm btn-success open_modal">อนุมัติ</button>
+                                                                    @else
+                                                                        <button type="button"
+                                                                            style="color: #fff; background: #218838;"
+                                                                            class="btn btn-sm open_modal">ขนของขึ้นรถ</button>
+                                                                    @endif 
                                                                 @endif
                                                             </td>
                                                             @if ($value->withdraw_p_status == 2 || $value->withdraw_p_status == 3)
@@ -148,31 +173,56 @@
                                                                 </a>
                                                             </td>
                                                             <td style="text-align: center;">
-                                                                @if ($value->withdraw_p_status == 0)
+                                                                @if ($user_type == 1 || $user_type == 2)
+                                                                    @if ($value->withdraw_p_status == 0)
                                                                     <button type="button" data-toggle="modal"
                                                                         data-target="#exampleModal"
                                                                         data-withdraw_p_id="{{ $value->withdraw_p_id }}"
                                                                         data-withdraw_p_status="{{ $value->withdraw_p_status }}"
                                                                         data-withdraw_p_status_detail="{{ $value->withdraw_p_status_detail }}"
                                                                         class="btn btn-sm btn-warning open_modal">รออนุมัติ</button>
-                                                                @elseif($value->withdraw_p_status == 1)
-                                                                    <button type="button" data-toggle="modal"
-                                                                        data-target="#exampleModal"
-                                                                        data-withdraw_p_id="{{ $value->withdraw_p_id }}"
-                                                                        data-withdraw_p_status="{{ $value->withdraw_p_status }}"
-                                                                        data-withdraw_p_status_detail="{{ $value->withdraw_p_status_detail }}"
-                                                                        class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
-                                                                @elseif($value->withdraw_p_status == 2)
-                                                                    <button type="button" data-toggle="modal"
-                                                                        data-target="#exampleModal2"
-                                                                        data-withdraw_p_id="{{ $value->withdraw_p_id }}"
-                                                                        data-withdraw_p_status="{{ $value->withdraw_p_status }}"
-                                                                        data-w_emp_id="{{ $value->w_emp_id }}"
-                                                                        class="btn btn-sm btn-success open_modal">อนุมัติ</button>
+                                                                    @elseif($value->withdraw_p_status == 1)
+                                                                        <button type="button" data-toggle="modal"
+                                                                            data-target="#exampleModal"
+                                                                            data-withdraw_p_id="{{ $value->withdraw_p_id }}"
+                                                                            data-withdraw_p_status="{{ $value->withdraw_p_status }}"
+                                                                            data-withdraw_p_status_detail="{{ $value->withdraw_p_status_detail }}"
+                                                                            class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
+                                                                    @elseif($value->withdraw_p_status == 2)
+                                                                        <button type="button" data-toggle="modal"
+                                                                            data-target="#exampleModal2"
+                                                                            data-withdraw_p_id="{{ $value->withdraw_p_id }}"
+                                                                            data-withdraw_p_status="{{ $value->withdraw_p_status }}"
+                                                                            data-w_emp_id="{{ $value->w_emp_id }}"
+                                                                            class="btn btn-sm btn-success open_modal">อนุมัติ</button>
+                                                                    @else
+                                                                        <button type="button"
+                                                                            style="color: #fff; background: #218838;"
+                                                                            class="btn btn-sm open_modal">ขนของขึ้นรถ</button>
+                                                                    @endif
                                                                 @else
+                                                                    @if ($value->withdraw_p_status == 0)
                                                                     <button type="button"
-                                                                        style="color: #fff; background: #218838;"
-                                                                        class="btn btn-sm open_modal">ขนของขึ้นรถ</button>
+                                                                        class="btn btn-sm btn-warning open_modal">รออนุมัติ</button>
+                                                                    @elseif($value->withdraw_p_status == 1)
+                                                                        <button type="button" data-toggle="modal"
+                                                                            data-target="#exampleModal"
+                                                                            data-withdraw_p_id="{{ $value->withdraw_p_id }}"
+                                                                            data-withdraw_p_status="{{ $value->withdraw_p_status }}"
+                                                                            data-withdraw_p_status_detail="{{ $value->withdraw_p_status_detail }}"
+                                                                            class="btn btn-sm btn-danger open_modal">ไม่อนุมัติ</button>
+                                                                    @elseif($value->withdraw_p_status == 2)
+                                                                        <button type="button" data-toggle="modal"
+                                                                            data-target="#exampleModal2"
+                                                                            data-withdraw_p_id="{{ $value->withdraw_p_id }}"
+                                                                            data-withdraw_p_status="{{ $value->withdraw_p_status }}"
+                                                                            data-w_emp_id="{{ $value->w_emp_id }}"
+                                                                            class="btn btn-sm btn-success open_modal">อนุมัติ</button>
+                                                                    @else
+                                                                        <button type="button"
+                                                                            style="color: #fff; background: #218838;"
+                                                                            class="btn btn-sm open_modal">ขนของขึ้นรถ</button>
+                                                                    @endif 
                                                                 @endif
                                                             </td>
                                                             @if ($value->withdraw_p_status == 2 || $value->withdraw_p_status == 3)
@@ -458,7 +508,9 @@
                         <input type="hidden" class="withdraw_p_id" name="" value="">
                         <select name="" id="" class="form-control change_status withdraw_p_status">
                             <option value="0">รออนุมัติ</option>
+                            @if ($user_type == 1 || $user_type == 2)
                             <option value="2">อนุมัติ</option>
+                            @endif
                             <option value="1">ไม่อนุมัติ</option>
                         </select>
                     </div>
@@ -554,7 +606,15 @@
                 var withdraw_p_status = $(this).data('withdraw_p_status');
                 var withdraw_p_status_detail = $(this).data('withdraw_p_status_detail');
                 var w_emp_id = $(this).data('w_emp_id');
-                // console.log(withdraw_p_status);
+                console.log(withdraw_p_status);
+
+                if(withdraw_p_status == 1){
+                    $('.status_data').show()
+                }else{
+                    $('.status_data').hide()
+                    $('.status_data_i').val(null)
+                }
+
                 $('.withdraw_p_id').val(withdraw_p_id)
                 $('.withdraw_p_status').val(withdraw_p_status)
                 $('#withdraw_p_status_detail').val(withdraw_p_status_detail)

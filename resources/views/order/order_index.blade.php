@@ -81,8 +81,12 @@
                                                                         class="btn btn-sm btn-warning open_modal">รอจ่ายเงิน
                                                                     </button>
                                                                 @else
-                                                                    <button type="button"
-                                                                        class="btn btn-sm btn-success open_modal">จ่ายเงินแล้ว
+                                                                    <button type="button" data-toggle="modal"
+                                                                            data-target="#exampleModal2"
+                                                                            data-order_id="{{ $value->order_id }}"
+                                                                            data-order_status="{{ $value->order_status }}"
+                                                                            data-order_bill="{{ $value->order_bill }}"
+                                                                        class="btn btn-sm btn-success open_modal2">จ่ายเงินแล้ว
                                                                     </button>
                                                                 @endif
                                                             </td>
@@ -277,7 +281,44 @@
                             <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">ปิด</button>
                             <button type="submit" class="btn btn-sm btn-primary">บันทึก</button>
                         </div>
+                    </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">การจ่ายเงิน</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {{-- <form class="" id="create-product-category"> --}}
+                    <div class="modal-body">
+                        {{-- <input type="hidden" id="order_id_" name="" value="">
+                        <select name="" id="order_status1" class="form-control order_status order_status_">
+                            <option value="">-- เลือกการจ่ายเงิน --</option>
+                            <option value="1">จ่ายเงินสด</option>
+                            <option value="2">จ่ายแบบโอน</option>
+                        </select> --}}
+                        <div class="order_status_"></div>
+                        <br>
+                        <div class="select_bill2" style="display: none">
+                            <label for="">สลิปโอน</label>
+                            {{-- <input type="file" class="form-control order_bill"> --}}
+                            <div id="order_bill"></div>
+                        </div>
+
+                        {{-- <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">ปิด</button>
+                            <button type="submit" class="btn btn-sm btn-primary">บันทึก</button>
+                        </div> --}}
+                    </div>
+                {{-- </form> --}}
             </div>
         </div>
     </div>
@@ -304,6 +345,31 @@
                 }
 
             });
+
+            $('body').on('click', '.open_modal2', function() {
+                // var order_id = $(this).data('order_id');
+                var order_status = $(this).data('order_status');
+                var order_bill = $(this).data('order_bill');
+                if(order_status == 2){
+                    $('.select_bill2').show()
+                }
+// console.log(order_id)
+// console.log(order_status)
+// console.log(order_bill)
+                // $('#order_id_').val(order_id)
+                // $('.order_status_').val(order_status)
+                // $('#order_bill').val(order_bill)
+                var title =  '';
+                    if(order_status == 1){
+                        title = 'จ่ายเงินสด'
+                    }else{
+                        title = 'จ่ายแบบโอน'
+                    }
+                var html = '';
+                html += `<img src="{{ url('/upload/slip/`+order_bill+`') }}" alt="" width="50%">`;
+                $('.order_status_').html('').append("<label>"+title+"</label>")
+                $('#order_bill').html('').append(html)
+            })
 
             $('body').on('click', '.open_modal', function() {
                 var order_id = $(this).data('order_id');
