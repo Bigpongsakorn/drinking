@@ -10,6 +10,7 @@ use App\Models\Production;
 use App\Models\Production_m;
 use App\Models\ProductType;
 use App\Models\Unit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -27,31 +28,31 @@ class ProductionController extends Controller
         $data['user_id'] = Auth::user()->emp_id; // เก็บตัวแปล id ของผู้ใช้งานที่ Login อยู่
         $data["user_type"] = Auth::user()->position_id;
         $data['production'] = Production::leftjoin('empolyee', 'empolyee.emp_id', 'production_data.emp_id')
-            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')->groupby('production_note')
-            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname','production_note')
+            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')->groupby('production_note')->groupby('production_date_start')
+            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname','production_note','production_date_start')
             ->orderBy('production_id', 'DESC')
             ->get();
         $data['pending'] = Production::leftjoin('empolyee', 'empolyee.emp_id', 'production_data.emp_id')
-            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')
-            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname')
+            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')->groupby('production_date_start')
+            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname','production_date_start')
             ->orderBy('production_id', 'DESC')
             ->where('production_status', '0')
             ->get();
         $data['dis'] = Production::leftjoin('empolyee', 'empolyee.emp_id', 'production_data.emp_id')
-            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')->groupby('production_note')
-            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname','production_note')
+            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')->groupby('production_note')->groupby('production_date_start')
+            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname','production_note','production_date_start')
             ->orderBy('production_id', 'DESC')
             ->where('production_status', '1')
             ->get();
         $data['approve'] = Production::leftjoin('empolyee', 'empolyee.emp_id', 'production_data.emp_id')
-            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')
-            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname')
+            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')->groupby('production_date_start')
+            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname','production_date_start')
             ->orderBy('production_id', 'DESC')
             ->where('production_status', '2')
             ->get();
         $data['finished'] = Production::leftjoin('empolyee', 'empolyee.emp_id', 'production_data.emp_id')
-            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')
-            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname')
+            ->groupby('production_group')->groupby('production_date')->groupby('production_status')->groupby('production_name')->groupby('production_data.emp_id')->groupby('emp_firstname')->groupby('emp_lastname')->groupby('production_date_start')
+            ->select('production_group', 'production_date', 'production_status', 'production_name', 'production_data.emp_id', 'emp_firstname', 'emp_lastname','production_date_start')
             ->orderBy('production_id', 'DESC')
             ->where('production_status', '3')
             ->get();
@@ -149,6 +150,7 @@ class ProductionController extends Controller
                     'product_id' => $product_id[$i],
                     'production_name' => $production_name,
                     'production_date' => $production_date,
+                    'production_date_start' => Carbon::now(),
                     'production_status' => '0',
                     'emp_id' => Auth::user()->emp_id,
                 ];
@@ -332,6 +334,7 @@ class ProductionController extends Controller
                     'product_id' => $product_id[$i],
                     'production_name' => $production_name,
                     'production_date' => $production_date,
+                    'production_date_start' => Carbon::now(),
                     'production_status' => '0',
                     'emp_id' => Auth::user()->emp_id,
                 ];

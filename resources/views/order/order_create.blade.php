@@ -32,13 +32,13 @@
                                         <div class="form-group row">
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-10">
-                                                <div class="form-group row">
+                                                {{-- <div class="form-group row">
                                                     <div class="col-sm-12">
                                                         <label class="col-form-label">หัวข้อการสั่งซื้อ</label>
                                                         <input type="text" class="form-control oder_name" name="oder_name"
                                                             id="oder_name" placeholder="หัวข้อการสั่งซื้อ">
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 {{-- <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">วันที่สั่งซื้อเสร็จ</label>
@@ -48,7 +48,7 @@
                                                 </div> --}}
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
-                                                        <label class=" col-form-label">ข้อมูลลูกค้า</label>
+                                                        <label class=" col-form-label red">* ข้อมูลลูกค้า</label>
                                                         <select name="select" class="form-control cus_id" name="cus_id" id="select_id">
                                                             <option value="">ข้อมูลลูกค้า</option>
                                                             @foreach ($customer as $value)
@@ -56,32 +56,70 @@
                                                                     {{ sprintf('%05d',$value->cus_id) }}
                                                                 </option>
                                                             @endforeach
-                                                            <option value="99">อื่นๆ</option>
+                                                            <option value="99">ไม่เป็นสมาชิก</option>
                                                         </select>
                                                     </div>
-                                                    <div class="col-sm-6">
+                                                    <div class="col-sm-6 name_hide">
                                                         <label class=" col-form-label">ชื่อลูกค้า</label><br>
                                                         <label for="" id="cus_title"></label> <label for="" id="cus_fristname"></label> <label for="" id="cus_lastname"></label>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row" style="display: none" id="show_description">
-                                                    <div class="col-sm-6">
-                                                        <label class=" col-form-label">กรอกข้อมูลลูกค้า</label>
-                                                        <input type="text" class="form-control other_name"
-                                                                name="other_name" id="other_name"
-                                                                placeholder="ชื่อลูกค้า">
+                                                <span style="display: none" id="show_description">
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6">
+                                                            <label class=" col-form-label red">* ชื่อลูกค้า</label>
+                                                            <input type="text" class="form-control other_name"
+                                                                    name="other_name" id="other_name"
+                                                                    placeholder="ชื่อลูกค้า">
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <label class=" col-form-label red">* เบอร์โทรศัพท์</label><br>
+                                                            <input type="text" class="form-control" maxlength="10" name="tel" id="tel" placeholder="08xxxxxxxx">
+                                                        </div>
                                                     </div>
-                                                    {{-- <div class="col-sm-6">
-                                                        <label class=" col-form-label">ชื่อลูกค้า</label><br>
-                                                        <input type="text" class="form-control orderdetail_quantity_total"
-                                                                name="orderdetail_quantity_total" id="orderdetail_quantity_total"
-                                                                placeholder="จำนวนสินค้า">
-                                                    </div> --}}
-                                                </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-2 col-form-label red">* บ้านเลขที่/หมู่บ้าน</label>
+                                                        <div class="col-sm-10">
+                                                            <textarea rows="5" cols="5" class="form-control" name="address" id="address" placeholder=""></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6">
+                                                            <label class="col-form-label red">* จังหวัด</label>
+                                                            <select name="select" class="form-control" name="province" id="province">
+                                                                <option value="">เลือกจังหวัด</option>
+                                                                @foreach ($province as $item)
+                                                                <option value="{{$item->province_id}}">{{$item->province_name}}
+                                                                </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <label class="col-form-label">อำเภอ</label>
+                                                            <select name="select" class="form-control" name="district" id="district" disabled>
+                                                                <option value="">เลือกอำเภอ</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6">
+                                                            <label class="col-form-label">ตำบล</label>
+                                                            <select name="select" class="form-control" name="subdistrict" id="subdistrict" disabled>
+                                                                <option value="">เลือกตำบล</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <label class="col-form-label">รหัสไปรษณีย์</label>
+                                                            <select name="select" class="form-control" name="zipcode" id="zipcode" disabled>
+                                                                <option value="">เลือกรหัสไปรษณีย์</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </span>
                                                 <div id="addrow">
                                                     <div class="form-group row count">
                                                         <div class="col-sm-6">
-                                                            <label class=" col-form-label">ข้อมูลสินค้า</label>
+                                                            <label class=" col-form-label red">* ข้อมูลสินค้า</label>
                                                             <select name="select" class="form-control product_id"
                                                                 name="product_id" id="product_id">
                                                                 <option value="">ข้อมูลสินค้า</option>
@@ -93,7 +131,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <label class="col-form-label">จำนวนสินค้า</label>
+                                                            <label class="col-form-label red">* จำนวนสินค้า</label>
                                                             <input type="number" class="form-control orderdetail_quantity_total"
                                                                 name="orderdetail_quantity_total" id="orderdetail_quantity_total"
                                                                 placeholder="จำนวนสินค้า">
@@ -138,7 +176,7 @@
             $("#btnrow").click(function() {
                 $("#addrow").append('<div class="form-group row count">\
                                                     <div class="col-sm-6">\
-                                                        <label class=" col-form-label">ข้อมูลสินค้า</label>\
+                                                        <label class=" col-form-label red">* ข้อมูลสินค้า</label>\
                                                         <select name="select" class="form-control product_id" name="product_id"\
                                                             id="product_id">\
                                                             <option value="">ข้อมูลสินค้า</option>\
@@ -150,7 +188,7 @@
                                                         </select>\
                                                     </div>\
                                                     <div class="col-sm-6">\
-                                                        <label class="col-form-label">จำนวนสินค้า</label>\
+                                                        <label class="col-form-label red">* จำนวนสินค้า</label>\
                                                         <input type="number" class="form-control orderdetail_quantity_total" name="orderdetail_quantity_total" id="orderdetail_quantity_total"\
                                                             placeholder="จำนวนสินค้า">\
                                                     </div>\
@@ -161,8 +199,8 @@
                 // console.log('submit');
                 var count = 0;
                 var count_ = $('.count')
-                var oder_name = [];
-                var oder_name_ = $('.oder_name')
+                // var oder_name = [];
+                // var oder_name_ = $('.oder_name')
                 // var order_startdate = [];
                 // var order_startdate_ = $('.order_startdate')
                 var cus_id = [];
@@ -176,15 +214,21 @@
                 // var orderdetail_priceunit = $('.orderdetail_priceunit').val(); //รายละเอียดการสั่งซื้อ ราคาหน่วย
                 // var orderdetail_pricetotal = $('.orderdetail_pricetotal').val(); //สั่งซื้อรายละเอียดราคารวม
                 var other_name = $('.other_name').val();
+                var tel = $('#tel').val();
+                var address = $('#address').val();
+                var province = $('#province').val();
+                var subdistrict = $('#subdistrict').val();
+                var district = $('#district').val();
+                var zipcode = $('#zipcode').val();
                 var fd = new FormData();
 
                 $.each(count_, function(index, value) {
                     count++
                 });
-                $.each(oder_name_, function(index, value) {
-                    var v = $(this).val()
-                    oder_name.push(v)
-                });
+                // $.each(oder_name_, function(index, value) {
+                //     var v = $(this).val()
+                //     oder_name.push(v)
+                // });
                 // $.each(order_startdate_, function(index, value) {
                 //     var v = $(this).val()
                 //     order_startdate.push(v)
@@ -202,10 +246,10 @@
                     orderdetail_quantity_total.push(v)
                 });
 
-                if (oder_name != "" && cus_id != "" ) {
+                if (cus_id != "") {
                     fd.append('_token', "{{ csrf_token() }}");
                     fd.append('count', count);
-                    fd.append('oder_name', oder_name);
+                    // fd.append('oder_name', oder_name);
                     // fd.append('order_startdate', order_startdate);
                     fd.append('cus_id', cus_id);
                     fd.append('product_id', product_id);
@@ -215,10 +259,16 @@
                     // fd.append('orderdetail_priceunit', orderdetail_priceunit); //รายละเอียดการสั่งซื้อ ราคาหน่วย
                     // fd.append('orderdetail_pricetotal', orderdetail_pricetotal); //สั่งซื้อรายละเอียดราคารวม
                     fd.append('other_name',other_name);
+                    fd.append('tel',tel);
+                    fd.append('address',address);
+                    fd.append('province',province);
+                    fd.append('subdistrict',subdistrict);
+                    fd.append('district',district);
+                    fd.append('zipcode',zipcode);
 
                     $.ajax({
                         method: "POST",
-                        url: "/order/store",
+                        url: "/drinking/public/order/store",
                         dataType: 'json',
                         cache: false,
                         contentType: false,
@@ -235,7 +285,7 @@
                                 padding: '2em'
                             }).then(function(then) {
                                 // location.reload()
-                                location.href = '/order/order_index'
+                                location.href = '/drinking/public/order/order_index'
                             })
                         }
                         if (rec.status == '3') {
@@ -286,24 +336,39 @@
                     $('#cus_title').hide()
                     $('#cus_fristname').hide()
                     $('#cus_lastname').hide()
+                    $('.name_hide').hide()
                 }
                 if(id == ''){
                     $('#other_name').attr('disabled', false).val('')
+                    $('#tel').attr('disabled', false).val('')
+                    $('#address').attr('disabled', false).val('')
+                    $('#province').attr('disabled', false).val('')
+                    $('#district').attr('disabled', false).val('')
+                    $('#subdistrict').attr('disabled', false).val('')
+                    $('#zipcode').attr('disabled', false).val('')
                     $('#show_description').hide()
                     $('#cus_title').hide()
                     $('#cus_fristname').hide()
                     $('#cus_lastname').hide()
+                    $('.name_hide').show()
                 }
                 if(id != 99 && id != ''){
                     $('#other_name').attr('disabled', false).val('')
+                    $('#tel').attr('disabled', false).val('')
+                    $('#address').attr('disabled', false).val('')
+                    $('#province').attr('disabled', false).val('')
+                    $('#district').attr('disabled', false).val('')
+                    $('#subdistrict').attr('disabled', false).val('')
+                    $('#zipcode').attr('disabled', false).val('')
                     $('#show_description').hide()
                     $('#cus_title').show()
                     $('#cus_fristname').show()
                     $('#cus_lastname').show()
+                    $('.name_hide').show()
 
                     $.ajax({
                     method: "POST",
-                    url: "/select_order",
+                    url: "/drinking/public/select_order",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),
@@ -329,6 +394,64 @@
                 }
                
             });
+
+            $('body').on('change', '#province', function () {
+            var id = $(this).val();
+            $('#district').attr('disabled', false)
+            $.ajax({
+                    method: "POST",
+                    url: "/drinking/public/province",
+                    data: {
+                        "id": id,
+                        "_token": $('meta[name="csrf-token"]').attr('content'),
+                    }
+
+                })
+                .done(function (msg) {
+                    var data = JSON.parse(msg);
+                    data = data.data;
+                    var distic = '<option value="">เลือกอำเภอ</option>';
+                    data.forEach(element => {
+                        distic += '<option value="' + element.district_id + '">' + element
+                            .district_name + '</option>';
+                    });
+                    // console.log(distic);
+                    $('#district').html('').append(distic)
+                });
+        });
+        $('#district').change(function () {
+            var id = $(this).val();
+            $('#subdistrict').attr('disabled', false)
+            $('#zipcode').attr('disabled', false)
+            $.ajax({
+                    method: "POST",
+                    url: "/drinking/public/subdistrict",
+                    data: {
+                        "id": id,
+                        "_token": $('meta[name="csrf-token"]').attr('content'),
+                    }
+
+                })
+                .done(function (msg) {
+                    var data = JSON.parse(msg);
+                    data = data.data;
+                    var subdistic = '<option value="">เลือกตำบล</option>';
+                    var zipcode = '<option value="">เลือกรหัสไปรษณีย์</option>';
+                    data.forEach(element => {
+                        subdistic += '<option value="' + element.subdistrict_id + '">' +
+                            element.subdistrict_name + ' </option>';
+                    });
+                    var b = 0;
+                    data.forEach(element => {
+                        if (!b)
+                            zipcode += '<option value="' + element.zip_code + '">' + element
+                            .zip_code + '</option>';
+                        b++;
+                    });
+                    $('#subdistrict').html('').append(subdistic)
+                    $('#zipcode').html('').append(zipcode)
+                });
+        });
 
         });
     </script>

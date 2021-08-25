@@ -6,7 +6,11 @@
     <title>อันดาน้ำดื่ม</title>
     @include('layouts.admin.head')
 </head>
-
+<style>
+    .red {
+        color: red;
+    }
+</style>
 <body>
     <div class="loader-bg">
         <div class="loader-bar"></div>
@@ -243,12 +247,12 @@
                                                         <span class="pcoded-mtext">ข้อมูลการจัดส่ง</span>
                                                     </a>
                                                 </li>
-                                                <li class="@if ($page=='/shipment/create' ) active pcoded-trigger @endif">
+                                                {{-- <li class="@if ($page=='/shipment/create' ) active pcoded-trigger @endif">
                                                     <a href="{{ url('/shipment/shipment_create') }}"
                                                         class="waves-effect waves-dark">
                                                         <span class="pcoded-mtext">เพิ่มข้อมูลการจัดส่ง</span>
                                                     </a>
-                                                </li>
+                                                </li> --}}
                                             </ul>
                                         </li>
                                         <li class="pcoded-hasmenu @if ($page=='/return' ||
@@ -428,6 +432,7 @@
                                         </ul>
                                     </li>
                                 </ul>
+                                @endif
                                 <div class="pcoded-navigation-label">จัดการข้อมูลรายการเบิก</div>
                                 <ul class="pcoded-item pcoded-left-item">
                                     <li class="pcoded-hasmenu @if ($page=='/withdraw_product' ||
@@ -480,7 +485,7 @@
                                         </ul>
                                     </li> --}}
                                 </ul>
-                                @endif
+                               
                             </div>
                         </div>
                     </nav>

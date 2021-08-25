@@ -84,7 +84,10 @@
                                                                 ดูตำแหน่ง
                                                             </td> --}}
                                                             <td style="text-align: center;">
-                                                                ตำแหน่ง
+                                                                <a href="https://google.com/maps?q={{$value->cus_lat}},{{$value->cus_long}}"
+                                                                    target="_blank">
+                                                                    <button class="btn btn-sm btn-secondary">ดูตำแหน่ง</button>
+                                                                </a>
                                                             </td>
                                                             <td style="text-align: center;">
                                                                 <a

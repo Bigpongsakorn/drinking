@@ -32,13 +32,14 @@
                                             <table id="multi-colum-dt" class="table table-striped table-bordered nowrap">
                                                 <thead>
                                                     <tr style="text-align: center;">
-                                                        <th>ลำดับ</th>
+                                                        <th>รหัสลูกค้า</th>
                                                         <th>ชื่อ - นามสกุล</th>
                                                         <th>เบอร์โทรศัพท์</th>
                                                         {{-- <th>วันที่จัดส่ง</th> --}}
                                                         <th>สถานะ</th>
                                                         <th>ตำแหน่ง</th>
                                                         <th>ข้อมูลลูกค้า</th>
+                                                        <th>เพื่มข้อมูลการจัดส่ง</th>
                                                         <th>แก้ไข / ลบ</th>
                                                         {{-- <th>ลบ</th> --}}
                                                     </tr>
@@ -80,12 +81,20 @@
                                                                 @endif
                                                             </td>
                                                             <td style="text-align: center;">
-                                                                ดูตำแหน่ง
+                                                                <a href="https://google.com/maps?q={{$value->cus_lat}},{{$value->cus_long}}"
+                                                                    target="_blank">
+                                                                    <button class="btn btn-sm btn-secondary">ดูตำแหน่ง</button>
+                                                                </a>
                                                             </td>
                                                             <td style="text-align: center;">
                                                                 <a
                                                                     href="{{ url('/customer/product_customer/' . $value->cus_id) }}">
                                                                     <button class="btn btn-sm btn-primary">ดูข้อมูล</button>
+                                                                </a>
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                <a href="{{ url('/shipment/shipment_create/' . $value->cus_id) }}">
+                                                                    <button class="btn btn-sm btn-info">เพิ่มข้อมูล</button>
                                                                 </a>
                                                             </td>
                                                             <td style="text-align: center;">
@@ -199,7 +208,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/customer/status",
+                    url: "/drinking/public/customer/status",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -252,7 +261,7 @@
 
                         $.ajax({
                             method: "GET",
-                            url: "/customer/destroy/" + id,
+                            url: "/drinking/public/customer/destroy/" + id,
                         }).done(function(rec) {
                             rec = JSON.parse(rec);
                             console.log(rec);

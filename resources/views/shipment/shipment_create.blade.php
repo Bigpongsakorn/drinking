@@ -36,27 +36,39 @@
                                                         <label class="col-form-label">รหัสลูกค้า : </label>
                                                         {{-- <label for="">{{ sprintf('%05d', $cus->cus_id) }}</label> --}}
                                                         <label for="">
-                                                            <select name="select" id="cus_id"
+                                                            {{-- <select name="select" id="cus_id"
                                                                 class="form-control cus_id select_cus">
                                                                 <option value="">-- รหัสลูกค้า --</option>
                                                                 @foreach ($customer as $item)
                                                                     <option value="{{ $item->cus_id }}">
                                                                         {{ sprintf('%05d', $item->cus_id) }} </option>
                                                                 @endforeach
-                                                            </select>
+                                                            </select> --}}
+                                                            <input type="hidden" name="" id="cus_id" value="{{ $customer->cus_id }}">
+                                                            {{ sprintf('%05d', $customer->cus_id) }}
                                                         </label>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">ชื่อจริง - นามสกุล : </label>
-                                                        <label for="" id="cus_title"></label> <label for=""
+                                                        {{-- <label for="" id="cus_title"></label> <label for=""
                                                             id="cus_fristname"></label> <label for=""
-                                                            id="cus_lastname"></label>
+                                                            id="cus_lastname"></label> --}}
+                                                        <label for="">
+                                                            @if ($customer->cus_title == 1)
+                                                                นาย
+                                                            @elseif($customer->cus_title == 2)
+                                                                นาง
+                                                            @else
+                                                                นางสาว
+                                                            @endif
+                                                            {{ $customer->cus_fristname }} {{ $customer->cus_lastname }}
+                                                        </label>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">เบอร์โทรศัพท์ : </label>
-                                                        <label id="cus_phonenumber"></label>
+                                                        <label id="cus_phonenumber">{{ $customer->cus_phonenumber }}</label>
                                                     </div>
                                                 </div>
                                                 {{-- <div class="form-group row">
@@ -78,39 +90,39 @@
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label class=" col-form-label">บ้านเลขที่/หมู่บ้าน : </label>
-                                                        <label id="cus_address"></label>
+                                                        <label id="cus_address">{{ $customer->cus_address }}</label>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">จังหวัด : </label>
-                                                        <label id="province_name"></label>
+                                                        <label id="province_name">{{ $customer->province_name }}</label>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">อำเภอ : </label>
-                                                        <label id="district_name"></label>
+                                                        <label id="district_name">{{ $customer->district_name }}</label>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">ตำบล : </label>
-                                                        <label id="subdistrict_name"></label>
+                                                        <label id="subdistrict_name">{{ $customer->subdistrict_name }}</label>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label class="col-form-label">รหัสไปรษณีย์ : </label>
-                                                        <label id="cus_zipcode"></label>
+                                                        <label id="cus_zipcode">{{ $customer->zip_code }}</label>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">วันที่จัดส่ง</label>
+                                                        <label class="col-form-label red">* วันที่จัดส่ง</label>
                                                         {{-- <label for="" id="cus_date"></label> --}}
                                                         <input type="date" class="form-control" id="ship_date">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">ข้อมูลสินค้า</label>
+                                                        <label class="col-form-label red">* ข้อมูลสินค้า</label>
                                                         <select name="" id="" class="form-control product_id">
                                                             <option value="">--เลือกสินค้า--</option>
                                                             @foreach ($product as $item)
@@ -120,7 +132,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">จำนวน</label>
+                                                        <label class="col-form-label red">* จำนวน</label>
                                                         <input type="number" class="form-control product_num" id="">
                                                     </div>
                                                 </div>
@@ -177,7 +189,7 @@
                 var html = "";
                 html += `<div class="form-group row">
                             <div class="col-sm-6">
-                                <label class="col-form-label">ข้อมูลสินค้า</label>
+                                <label class="col-form-label red">* ข้อมูลสินค้า</label>
                                 <select name="" id="" class="form-control product_id">
                                     <option value="">--เลือกสินค้า--</option>
                                     @foreach ($product as $item)
@@ -187,7 +199,7 @@
                                 </select>
                             </div>
                             <div class="col-sm-6">
-                                <label class="col-form-label">จำนวน</label>
+                                <label class="col-form-label red">* จำนวน</label>
                                 <input type="number" class="form-control product_num" id="">
                             </div>
                         </div>`;
@@ -220,7 +232,7 @@
                 console.log(product_id);
                 console.log(product_num);
 
-                if (cus_id != "" && product_id != "" && product_num != "") {
+                if (cus_id != "" && product_id != "" && product_num != "" && ship_date) {
                     fd.append('_token', "{{ csrf_token() }}");
                     fd.append('cus_id', cus_id);
                     fd.append('product_id', product_id);
@@ -229,7 +241,7 @@
 
                     $.ajax({
                         method: "POST",
-                        url: "/shipment/insert",
+                        url: "/drinking/public/shipment/insert",
                         dataType: 'json',
                         cache: false,
                         contentType: false,
@@ -245,7 +257,7 @@
                                 padding: '2em'
                             }).then(function(then) {
                                 // location.reload()
-                                location.href = '/shipment/shipment_index'
+                                location.href = '/drinking/public/shipment/shipment_index'
                             })
                         }
                         if (rec.status == '0') {
@@ -275,7 +287,7 @@
 
                 $.ajax({
                         method: "POST",
-                        url: "/select_customer",
+                        url: "/drinking/public/select_customer",
                         data: {
                             "id": id,
                             "_token": $('meta[name="csrf-token"]').attr('content'),

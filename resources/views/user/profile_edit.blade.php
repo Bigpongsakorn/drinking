@@ -167,7 +167,7 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label" style="color: red;">* อีเมล์</label>
+                                                        <label class="col-form-label" style="color: red;">* อีเมล</label>
                                                         <input type="text" class="form-control" name="email" id="email"
                                                             value="{{ $user->emp_email }}">
                                                     </div>
@@ -323,7 +323,7 @@
 
                     $.ajax({
                         method: "POST",
-                        url: "/profile/update",
+                        url: "/drinking/public/profile/update",
                         dataType: 'json',
                         cache: false,
                         contentType: false,
@@ -340,7 +340,7 @@
                                 padding: '2em'
                             }).then(function(then) {
                                 // location.reload()
-                                location.href = '/user/profile_index'
+                                location.href = '/drinking/public/user/profile_index'
                             })
                         } else {
                             swal({
@@ -370,7 +370,7 @@
                 $('#district').attr('disabled', false)
                 $.ajax({
                         method: "POST",
-                        url: "/province",
+                        url: "/drinking/public/province",
                         data: {
                             "id": id,
                             "_token": $('meta[name="csrf-token"]').attr('content'),
@@ -395,7 +395,7 @@
                 $('#zipcode').attr('disabled', false)
                 $.ajax({
                         method: "POST",
-                        url: "/subdistrict",
+                        url: "/drinking/public/subdistrict",
                         data: {
                             "id": id,
                             "_token": $('meta[name="csrf-token"]').attr('content'),

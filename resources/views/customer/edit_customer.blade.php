@@ -1,3 +1,9 @@
+<style>
+    #map {
+        height: 500px;
+        width: 100%;
+    }
+</style>
 @extends('layouts.admin.main')
 @section('content')
 <div class="pcoded-content">
@@ -209,6 +215,24 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
+                                                <div class="col-sm-12">
+                                                    <label for="">แผนที่</label>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label for="">lat</label>
+                                                    <input type="text" name="" id="lat" class="form-control" value="{{ $customer->cus_lat }}">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label for="">long</label>
+                                                    <input type="text" name="" id="lng" class="form-control"  value="{{ $customer->cus_long }}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-12">
+                                                    <div id="map"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
                                                 <div style="margin: auto">
                                                     <button type="submit" class="btn btn-sm btn-success"
                                                         id="create-user">แก้ไขข้อมูล</button>
@@ -239,8 +263,43 @@
 @endsection
 
 @section('js')
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbQYN8OUJG8hsQuM3vd6wsbzDRQWhedko&callback=initMap&libraries=&v=weekly&channel=2"
+    async></script>
 <script>
+var lat = $('#lat').val();
+var lng = $('#lng').val();
+
+    function initMap() {
+            console.log(lat);
+            console.log(lng);
+
+            if(lat && lng != null){
+                var myLatLng = { lat: parseInt(lat), lng: parseInt(lng) }; // เริ่มต้น
+            }else{
+                var myLatLng = { lat: 18.1937621, lng: 99.3980395 }; // เริ่มต้น
+            }
+            
+            const map = new google.maps.Map(document.getElementById('map'), {
+                    center: myLatLng,
+                    zoom: 15,
+                });
+                
+            var marker = new google.maps.Marker({
+                map:map,
+                position: myLatLng,
+                // title: "Hello World!",
+            });
+
+            google.maps.event.addListener(map,'click',function(event){
+                console.log(event.latLng);
+                // alert(event.latLng);
+                marker.setPosition(event.latLng);
+                $("#lat").val(event.latLng.lat());
+                $("#lng").val(event.latLng.lng());
+            });
+
+        }
+
     $(document).ready(function () {
 
         $("#radio1").prop("checked", true);
@@ -261,7 +320,8 @@
             var district = $('#district').val();
             var subdistrict = $('#subdistrict').val();
             var zipcode = $('#zipcode').val();
-
+            var lat = $('#lat').val();
+            var lng = $('#lng').val();
             var fd = new FormData();
 
             if (fname && lname && tel) {
@@ -280,10 +340,12 @@
                 fd.append('district', district);
                 fd.append('subdistrict', subdistrict);
                 fd.append('zipcode', zipcode);
+                fd.append('lat', lat);
+                fd.append('lng', lng);
 
                 $.ajax({
                     method: "POST",
-                    url: "/customer/update",
+                    url: "/drinking/public/customer/update",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -300,7 +362,7 @@
                             padding: '2em'
                         }).then(function (then) {
                             // location.reload()
-                            location.href = '/customer/index'
+                            location.href = '/drinking/public/customer/index'
                         })
                     } else {
                         swal({
@@ -330,7 +392,7 @@
             $('#district').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/province",
+                    url: "/drinking/public/province",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),
@@ -355,7 +417,7 @@
             $('#zipcode').attr('disabled', false)
             $.ajax({
                     method: "POST",
-                    url: "/subdistrict",
+                    url: "/drinking/public/subdistrict",
                     data: {
                         "id": id,
                         "_token": $('meta[name="csrf-token"]').attr('content'),

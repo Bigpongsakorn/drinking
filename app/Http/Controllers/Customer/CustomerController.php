@@ -61,6 +61,8 @@ class CustomerController extends Controller
                 'cus_zipcode' => $request->zipcode,
                 'cus_phonenumber' => $request->tel,
                 'cus_status' => '0',
+                'cus_lat' => $request->lat,
+                'cus_long' => $request->lng,
             ];
 // dd($table);
             Customer::insert($table);
@@ -85,11 +87,17 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
-    {
-        return view('customer.map');
+    // public function show()
+    // {
+    //     return view('customer.map');
 
-    }
+    // }
+
+    // public function show_s()
+    // {
+    //     return view('customer.map_s');
+
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -130,6 +138,8 @@ class CustomerController extends Controller
                 'cus_subdistrict' => $request->subdistrict,
                 'cus_zipcode' => $request->zipcode,
                 'cus_phonenumber' => $request->tel,
+                'cus_lat' => $request->lat,
+                'cus_long' => $request->lng,
             ];
 
             Customer::where('cus_id', $request->id)->update($table);

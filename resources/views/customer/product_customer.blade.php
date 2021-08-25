@@ -1,3 +1,9 @@
+<style>
+    #map {
+        height: 500px;
+        width: 100%;
+    }
+</style>
 @extends('layouts.admin.main')
 @section('content')
     <div class="pcoded-content">
@@ -101,6 +107,24 @@
                                                         <label for="">{{ $cus->cus_zipcode }}</label>
                                                     </div>
                                                 </div>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-12">
+                                                        <label for="">แผนที่</label>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label for="">lat</label>
+                                                        <input type="text" name="" id="lat" class="form-control" value="{{ $cus->cus_lat }}">
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label for="">long</label>
+                                                        <input type="text" name="" id="lng" class="form-control"  value="{{ $cus->cus_long }}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-12">
+                                                        <div id="map"></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -146,54 +170,90 @@
 @endsection
 
 @section('js')
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAbQYN8OUJG8hsQuM3vd6wsbzDRQWhedko&callback=initMap&libraries=&v=weekly&channel=2"
+    async></script>
     <script>
-        $(document).ready(function() {
-            $('body').on('submit', '#create-product', function(e) {
-                e.preventDefault();
-                var cus_id = $('#cus_id').val()
-                var product_id = $('#product_id').val()
-                var fd = new FormData();
 
-                if (product_id) {
-                    fd.append('_token', "{{ csrf_token() }}");
-                    fd.append('cus_id', cus_id);
-                    fd.append('product_id', product_id);
+    var lat = $('#lat').val();
+    var lng = $('#lng').val();
 
-                    $.ajax({
-                        method: "POST",
-                        url: "/customer/insert",
-                        dataType: 'json',
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        data: fd,
-                    }).done(function(rec) {
-                        // rec = JSON.parse(rec);
-                        if (rec.status == '1') {
-                            swal({
-                                title: 'บันทึกสำเร็จ!',
-                                text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
-                                type: 'success',
-                                padding: '2em'
-                            }).then(function(then) {
-                                // location.reload()
-                                location.href = '/customer/index'
-                            })
-                        }
-                        if (rec.status == '0') {
-                            swal({
-                                title: 'บันทึกไม่สำเร็จ!',
-                                text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
-                                type: 'error',
-                                padding: '2em'
-                            })
-                        }
-                    }).fail(function() {
-                        swal("Error!", "You clicked the button!", "error");
-                    })
-                }
+    function initMap() {
+            console.log(lat);
+            console.log(lng);
 
-            })
-        });
+            if(lat && lng != null){
+                var myLatLng = { lat: parseInt(lat), lng: parseInt(lng) }; // เริ่มต้น
+            }else{
+                var myLatLng = { lat: 18.1937621, lng: 99.3980395 }; // เริ่มต้น
+            }
+            
+            const map = new google.maps.Map(document.getElementById('map'), {
+                    center: myLatLng,
+                    zoom: 15,
+                });
+                
+            var marker = new google.maps.Marker({
+                map:map,
+                position: myLatLng,
+                // title: "Hello World!",
+            });
+
+            google.maps.event.addListener(map,'click',function(event){
+                console.log(event.latLng);
+                // alert(event.latLng);
+                marker.setPosition(event.latLng);
+                $("#lat").val(event.latLng.lat());
+                $("#lng").val(event.latLng.lng());
+            });
+
+        }
+        // $(document).ready(function() {
+        //     $('body').on('submit', '#create-product', function(e) {
+        //         e.preventDefault();
+        //         var cus_id = $('#cus_id').val()
+        //         var product_id = $('#product_id').val()
+        //         var fd = new FormData();
+
+        //         if (product_id) {
+        //             fd.append('_token', "{{ csrf_token() }}");
+        //             fd.append('cus_id', cus_id);
+        //             fd.append('product_id', product_id);
+
+        //             $.ajax({
+        //                 method: "POST",
+        //                 url: "/customer/insert",
+        //                 dataType: 'json',
+        //                 cache: false,
+        //                 contentType: false,
+        //                 processData: false,
+        //                 data: fd,
+        //             }).done(function(rec) {
+        //                 // rec = JSON.parse(rec);
+        //                 if (rec.status == '1') {
+        //                     swal({
+        //                         title: 'บันทึกสำเร็จ!',
+        //                         text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
+        //                         type: 'success',
+        //                         padding: '2em'
+        //                     }).then(function(then) {
+        //                         // location.reload()
+        //                         location.href = '/customer/index'
+        //                     })
+        //                 }
+        //                 if (rec.status == '0') {
+        //                     swal({
+        //                         title: 'บันทึกไม่สำเร็จ!',
+        //                         text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
+        //                         type: 'error',
+        //                         padding: '2em'
+        //                     })
+        //                 }
+        //             }).fail(function() {
+        //                 swal("Error!", "You clicked the button!", "error");
+        //             })
+        //         }
+
+        //     })
+        // });
     </script>
 @endsection

@@ -31,35 +31,84 @@
                                         <button class="btn btn-sm btn-dark">พิมพ์</button>
                                     </div>
                                     <div class="card-block">
-                                        <div class="form-group row">
+                                        {{-- <div class="form-group row"> --}}
                                             {{-- <div class="col-sm-1"></div> --}}
-                                            <div class="col-sm-12">
+                                            {{-- <div class="col-sm-12"> --}}
                                                 <div class="form-group row">
                                                     <div class="col-sm-8">
                                                         <label for="">เลขที่ใบสั่งซื้อ : </label>
-                                                        <label for="">{{ sprintf('%05d', $order->order_id) }}</label>
+                                                        <label for="">{{ sprintf('%05d', $customer_db->order_id) }}</label>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <label for="">วันที่เริ่มสั่งซื้อ : </label>
-                                                        <label
-                                                            for="">{{ date('d-m-Y', strtotime($order->order_startdate)) }}</label>
+                                                        <label for="">{{ date('d-m-Y', strtotime($customer_db->order_startdate)) }}</label>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-8">
                                                         <label for="">ชื่อลูกค้า : </label>
                                                         @if ($order_db->cus_id == 99)
-                                                            <label for="">{{ $order->o_name }}</label>
+                                                            <label for="">{{ $other_db->o_name }}</label>
                                                         @else
-                                                            <label for="">{{ $order->cus_fristname }}
-                                                                {{ $order->cus_lastname }}</label>
+                                                            <label for="">{{ $customer_db->cus_fristname }}
+                                                                {{ $customer_db->cus_lastname }}</label>
                                                         @endif
                                                     </div>
-                                                    {{-- <div class="col-sm-4">
-                                                        <label for="">วันที่สั่งซื้อเสร็จ : </label>
-                                                        <label for="">{{ date('d-m-Y', strtotime($order->order_completeddate)) }}</label>
-                                                    </div> --}}
+                                                    <div class="col-sm-4">
+                                                        <label for="">เบอร์โทร : </label>
+                                                        @if ($order_db->cus_id == 99)
+                                                            <label for="">{{ $other_db->o_phonenumber }}</label>
+                                                        @else
+                                                            <label for="">{{ $customer_db->cus_phonenumber }}</label>
+                                                        @endif
+                                                    </div>
                                                 </div>
+                                            {{-- </div>
+                                        </div> --}}
+                                        <div class="form-group row">
+                                            <div class="col-sm-8">
+                                                <label for="">ที่อยู่ : </label>
+                                                @if ($order_db->cus_id == 99)
+                                                    <label for="">{{ $other_db->o_address }}</label>
+                                                @else
+                                                    <label for="">{{ $customer_db->cus_address }}</label>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-8">
+                                                <label for="">จังหวัด : </label>
+                                                @if ($order_db->cus_id == 99)
+                                                    <label for="">{{ $other_db->province_name }}</label>
+                                                @else
+                                                    <label for="">{{ $customer_db->province_name }}</label>
+                                                @endif
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label for="">อำเภอ : </label>
+                                                @if ($order_db->cus_id == 99)
+                                                    <label for="">{{ $other_db->district_name }}</label>
+                                                @else
+                                                    <label for="">{{ $customer_db->district_name }}</label>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-8">
+                                                <label for="">ตำบล : </label>
+                                                @if ($order_db->cus_id == 99)
+                                                    <label for="">{{ $other_db->subdistrict_name }}</label>
+                                                @else
+                                                    <label for="">{{ $customer_db->subdistrict_name }}</label>
+                                                @endif
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label for="">รหัสไปรษณีย์ : </label>
+                                                @if ($order_db->cus_id == 99)
+                                                    <label for="">{{ $other_db->zip_code }}</label>
+                                                @else
+                                                    <label for="">{{ $customer_db->zip_code }}</label>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="table-responsive dt-responsive table-p">
@@ -83,7 +132,7 @@
                                                         <tr>
                                                             <td style="text-align: center;">{{ $i }}</td>
                                                             <td style="text-align: center">
-                                                                <img src="{{url('/upload/store/'.$value->product_img)}}" alt="" width="50%" class="open_modal"
+                                                                <img src="{{url('/upload/store/'.$value->product_img)}}" alt="" width="25%" class="open_modal"
                                                                 data-toggle="modal" data-target=".bd-example-modal-xl" data-product_img="{{ $value->product_img }}">
                                                             </td>
                                                             <td>
@@ -96,13 +145,13 @@
                                                                 {{ $value->punit }}
                                                             </td>
                                                             <td style="text-align: right;">
-                                                                {{ $value->orderdetail_priceunit }}
+                                                                {{ number_format($value->orderdetail_priceunit,2) }}
                                                             </td>
                                                             <td>
                                                                 บาท
                                                             </td>
                                                             <td style="text-align: right;">
-                                                                {{ $value->orderdetail_quantity_total * $value->orderdetail_priceunit }}.00
+                                                                {{ number_format($value->orderdetail_quantity_total * $value->orderdetail_priceunit,2) }}
                                                             </td>
                                                             <td>
                                                                 บาท
@@ -113,7 +162,7 @@
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
-                                                        <th colspan="6" style="text-align:right">รวม : </th>
+                                                        <th colspan="7" style="text-align:right">รวม : </th>
                                                         @php
                                                             $total = 0;
                                                         @endphp
@@ -121,7 +170,7 @@
                                                             @foreach ($sum as $key)
                                                                 @php $total = $total + $key->sum @endphp
                                                             @endforeach
-                                                            {{ $total }}.00
+                                                            {{ number_format($total,2) }}
                                                         </th>
                                                         <th>บาท</th>
                                                     </tr>

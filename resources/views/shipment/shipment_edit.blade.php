@@ -110,7 +110,7 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">วันที่จัดส่ง</label>
+                                                        <label class="col-form-label red">* วันที่จัดส่ง</label>
                                                         {{-- <label for="" id="cus_date"></label> --}}
                                                         <input type="date" class="form-control" id="ship_date" value="{{ $ship->ship_date }}">
                                                     </div>
@@ -118,7 +118,7 @@
                                                 @foreach ($ship_p as $v)
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">ข้อมูลสินค้า</label>
+                                                        <label class="col-form-label red">* ข้อมูลสินค้า</label>
                                                         <select name="" id="" class="form-control product_id">
                                                             <option value="">--เลือกสินค้า--</option>
                                                             @foreach ($product as $item)
@@ -130,7 +130,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">จำนวน</label>
+                                                        <label class="col-form-label red">* จำนวน</label>
                                                         <input type="number" class="form-control product_num" id="" value="{{ $v->product_num }}">
                                                     </div>
                                                 </div>
@@ -188,7 +188,7 @@
                 var html = "";
                 html += `<div class="form-group row">
                             <div class="col-sm-6">
-                                <label class="col-form-label">ข้อมูลสินค้า</label>
+                                <label class="col-form-label red">* ข้อมูลสินค้า</label>
                                 <select name="" id="" class="form-control product_id">
                                     <option value="">--เลือกสินค้า--</option>
                                     @foreach ($product as $item)
@@ -198,7 +198,7 @@
                                 </select>
                             </div>
                             <div class="col-sm-6">
-                                <label class="col-form-label">จำนวน</label>
+                                <label class="col-form-label red">* จำนวน</label>
                                 <input type="number" class="form-control product_num" id="">
                             </div>
                         </div>`;
@@ -231,7 +231,7 @@
                 console.log(product_id);
                 console.log(product_num);
 
-                if (product_id != "" && product_num != "") {
+                if (product_id != "" && product_num != "" && ship_date) {
                     fd.append('_token', "{{ csrf_token() }}");
                     fd.append('id', id);
                     fd.append('product_id', product_id);
@@ -240,7 +240,7 @@
 
                     $.ajax({
                         method: "POST",
-                        url: "/shipment/update",
+                        url: "/drinking/public/shipment/update",
                         dataType: 'json',
                         cache: false,
                         contentType: false,
@@ -256,7 +256,7 @@
                                 padding: '2em'
                             }).then(function(then) {
                                 // location.reload()
-                                location.href = '/shipment/shipment_index'
+                                location.href = '/drinking/public/shipment/shipment_index'
                             })
                         }
                         if (rec.status == '0') {

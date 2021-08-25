@@ -35,26 +35,26 @@
                                             <div class="col-sm-10">
                                                 <div class="form-group row">
                                                     <div class="col-sm-12">
-                                                        <label class="col-form-label">รูปภาพสินค้า</label>
+                                                        <label class="col-form-label red">* รูปภาพสินค้า</label>
                                                         <input type="file" class="form-control" name="input_file"
                                                             id="input_file">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">ชื่อสินค้า</label>
+                                                        <label class="col-form-label red">* ชื่อสินค้า</label>
                                                         <input type="text" class="form-control" name="username" id="name"
                                                             placeholder="ชื่อสินค้า">
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">ราคาสินค้า</label>
+                                                        <label class="col-form-label red">* ราคาสินค้า</label>
                                                         <input type="number" class="form-control" name="price" id="price"
                                                             placeholder="ราคาสินค้า">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">ประเภทสินค้า</label>
-                                                    <div class="col-sm-10">
+                                                    <label class="col-sm-3 col-form-label red">* ประเภทสินค้า</label>
+                                                    <div class="col-sm-9">
                                                         <select name="select" class="form-control" name="type" id="type">
                                                             <option value="">ประเภทสินค้า</option>
                                                             @foreach ($type as $value)
@@ -66,8 +66,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">ปริมาณหน่วยสินค้า</label>
-                                                    <div class="col-sm-10">
+                                                    <label class="col-sm-3 col-form-label red">* ปริมาณหน่วยสินค้า</label>
+                                                    <div class="col-sm-9">
                                                         <select name="select" class="form-control" name="unit" id="unit">
                                                             <option value="">ปริมาณหน่วยสินค้า</option>
                                                             @foreach ($unit as $value)
@@ -80,21 +80,21 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">จำนวน</label>
+                                                        <label class="col-form-label red">* จำนวน</label>
                                                         <input type="number" class="form-control" name="total" id="total"
                                                             placeholder="จำนวนคงเหลือ">
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">หน่วย</label>
+                                                        <label class="col-form-label red">* หน่วย</label>
                                                         <input type="text" class="form-control" name="punit" id="punit"
                                                             placeholder="ชิ้น">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">วัตถุดิบสินค้า</label>
+                                                        <label class="col-form-label">วัตถุดิบประกอบสินค้า</label>
                                                         <select name="select" class="form-control material" name="" id="">
-                                                            <option value="">วัตถุดิบสินค้า</option>
+                                                            <option value="">วัตถุดิบประกอบสินค้า</option>
                                                             @foreach ($mat as $value)
                                                                 <option value="{{ $value->material_id }}">
                                                                     {{ $value->material_name }}
@@ -151,9 +151,9 @@
 
                 $('#add-row').append(' <div class="form-group row">\
                                             <div class="col-sm-6">\
-                                                <label class="col-form-label">วัตถุดิบสินค้า</label>\
+                                                <label class="col-form-label">วัตถุดิบประกอบสินค้า</label>\
                                                 <select name="select" class="form-control material" name="" id="">\
-                                                    <option value="">วัตถุดิบสินค้า</option>\
+                                                    <option value="">วัตถุดิบประกอบสินค้า</option>\
                                                     @foreach ($mat as $value)\
                                                         <option value="{{ $value->material_id }}">\
                                                             {{ $value->material_name }}\
@@ -211,7 +211,7 @@
 
                     $.ajax({
                         method: "POST",
-                        url: "/product/store",
+                        url: "/drinking/public/product/store",
                         dataType: 'json',
                         cache: false,
                         contentType: false,
@@ -228,7 +228,7 @@
                                 padding: '2em'
                             }).then(function(then) {
                                 // location.reload()
-                                location.href = '/product/index'
+                                location.href = '/drinking/public/product/index'
                             })
                         } else {
                             swal({

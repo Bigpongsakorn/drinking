@@ -62,7 +62,8 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/customer/edit/{id}', 'Customer\CustomerController@edit');
     Route::post('/customer/update', 'Customer\CustomerController@update');
     Route::get('/customer/destroy/{id}', 'Customer\CustomerController@destroy');
-    Route::get('/customer/map', 'Customer\CustomerController@show');
+    // Route::get('/customer/map', 'Customer\CustomerController@show');
+    // Route::get('/customer/map_s', 'Customer\CustomerController@show_s');
     Route::get('/customer/product_customer/{id}', 'Customer\CustomerController@product');
     Route::post('/customer/insert', 'Customer\CustomerController@insertproduct');
     Route::post('/customer/status', 'Customer\CustomerController@status');
@@ -149,10 +150,11 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/order/order_detail/{id}', 'Customer\OrderController@show');
     Route::post('/select_order', 'Customer\OrderController@select_order');
     Route::post('/order/status', 'Customer\OrderController@status');
+    Route::get('/order/cancel/{id}', 'Customer\OrderController@cancel');
 
     // ============================= SHIPMENT =============================
     Route::get('/shipment/shipment_index', 'Customer\ShipmentController@index');
-    Route::get('/shipment/shipment_create', 'Customer\ShipmentController@create');
+    // Route::get('/shipment/shipment_create', 'Customer\ShipmentController@create');
     Route::post('/shipment/store', 'Customer\ShipmentController@store');
     Route::post('/select_customer', 'Customer\ShipmentController@select_customer');
     Route::post('/shipment/insert', 'Customer\ShipmentController@insert');
@@ -163,6 +165,8 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/shipment/shipment_detail/{id}', 'Customer\ShipmentController@show');
     Route::post('/shipment/price', 'Customer\ShipmentController@price');
 
+    Route::get('/shipment/shipment_create/{id}', 'Customer\ShipmentController@create');
+
     // ============================= RETURN =============================
     Route::get('/return/return_index', 'Customer\ReturnController@index');
     
@@ -172,5 +176,9 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/return/update', 'Customer\ReturnController@update');
     Route::post('/return/ship_select', 'Customer\ReturnController@ship_select');
     
+    // ============================= PDF =============================
+    Route::get('/PDF/product_pdf', 'PDF\PDFController@product_index');
+    Route::get('/PDF/withdraw_pdf/{id}', 'PDF\PDFController@withdraw_detail');
+
 });
 // });

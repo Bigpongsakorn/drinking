@@ -39,9 +39,10 @@
                                             <table id="multi-colum-dt" class="table table-striped table-bordered nowrap">
                                                 <thead>
                                                     <tr style="text-align: center;">
-                                                        <th>ลำดับ</th>
+                                                        <th>หมายเลขการผลิต</th>
                                                         <th>รายการผลิต</th>
-                                                        <th>วันที่</th>
+                                                        <th>วันที่ผลิต</th>
+                                                        <th>วันที่สั่งผลิต</th>
                                                         <th>ชื่อผู้ทำรายการ</th>
                                                         <th>รายละเอียด</th>
                                                         <th>การอนุมัติ</th>
@@ -53,10 +54,13 @@
                                                     @php $i = 1 @endphp
                                                     @foreach ($production as $value)
                                                         <tr>
-                                                            <td style="text-align: center;">{{ $i }}</td>
+                                                            <td style="text-align: center;">{{ sprintf('%05d',$value->production_group) }}</td>
                                                             <td>{{ $value->production_name }}</td>
                                                             <td style="text-align: center;">
                                                                 {{ date('d-m-Y', strtotime($value->production_date)) }}
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                {{ $value->production_date_start }}
                                                             </td>
                                                             <td style="text-align: center;">{{ $value->emp_firstname }}
                                                                 {{ $value->emp_lastname }}</td>
@@ -141,10 +145,13 @@
                                                     @php $i = 1 @endphp
                                                     @foreach ($pending as $value)
                                                         <tr>
-                                                            <td style="text-align: center;">{{ $i }}</td>
+                                                            <td style="text-align: center;">{{ sprintf('%05d',$value->production_group) }}</td>
                                                             <td>{{ $value->production_name }}</td>
                                                             <td style="text-align: center;">
                                                                 {{ date('d-m-Y', strtotime($value->production_date)) }}
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                {{ $value->production_date_start }}
                                                             </td>
                                                             <td style="text-align: center;">{{ $value->emp_firstname }}
                                                                 {{ $value->emp_lastname }}</td>
@@ -228,10 +235,13 @@
                                                     @php $i = 1 @endphp
                                                     @foreach ($dis as $value)
                                                         <tr>
-                                                            <td style="text-align: center;">{{ $i }}</td>
+                                                            <td style="text-align: center;">{{ sprintf('%05d',$value->production_group) }}</td>
                                                             <td>{{ $value->production_name }}</td>
                                                             <td style="text-align: center;">
                                                                 {{ date('d-m-Y', strtotime($value->production_date)) }}
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                {{ $value->production_date_start }}
                                                             </td>
                                                             <td style="text-align: center;">{{ $value->emp_firstname }}
                                                                 {{ $value->emp_lastname }}</td>
@@ -316,10 +326,13 @@
                                                     @php $i = 1 @endphp
                                                     @foreach ($approve as $value)
                                                         <tr>
-                                                            <td style="text-align: center;">{{ $i }}</td>
+                                                            <td style="text-align: center;">{{ sprintf('%05d',$value->production_group) }}</td>
                                                             <td>{{ $value->production_name }}</td>
                                                             <td style="text-align: center;">
                                                                 {{ date('d-m-Y', strtotime($value->production_date)) }}
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                {{ $value->production_date_start }}
                                                             </td>
                                                             <td style="text-align: center;">{{ $value->emp_firstname }}
                                                                 {{ $value->emp_lastname }}</td>
@@ -403,10 +416,13 @@
                                                     @php $i = 1 @endphp
                                                     @foreach ($finished as $value)
                                                         <tr>
-                                                            <td style="text-align: center;">{{ $i }}</td>
+                                                            <td style="text-align: center;">{{ sprintf('%05d',$value->production_group) }}</td>
                                                             <td>{{ $value->production_name }}</td>
                                                             <td style="text-align: center;">
                                                                 {{ date('d-m-Y', strtotime($value->production_date)) }}
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                {{ $value->production_date_start }}
                                                             </td>
                                                             <td style="text-align: center;">{{ $value->emp_firstname }}
                                                                 {{ $value->emp_lastname }}</td>
@@ -607,7 +623,7 @@ if(production_status == 1){
 
                         $.ajax({
                             method: "GET",
-                            url: "/production/destroy/" + id,
+                            url: "/drinking/public/production/destroy/" + id,
                         }).done(function(rec) {
                             rec = JSON.parse(rec);
                             console.log(rec);
@@ -653,7 +669,7 @@ console.log(production_status);
 
                     $.ajax({
                         method: "POST",
-                        url: "/production/status",
+                        url: "/drinking/public/production/status",
                         dataType: 'json',
                         cache: false,
                         contentType: false,
@@ -707,7 +723,7 @@ console.log(production_status);
 
                     $.ajax({
                         method: "POST",
-                        url: "/production/status",
+                        url: "/drinking/public/production/status",
                         dataType: 'json',
                         cache: false,
                         contentType: false,

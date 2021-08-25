@@ -101,7 +101,7 @@
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6">
-                                                    <label class="col-form-label">อีเมล์ : </label>
+                                                    <label class="col-form-label">อีเมล : </label>
                                                     <label for="">{{$user->emp_email}}</label>
                                                 </div>
                                                 <div class="col-sm-6">

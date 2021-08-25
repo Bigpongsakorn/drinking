@@ -26,25 +26,154 @@ class ShipmentController extends Controller
         $data['user_id'] = Auth::user()->emp_id; // เก็บตัวแปล id ของผู้ใช้งานที่ Login อยู่
         $data["user_type"] = Auth::user()->position_id;
         $data['customer'] = Customer::get();
-        $data['ship'] = Shipment::leftJoin('customer_data','customer_data.cus_id','shipment.cus_id')
-        ->leftJoin('empolyee','empolyee.emp_id','shipment.emp_id')
-        ->orderBy('ship_id','desc')
+
+        $data['ship'] =  DB::table('shipment')
+        ->leftJoin('customer_data','customer_data.cus_id','shipment.cus_id')
+        // ->leftJoin('empolyee','empolyee.emp_id','shipment.emp_id')
+        ->leftJoin('shipment_product','shipment_product.ship_id','shipment.ship_id')
+        ->leftJoin('product_data','product_data.product_id','shipment_product.product_id')
+        ->select('shipment.ship_id',
+        DB::raw('SUM(product_num * product_price) as total'),
+        'shipment.ship_id as ship_id',
+        'shipment.ship_date',
+        'shipment.ship_pay',
+        'shipment.ship_note',
+        'shipment.ship_status',
+        'shipment.ship_price',
+        'shipment.ship_bill',
+        'shipment.ship_arrears',
+        'shipment.ship_pay_status',
+        'shipment.ship_change',
+        'customer_data.cus_fristname',
+        'customer_data.cus_lastname',
+        'customer_data.cus_phonenumber',)
+        ->groupBy('shipment.ship_id')
+        ->groupBy('shipment.ship_date')
+        ->groupBy('shipment.ship_pay')
+        ->groupBy('shipment.ship_note')
+        ->groupBy('shipment.ship_status')
+        ->groupBy('shipment.ship_price')
+        ->groupBy('shipment.ship_bill')
+        ->groupBy('shipment.ship_arrears')
+        ->groupBy('shipment.ship_pay_status')
+        ->groupBy('shipment.ship_change')
+        ->groupBy('customer_data.cus_fristname')
+        ->groupBy('customer_data.cus_lastname')
+        ->groupBy('customer_data.cus_phonenumber')
+        ->orderBy('shipment.ship_id','desc')
         ->get();
-        $data['ship_pending'] = Shipment::leftJoin('customer_data','customer_data.cus_id','shipment.cus_id')
-        ->leftJoin('empolyee','empolyee.emp_id','shipment.emp_id')
+
+        $data['ship_pending'] = DB::table('shipment')
+        ->leftJoin('customer_data','customer_data.cus_id','shipment.cus_id')
+        // ->leftJoin('empolyee','empolyee.emp_id','shipment.emp_id')
+        ->leftJoin('shipment_product','shipment_product.ship_id','shipment.ship_id')
+        ->leftJoin('product_data','product_data.product_id','shipment_product.product_id')
+        ->select('shipment.ship_id',
+        DB::raw('SUM(product_num * product_price) as total'),
+        'shipment.ship_id as ship_id',
+        'shipment.ship_date',
+        'shipment.ship_pay',
+        'shipment.ship_note',
+        'shipment.ship_status',
+        'shipment.ship_price',
+        'shipment.ship_bill',
+        'shipment.ship_arrears',
+        'shipment.ship_pay_status',
+        'shipment.ship_change',
+        'customer_data.cus_fristname',
+        'customer_data.cus_lastname',
+        'customer_data.cus_phonenumber',)
+        ->groupBy('shipment.ship_id')
+        ->groupBy('shipment.ship_date')
+        ->groupBy('shipment.ship_pay')
+        ->groupBy('shipment.ship_note')
+        ->groupBy('shipment.ship_status')
+        ->groupBy('shipment.ship_price')
+        ->groupBy('shipment.ship_bill')
+        ->groupBy('shipment.ship_arrears')
+        ->groupBy('shipment.ship_pay_status')
+        ->groupBy('shipment.ship_change')
+        ->groupBy('customer_data.cus_fristname')
+        ->groupBy('customer_data.cus_lastname')
+        ->groupBy('customer_data.cus_phonenumber')
         ->where('ship_status','0')
         ->orderBy('ship_id','desc')
         ->get();
-        $data['ship_approve'] = Shipment::leftJoin('customer_data','customer_data.cus_id','shipment.cus_id')
-        ->leftJoin('empolyee','empolyee.emp_id','shipment.emp_id')
+
+        $data['ship_approve'] = DB::table('shipment')
+        ->leftJoin('customer_data','customer_data.cus_id','shipment.cus_id')
+        // ->leftJoin('empolyee','empolyee.emp_id','shipment.emp_id')
+        ->leftJoin('shipment_product','shipment_product.ship_id','shipment.ship_id')
+        ->leftJoin('product_data','product_data.product_id','shipment_product.product_id')
+        ->select('shipment.ship_id',
+        DB::raw('SUM(product_num * product_price) as total'),
+        'shipment.ship_id as ship_id',
+        'shipment.ship_date',
+        'shipment.ship_pay',
+        'shipment.ship_note',
+        'shipment.ship_status',
+        'shipment.ship_price',
+        'shipment.ship_bill',
+        'shipment.ship_arrears',
+        'shipment.ship_pay_status',
+        'shipment.ship_change',
+        'customer_data.cus_fristname',
+        'customer_data.cus_lastname',
+        'customer_data.cus_phonenumber',)
+        ->groupBy('shipment.ship_id')
+        ->groupBy('shipment.ship_date')
+        ->groupBy('shipment.ship_pay')
+        ->groupBy('shipment.ship_note')
+        ->groupBy('shipment.ship_status')
+        ->groupBy('shipment.ship_price')
+        ->groupBy('shipment.ship_bill')
+        ->groupBy('shipment.ship_arrears')
+        ->groupBy('shipment.ship_pay_status')
+        ->groupBy('shipment.ship_change')
+        ->groupBy('customer_data.cus_fristname')
+        ->groupBy('customer_data.cus_lastname')
+        ->groupBy('customer_data.cus_phonenumber')
         ->where('ship_status','1')
         ->orderBy('ship_id','desc')
         ->get();
-        $data['ship_fin'] = Shipment::leftJoin('customer_data','customer_data.cus_id','shipment.cus_id')
-        ->leftJoin('empolyee','empolyee.emp_id','shipment.emp_id')
+
+        $data['ship_fin'] = DB::table('shipment')
+        ->leftJoin('customer_data','customer_data.cus_id','shipment.cus_id')
+        // ->leftJoin('empolyee','empolyee.emp_id','shipment.emp_id')
+        ->leftJoin('shipment_product','shipment_product.ship_id','shipment.ship_id')
+        ->leftJoin('product_data','product_data.product_id','shipment_product.product_id')
+        ->select('shipment.ship_id',
+        DB::raw('SUM(product_num * product_price) as total'),
+        'shipment.ship_id as ship_id',
+        'shipment.ship_date',
+        'shipment.ship_pay',
+        'shipment.ship_note',
+        'shipment.ship_status',
+        'shipment.ship_price',
+        'shipment.ship_bill',
+        'shipment.ship_arrears',
+        'shipment.ship_pay_status',
+        'shipment.ship_change',
+        'customer_data.cus_fristname',
+        'customer_data.cus_lastname',
+        'customer_data.cus_phonenumber',)
+        ->groupBy('shipment.ship_id')
+        ->groupBy('shipment.ship_date')
+        ->groupBy('shipment.ship_pay')
+        ->groupBy('shipment.ship_note')
+        ->groupBy('shipment.ship_status')
+        ->groupBy('shipment.ship_price')
+        ->groupBy('shipment.ship_bill')
+        ->groupBy('shipment.ship_arrears')
+        ->groupBy('shipment.ship_pay_status')
+        ->groupBy('shipment.ship_change')
+        ->groupBy('customer_data.cus_fristname')
+        ->groupBy('customer_data.cus_lastname')
+        ->groupBy('customer_data.cus_phonenumber')
         ->where('ship_status','2')
         ->orderBy('ship_id','desc')
         ->get();
+
         // dd($data);
         return view('shipment.shipment_index', $data);
     }
@@ -54,8 +183,9 @@ class ShipmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
+        // dd($id);
         $data['page'] = '/shipment/create';
         // $data['cus'] = Customer::leftjoin('provinces', 'provinces.province_id', 'customer_data.cus_province')
         // ->leftjoin('districts', 'districts.district_id', 'customer_data.cus_district')
@@ -66,7 +196,10 @@ class ShipmentController extends Controller
         $data['cus_p'] = CustomerProduct::leftjoin('product_data','product_data.product_id','customer_product.product_id')
         // ->where('cus_id',$id)
         ->get();
-        $data['customer'] = Customer::where('cus_status','!=',1)->get();
+        $data['customer'] = Customer::leftjoin('provinces', 'provinces.province_id', 'customer_data.cus_province')
+        ->leftjoin('districts', 'districts.district_id', 'customer_data.cus_district')
+        ->leftjoin('subdistricts', 'subdistricts.subdistrict_id', 'customer_data.cus_subdistrict')
+        ->where('cus_id',$id)->first();
         // dd($data);
         return view('shipment.shipment_create', $data);
     }
@@ -345,29 +478,40 @@ class ShipmentController extends Controller
             if($request->ship_pay == 1){
                  //จ่ายเงิน
                 //  dd("จ่ายเงิน");
-                 if($request->ship_pay_s != null){
-                    if($request->ship_pay_s == 1){
+                 if($request->order_pay != null){
+                    if($request->order_pay == 1){
                         // dd("จ่ายเงินสด");
+                        if($request->p_price == null && $request->change == null){
+                            DB::rollBack();
+                            $return['status'] = 3;
+                            $return['content'] = 'ไม่สำเร็จ';
+                            return json_encode($return);
+                        }
                         $table = [
                             'ship_pay' => $request->ship_pay,
-                            'ship_pay_s' => $request->ship_pay_s,
-                            'ship_note' => $request->ship_note,
-                            'ship_price' => null,
+                            'ship_pay_status' => $request->order_pay,
+                            'ship_pay' => $request->ship_pay,
+                            'ship_price' => $request->p_price, //จำนวนจ่ายเงิน
+                            'ship_change' => $request->change, // เงินทอน
+                            'ship_arrears' => null, // เงินค้าง
+                            'ship_note' => null,
+                            'ship_bill' => null,
                         ];
                         // dd($table);
                         Shipment::where('ship_id',$request->ship_id)->update($table);
                     }else{
                         // dd("จ่ายเงินโอน");
+                    //    dd($request->ship_bill);
                         if($request->ship_bill != null){
-
+                            // dd("จ่ายเงินโอน2");
                             $path = public_path() . '/upload/shipment/';
                             $pic = Shipment::select('ship_bill')->where('ship_id', $request->ship_id)->first();
-
+// dd($pic);
                             if ($pic->ship_bill != null) {
                                 $file_old = $path . $pic->ship_bill;
                                 unlink($file_old);
                             }
-        
+// dd($request->ship_bill);
                             $file = $request->file('ship_bill');
                             $extension = $file->getClientOriginalExtension();
                             $filename = time() . '.' . $extension;
@@ -377,9 +521,11 @@ class ShipmentController extends Controller
 
                             $table = [
                                 'ship_pay' => $request->ship_pay,
-                                'ship_pay_s' => $request->ship_pay_s,
                                 'ship_bill' => $news_pic,
-                                'ship_note' => $request->ship_note,
+                                'ship_pay_status' => $request->order_pay,
+                                'ship_change' => null,
+                                'ship_arrears' => null,
+                                'ship_note' => null,
                                 'ship_price' => null,
                             ];
                             // dd($table);
@@ -399,12 +545,18 @@ class ShipmentController extends Controller
                     return json_encode($return);
                  }
             }elseif($request->ship_pay == 3){
-                if($request->ship_price != null){
+                // ค้าง
+                if($request->ship_price != null && $request->ship_note != null){
                     $table = [
                         'ship_pay' => $request->ship_pay,
-                        'ship_note' => $request->ship_note2,
-                        'ship_price' => $request->ship_price,
+                        'ship_note' => $request->ship_note,
+                        'ship_arrears' => $request->ship_price,
+                        'ship_price' => null,
+                        'ship_bill' => null,
+                        'ship_pay_status' => null,
+                        'ship_change' => null,
                     ];
+                    // dd($table);
                     Shipment::where('ship_id',$request->ship_id)->update($table);
                 }else{
                     DB::rollBack();
@@ -415,10 +567,21 @@ class ShipmentController extends Controller
             }else{
                 //ไม่ได้จ่ายเงิน
                 // dd("ไม่ได้จ่ายเงิน");
+                if($request->ship_note == null){
+                    $return['status'] = 3;
+                    $return['content'] = 'ไม่สำเร็จ';
+                    return json_encode($return);
+                }
             $table = [
                 'ship_pay' => $request->ship_pay,
                 'ship_note' => $request->ship_note,
+                'ship_price' => null,
+                'ship_arrears' => null,
+                'ship_bill' => null,
+                'ship_pay_status' => null,
+                'ship_change' => null,
             ];
+            // dd($table);
             Shipment::where('ship_id',$request->ship_id)->update($table);
             }
             // dd("s");

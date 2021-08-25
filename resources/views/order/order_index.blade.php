@@ -39,27 +39,36 @@
                                             <table id="multi-colum-dt" class="table table-striped table-bordered nowrap">
                                                 <thead>
                                                     <tr style="text-align: center;">
-                                                        <th>ลำดับ</th>
-                                                        <th>ชื่อสั่งสินค้า</th>
-                                                        <th>ราคาทั้งหมด</th>
-                                                        <th>วันที่เริ่มสั่งซื้อ</th>
+                                                        <th>เลขที่ใบสั่งซื้อ</th>
+                                                        <th>ชื่อลูกค้า</th>
+                                                        <th>ราคารวม</th>
+                                                        <th>วันที่ซื้อ</th>
                                                         {{-- <th>วันที่สั่งซื้อเสร็จ</th> --}}
                                                         <th>รายละเอียด</th>
                                                         <th>การจ่ายเงิน</th>
                                                         <th>แก้ไข / ลบ</th>
+                                                        <th>ยกเลิกสั่งซื้อ</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-all">
                                                     @php $i = 1 @endphp
                                                     @foreach ($order as $value)
                                                         <tr>
-                                                            <td style="text-align: center;">{{ $i }}</td>
-                                                            <td>{{ $value->order_name }}</td>
+                                                            <td style="text-align: center;">{{ sprintf('%05d',$value->order_id) }}</td>
+                                                            <td>
+                                                                {{-- {{ $value->order_name }} --}}
+                                                                @if ($value->cus_id == 99)
+                                                                    {{ $value->o_name }}
+                                                                @else
+                                                                    
+                                                                @endif
+                                                                {{ $value->cus_fristname }} {{ $value->cus_lastname }}
+                                                            </td>
                                                             <td style="text-align: right;">
-                                                                {{ $value->total }}
+                                                                {{ number_format($value->total,2) }}
                                                             </td>
                                                             <td style="text-align: center;">
-                                                                {{ date('d-m-Y', strtotime($value->order_startdate)) }}
+                                                                {{ date('d-m-Y H:i:s', strtotime($value->order_startdate)) }}
                                                             </td>
                                                             {{-- <td style="text-align: center;">
                                                                 รอยืนยัน
@@ -78,6 +87,7 @@
                                                                         data-target="#exampleModal"
                                                                         data-order_id="{{ $value->order_id }}"
                                                                         data-order_status="{{ $value->order_status }}"
+                                                                        data-total="{{ $value->total }}"
                                                                         class="btn btn-sm btn-warning open_modal">รอจ่ายเงิน
                                                                     </button>
                                                                 @else
@@ -86,6 +96,9 @@
                                                                             data-order_id="{{ $value->order_id }}"
                                                                             data-order_status="{{ $value->order_status }}"
                                                                             data-order_bill="{{ $value->order_bill }}"
+                                                                            data-total="{{ $value->total }}"
+                                                                            data-order_change="{{ $value->order_change }}"
+                                                                            data-order_amount="{{ $value->order_amount }}"
                                                                         class="btn btn-sm btn-success open_modal2">จ่ายเงินแล้ว
                                                                     </button>
                                                                 @endif
@@ -111,6 +124,11 @@
                                                                     </button>
                                                                 </td>
                                                             @endif
+                                                            <td style="text-align: center;">
+                                                                <button class="btn btn-sm btn-danger btn_cancel" data-id="{{ $value->order_id }}">
+                                                                    ยกเลิก
+                                                                </button>
+                                                            </td>
                                                         </tr>
                                                         @php $i++ @endphp
                                                     @endforeach
@@ -119,10 +137,18 @@
                                                     @php $i = 1 @endphp
                                                     @foreach ($pending as $value)
                                                         <tr>
-                                                            <td style="text-align: center;">{{ $i }}</td>
-                                                            <td>{{ $value->order_name }}</td>
+                                                            <td style="text-align: center;">{{ sprintf('%05d',$value->order_id) }}</td>
+                                                            <td>
+                                                                {{-- {{ $value->order_name }} --}}
+                                                                @if ($value->cus_id == 99)
+                                                                    {{ $value->o_name }}
+                                                                @else
+                                                                    
+                                                                @endif
+                                                                {{ $value->cus_fristname }} {{ $value->cus_lastname }}
+                                                            </td>
                                                             <td style="text-align: right;">
-                                                                {{ $value->total }}
+                                                                {{ number_format($value->total,2) }}
                                                             </td>
                                                             <td style="text-align: center;">
                                                                 {{ date('d-m-Y', strtotime($value->order_startdate)) }}
@@ -144,6 +170,7 @@
                                                                         data-target="#exampleModal"
                                                                         data-order_id="{{ $value->order_id }}"
                                                                         data-order_status="{{ $value->order_status }}"
+                                                                        data-total="{{ $value->total }}"
                                                                         class="btn btn-sm btn-warning open_modal">รอจ่ายเงิน
                                                                     </button>
                                                                 @else
@@ -173,6 +200,11 @@
                                                                     </button>
                                                                 </td>
                                                             @endif
+                                                            <td style="text-align: center;">
+                                                                <button class="btn btn-sm btn-info btn_cancel" data-id="{{ $value->order_id }}">
+                                                                    ยกเลิก
+                                                                </button>
+                                                            </td>
                                                         </tr>
                                                         @php $i++ @endphp
                                                     @endforeach
@@ -181,10 +213,18 @@
                                                     @php $i = 1 @endphp
                                                     @foreach ($finished as $value)
                                                         <tr>
-                                                            <td style="text-align: center;">{{ $i }}</td>
-                                                            <td>{{ $value->order_name }}</td>
+                                                            <td style="text-align: center;">{{ sprintf('%05d',$value->order_id) }}</td>
+                                                            <td>
+                                                                {{-- {{ $value->order_name }} --}}
+                                                                @if ($value->cus_id == 99)
+                                                                    {{ $value->o_name }}
+                                                                @else
+                                                                    
+                                                                @endif
+                                                                {{ $value->cus_fristname }} {{ $value->cus_lastname }}
+                                                            </td>
                                                             <td style="text-align: right;">
-                                                                {{ $value->total }}
+                                                                {{ number_format($value->total,2) }}
                                                             </td>
                                                             <td style="text-align: center;">
                                                                 {{ date('d-m-Y', strtotime($value->order_startdate)) }}
@@ -209,9 +249,16 @@
                                                                         class="btn btn-sm btn-warning open_modal">รอจ่ายเงิน
                                                                     </button>
                                                                 @else
-                                                                    <button type="button"
-                                                                        class="btn btn-sm btn-success open_modal">จ่ายเงินแล้ว
-                                                                    </button>
+                                                                <button type="button" data-toggle="modal"
+                                                                        data-target="#exampleModal2"
+                                                                        data-order_id="{{ $value->order_id }}"
+                                                                        data-order_status="{{ $value->order_status }}"
+                                                                        data-order_bill="{{ $value->order_bill }}"
+                                                                        data-total="{{ $value->total }}"
+                                                                        data-order_change="{{ $value->order_change }}"
+                                                                        data-order_amount="{{ $value->order_amount }}"
+                                                                    class="btn btn-sm btn-success open_modal2">จ่ายเงินแล้ว
+                                                                </button>
                                                                 @endif
                                                             </td>
                                                             @if ($value->order_status == 0)
@@ -235,6 +282,11 @@
                                                                     </button>
                                                                 </td>
                                                             @endif
+                                                            <td style="text-align: center;">
+                                                                <button class="btn btn-sm btn-info btn_cancel" data-id="{{ $value->order_id }}">
+                                                                    ยกเลิก
+                                                                </button>
+                                                            </td>
                                                         </tr>
                                                         @php $i++ @endphp
                                                     @endforeach
@@ -263,7 +315,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="" id="create-product-category">
+                {{-- <form class="" id="create-product-category"> --}}
                     <div class="modal-body">
                         <input type="hidden" id="order_id" name="" value="">
                         <select name="" id="order_status1" class="form-control order_status">
@@ -276,13 +328,29 @@
                             <label for="">สลิปโอน</label>
                             <input type="file" class="form-control order_bill">
                         </div>
-
+                        <div class="select_mon" style="display: none">
+                            <label for="">ราคารวม</label>
+                            <label id="p_total"></label> บาท <br>
+                            <label class="red">* จำนวนที่จ่าย</label>
+                            <div class="form-group row">
+                                <input type="hidden" name="" id="ppp_total">
+                                <input type="text" class="form-control col-md-5 p_price" style="margin: 0 10px 0 10px">
+                                <button class="btn btn-sm btn-primary btn_cal"
+                                    >คำนวณ
+                                </button>
+                            </div>
+                            <div class="form-group row d_cal" style="margin-left: 5px; display: none;">
+                                <label for="">เงินทอน</label>
+                                <label id="ttotal"></label> บาท
+                                <input type="hidden" name="" id="ttotal2">
+                            </div>
+                        </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">ปิด</button>
-                            <button type="submit" class="btn btn-sm btn-primary">บันทึก</button>
+                            <button type="submit" class="btn btn-sm btn-primary" id="create-product-category">บันทึก</button>
                         </div>
                     </div>
-                </form>
+                {{-- </form> --}}
             </div>
         </div>
     </div>
@@ -297,28 +365,21 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                {{-- <form class="" id="create-product-category"> --}}
-                    <div class="modal-body">
-                        {{-- <input type="hidden" id="order_id_" name="" value="">
-                        <select name="" id="order_status1" class="form-control order_status order_status_">
-                            <option value="">-- เลือกการจ่ายเงิน --</option>
-                            <option value="1">จ่ายเงินสด</option>
-                            <option value="2">จ่ายแบบโอน</option>
-                        </select> --}}
-                        <div class="order_status_"></div>
-                        <br>
-                        <div class="select_bill2" style="display: none">
-                            <label for="">สลิปโอน</label>
-                            {{-- <input type="file" class="form-control order_bill"> --}}
-                            <div id="order_bill"></div>
-                        </div>
-
-                        {{-- <div class="modal-footer">
-                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">ปิด</button>
-                            <button type="submit" class="btn btn-sm btn-primary">บันทึก</button>
-                        </div> --}}
+                <div class="modal-body">
+                    <div class="order_status_"></div>
+                    <div class="select_chang" style="display: none">
+                        <label for="">ราคารวม</label>
+                        <label class="order_ttotl"></label> บาท <br>
+                        <label for="">จำนวนที่จ่าย</label>
+                        <label class="order_amount"></label> บาท <br>
+                        <label for="">เงินทอน</label>
+                        <label class="order_change"></label> บาท <br>
                     </div>
-                {{-- </form> --}}
+                    <div class="select_bill2" style="display: none">
+                        <label for="">สลิปโอน</label>
+                        <div id="order_bill"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -329,19 +390,36 @@
     <script>
         $(document).ready(function() {
 
+            $('body').on('click', '.btn_cal', function() {
+                // var p_total = $(this).data('p_total');
+                var p_price = $('.p_price').val()
+                var p_total = $('#ppp_total').val()
+                $('.d_cal').show()
+                // console.log(p_price);
+                // console.log(p_total);
+                var ttotall = p_price - p_total;
+                $('#ttotal').html('').append("<label style='margin:0 5px 0 5px;'>"+ttotall+".00</label>")
+                $('#ttotal2').val(ttotall)
+            });
+
             $('body').on('change', '#order_status1', function() {
                 var id = $('#order_status1').val()
-                console.log(id)
+                // console.log(id)
                 if (id == 1) {
+                    $('.select_mon').show()
                     $('.select_bill').hide()
                     $('.order_bill').val(null)
                 }
                 if (id == 2) {
                     $('.select_bill').show()
+                    $('.select_mon').hide()
+                    $('.p_price').val(null)
                 }
                 if (id == "") {
+                    $('.select_mon').hide()
                     $('.select_bill').hide()
                     $('.order_bill').val(null)
+                    $('.p_price').val(null)
                 }
 
             });
@@ -350,15 +428,37 @@
                 // var order_id = $(this).data('order_id');
                 var order_status = $(this).data('order_status');
                 var order_bill = $(this).data('order_bill');
+                var order_change = $(this).data('order_change');
+                var total = $(this).data('total');
+                var order_amount = $(this).data('order_amount');
+
+                const price = order_amount;
+                let dollarUSLocale = Intl.NumberFormat('en-US');
+                console.log("US Locale output: " + dollarUSLocale.format(price));
+
+                const price2 = order_change;
+                // let dollarUSLocale = Intl.NumberFormat('en-US');
+                console.log("US Locale output2: " + dollarUSLocale.format(price2));
+                // console.log(order_amount);
+                // console.log(order_change);
+                
                 if(order_status == 2){
                     $('.select_bill2').show()
+                    $('.select_chang').hide()
+                }else{
+                    $('.select_bill2').hide()
+                    $('.select_chang').show()
                 }
-// console.log(order_id)
-// console.log(order_status)
-// console.log(order_bill)
+                // console.log(order_id)
+                // console.log(total)
+                // console.log(order_change)
                 // $('#order_id_').val(order_id)
                 // $('.order_status_').val(order_status)
                 // $('#order_bill').val(order_bill)
+                $('.order_change').html('').append("<label>"+dollarUSLocale.format(price2)+".00</label>")
+                $('.order_ttotl').html('').append("<label>"+total+"</label>")
+                $('.order_amount').html('').append("<label>"+dollarUSLocale.format(price)+".00</label>")
+
                 var title =  '';
                     if(order_status == 1){
                         title = 'จ่ายเงินสด'
@@ -372,25 +472,40 @@
             })
 
             $('body').on('click', '.open_modal', function() {
+                $('.p_price').val(null)
+                $('.d_cal').hide()
+                
                 var order_id = $(this).data('order_id');
                 var order_status = $(this).data('order_status');
-
+                var total = $(this).data('total');
+                // console.log(total);
                 $('#order_id').val(order_id)
                 $('#order_status').val(order_status)
+                $('#ppp_total').val(total)
+                $('#p_total').html('').append("<label>"+total+"</label>")
             })
 
-            $('body').on('submit', '#create-product-category', function(e) {
+            $('body').on('click', '#create-product-category', function(e) {
                 e.preventDefault();
+                console.log("ssss");
                 var order_id = $('#order_id').val()
                 var order_status = $('.order_status').val()
+                var ppp_total = $('#ppp_total').val() //ราคาสินค้า
+                var p_price = $('.p_price').val() //ราคาจ่าย
+                var ttotal2 = $('#ttotal2').val() //เงินทอน
                 var order_bill = $('.order_bill').prop('files');
                 var fd = new FormData();
-
+// console.log(ppp_total);
+// console.log(p_price);
+// console.log(ttotal2);
                 if (order_status) {
-
+// dd("sad");
                     fd.append('_token', "{{ csrf_token() }}");
                     fd.append('order_id', order_id);
                     fd.append('order_status', order_status);
+                    fd.append('ppp_total', ppp_total);
+                    fd.append('ttotal2', ttotal2);
+                    fd.append('p_price', p_price);
                     // fd.append('order_bill', order_bill);
 
                     jQuery.each(jQuery('.order_bill')[0].files, function(i, file) {
@@ -399,7 +514,7 @@
 
                     $.ajax({
                         method: "POST",
-                        url: "/order/status",
+                        url: "/drinking/public/order/status",
                         dataType: 'json',
                         cache: false,
                         contentType: false,
@@ -436,6 +551,13 @@
                     }).fail(function() {
                         swal("Error!", "You clicked the button!", "error");
                     })
+                }else {
+                    swal({
+                        title: 'กรุณากรอกข้อมูลให้ครบถ้วน!',
+                        text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
+                        type: 'error',
+                        padding: '2em'
+                    })
                 }
 
             })
@@ -455,7 +577,7 @@
 
                         $.ajax({
                             method: "GET",
-                            url: "/order/destroy/" + id,
+                            url: "/drinking/public/order/destroy/" + id,
                         }).done(function(rec) {
                             rec = JSON.parse(rec);
                             console.log(rec);
@@ -484,6 +606,51 @@
                 })
             })
 
+            $('body').on('click', '.btn_cancel', function() {
+                var id = $(this).data('id');
+                console.log("cancel");
+                console.log(id);
+                swal({
+                    title: 'ยืนยันการยกเลิกการสั่งสินค้า?',
+                    text: "กดปุ่ม Ok เพื่อดำเนินการต่อ!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ok',
+                    padding: '2em'
+                }).then(function(result) {
+                    if (result.value) {
+
+                        $.ajax({
+                            method: "GET",
+                            url: "/drinking/public/order/cancel/" + id,
+                        }).done(function(rec) {
+                            rec = JSON.parse(rec);
+                            console.log(rec);
+                            if (rec.status == '1') {
+                                swal({
+                                    title: 'ยกเลิกการสั่งสินค้าสำเร็จ!',
+                                    text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
+                                    type: 'success',
+                                    padding: '2em'
+                                }).then(function(then) {
+                                    location.reload()
+                                })
+                            } else {
+                                swal({
+                                    title: 'ยกเลิกข้อมูลไม่สำเร็จ!',
+                                    text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
+                                    type: 'error',
+                                    padding: '2em'
+                                })
+                            }
+                        }).fail(function() {
+                            swal("Error!", "You clicked the button!", "error");
+                        })
+
+                    }
+                })
+            })
+            
             $('.table-pending').hide()
             $('.table-finished').hide()
             $('.btn-all').click(function() {

@@ -39,3 +39,6 @@
 <script src="{{ url('/js/sweetalerts/promise-polyfill.js')}}"></script>
 <link href="{{ url('/js/sweetalerts/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{ url('/js/sweetalerts/sweetalert.css')}}" rel="stylesheet" type="text/css" />
+
+{{-- Map --}}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>

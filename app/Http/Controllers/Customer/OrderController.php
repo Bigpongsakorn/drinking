@@ -8,7 +8,11 @@ use App\Models\Order_data;
 use App\Models\Order_detail;
 use App\Models\Other;
 use App\Models\Product;
+use App\Models\District;
+use App\Models\Province;
+use App\Models\Subdistrict;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -28,50 +32,88 @@ class OrderController extends Controller
 
         $data['order'] = DB::table('order_data')
         ->leftJoin('orderdetail', 'order_data.order_id', 'orderdetail.order_id')
+        ->leftJoin('customer_data','customer_data.cus_id','order_data.cus_id')
+        ->leftJoin('other','other.order_id','order_data.order_id')
         ->select('order_data.order_id', 
         DB::raw('SUM(orderdetail_pricetotal) as total'),
-        'order_data.order_name',
+        // 'order_data.order_name',
         'order_data.order_startdate',
         'order_data.order_status',
-        'order_data.order_bill')
+        'order_data.order_bill',
+        'order_data.order_change',
+        'order_data.order_amount',
+        'order_data.cus_id',
+        'customer_data.cus_fristname',
+        'customer_data.cus_lastname',
+        'other.o_name',)
         ->groupBy('order_data.order_id')
-        ->groupBy('order_data.order_name')
+        // ->groupBy('order_data.order_name')
         ->groupBy('order_data.order_startdate')
         ->groupBy('order_data.order_status')
         ->groupBy('order_data.order_bill')
+        ->groupBy('order_data.order_change')
+        ->groupBy('order_data.order_amount')
+        ->groupBy('order_data.cus_id')
+        ->groupBy('customer_data.cus_fristname')
+        ->groupBy('customer_data.cus_lastname')
+        ->groupBy('other.o_name')
         ->orderBy('order_data.order_id', 'desc')
         ->get();
 
         $data['pending'] = DB::table('order_data')
         ->leftJoin('orderdetail', 'order_data.order_id', 'orderdetail.order_id')
+        ->leftJoin('customer_data','customer_data.cus_id','order_data.cus_id')
+        ->leftJoin('other','other.order_id','order_data.order_id')
         ->select('order_data.order_id', 
         DB::raw('SUM(orderdetail_pricetotal) as total'),
-        'order_data.order_name',
+        // 'order_data.order_name',
         'order_data.order_startdate',
         'order_data.order_status',
-        'order_data.order_bill')
+        'order_data.order_bill',
+        'order_data.cus_id',
+        'customer_data.cus_fristname',
+        'customer_data.cus_lastname',
+        'other.o_name',)
         ->groupBy('order_data.order_id')
-        ->groupBy('order_data.order_name')
+        // ->groupBy('order_data.order_name')
         ->groupBy('order_data.order_startdate')
         ->groupBy('order_data.order_status')
         ->groupBy('order_data.order_bill')
+        ->groupBy('order_data.cus_id')
+        ->groupBy('customer_data.cus_fristname')
+        ->groupBy('customer_data.cus_lastname')
+        ->groupBy('other.o_name')
         ->orderBy('order_data.order_id', 'desc')
         ->where('order_data.order_status','0')
         ->get();
 
         $data['finished'] = DB::table('order_data')
         ->leftJoin('orderdetail', 'order_data.order_id', 'orderdetail.order_id')
+        ->leftJoin('customer_data','customer_data.cus_id','order_data.cus_id')
+        ->leftJoin('other','other.order_id','order_data.order_id')
         ->select('order_data.order_id', 
         DB::raw('SUM(orderdetail_pricetotal) as total'),
-        'order_data.order_name',
+        // 'order_data.order_name',
         'order_data.order_startdate',
         'order_data.order_status',
-        'order_data.order_bill')
+        'order_data.order_bill',
+        'order_data.order_change',
+        'order_data.order_amount',
+        'order_data.cus_id',
+        'customer_data.cus_fristname',
+        'customer_data.cus_lastname',
+        'other.o_name',)
         ->groupBy('order_data.order_id')
-        ->groupBy('order_data.order_name')
+        // ->groupBy('order_data.order_name')
         ->groupBy('order_data.order_startdate')
         ->groupBy('order_data.order_status')
         ->groupBy('order_data.order_bill')
+        ->groupBy('order_data.order_change')
+        ->groupBy('order_data.order_amount')
+        ->groupBy('order_data.cus_id')
+        ->groupBy('customer_data.cus_fristname')
+        ->groupBy('customer_data.cus_lastname')
+        ->groupBy('other.o_name')
         ->orderBy('order_data.order_id', 'desc')
         ->where('order_data.order_status','1')
         ->orwhere('order_data.order_status','2')
@@ -90,6 +132,7 @@ class OrderController extends Controller
     {
         $data['page'] = '/order/create';
         $data['customer'] = Customer::where('cus_status','!=',1)->get();
+        $data['province'] = Province::get();
         $data['product'] = Product::get();
         // dd($data);
         return view('order.order_create', $data);
@@ -106,7 +149,7 @@ class OrderController extends Controller
         // dd($request);
         try {
             $count = $request->count;
-            $oder_name = $request->oder_name;
+            // $oder_name = $request->oder_name;
             // $order_startdate = $request->order_startdate;
             $cus_id = $request->cus_id;
             $product_id = explode(",", $request->product_id);
@@ -129,6 +172,14 @@ class OrderController extends Controller
                     return json_encode($return);
                 }
             }
+
+            if($cus_id == 99){
+                if ($request->other_name == null || $request->tel == null || $request->address == null || $request->province == null) {
+                    $return['status'] = 3;
+                    $return['content'] = 'กรอกไม่ครบ!';
+                    return json_encode($return);
+                }
+            }
 // dd("stop");
             foreach ($product_id as $key => $value_pid) {
                 $p_ids = Product::where('product_id', $value_pid)->get();
@@ -146,9 +197,9 @@ class OrderController extends Controller
             }
 
             $table = [
-                'order_name' => $oder_name,
+                // 'order_name' => $oder_name,
                 // 'order_startdate' => $order_startdate,
-                'order_startdate' => date('Y-m-d h:i'),
+                'order_startdate' => Carbon::now(),
                 'cus_id' => $cus_id,
                 'order_quantity' => $count, //ปริมาณ
                 'order_status' => 0,
@@ -198,6 +249,12 @@ class OrderController extends Controller
                 $other = [
                     'o_name' => $request->other_name,
                     'order_id' => $o_id,
+                    'o_phonenumber' => $request->tel,
+                    'o_address' => $request->address,
+                    'o_province' => $request->province,
+                    'o_district' => $request->district,
+                    'o_subdistrict' => $request->subdistrict,
+                    'o_zipcode' => $request->zipcode,
                 ];
                 Other::insert($other);
             }
@@ -227,10 +284,22 @@ class OrderController extends Controller
         $data['customer'] = Customer::get();
         $data['product'] = Product::get();
         $data['order_db'] = Order_data::where('order_id', $id)->first();
-        $data['order'] = Order_data::leftJoin('customer_data', 'customer_data.cus_id', 'order_data.cus_id')
-            ->leftJoin('other','other.order_id','order_data.order_id')
+
+        $data['other_db'] = Other::leftjoin('provinces', 'provinces.province_id', 'other.o_province')
+        ->leftjoin('districts', 'districts.district_id', 'other.o_district')
+        ->leftjoin('subdistricts', 'subdistricts.subdistrict_id', 'other.o_subdistrict')
+        ->where('order_id',$id)
+        ->first();
+
+        $data['customer_db'] = Order_data::leftJoin('customer_data', 'customer_data.cus_id', 'order_data.cus_id')
+            // ->leftJoin('other','other.order_id','order_data.order_id')
+            ->leftjoin('provinces', 'provinces.province_id', 'customer_data.cus_province')
+            ->leftjoin('districts', 'districts.district_id', 'customer_data.cus_district')
+            ->leftjoin('subdistricts', 'subdistricts.subdistrict_id', 'customer_data.cus_subdistrict')
+            // ->selectRaw('order_data.order_id as oo_id,order_data.*,other.*,customer_data.*')
             ->where('order_data.order_id', $id)
             ->first();
+
         // $data['order_d'] = Order_detail::groupby('orderdetail_listnumber')->groupby('orderdetail_quantity_total')->groupby('orderdetail_priceunit')->groupby('orderdetail_pricetotal')->groupby('product_id')->groupby('order_id')
         // ->select('orderdetail_listnumber','orderdetail_quantity_total','orderdetail_priceunit','orderdetail_pricetotal','product_id','order_id')
         // ->where('order_id', $id)
@@ -265,18 +334,25 @@ class OrderController extends Controller
         // $data['customer'] = Customer::get();
         $data['customer'] = Customer::where('cus_status','!=',1)->get();
         $data['product'] = Product::get();
+        $data['province'] = Province::get();
+        $data['district'] = District::get();
+        $data['subistrict'] = Subdistrict::get();
+        $data['order_db'] = Order_data::where('order_id', $id)->first();
+        
+        $data['other_db'] = Other::leftjoin('provinces', 'provinces.province_id', 'other.o_province')
+            ->leftjoin('districts', 'districts.district_id', 'other.o_district')
+            ->leftjoin('subdistricts', 'subdistricts.subdistrict_id', 'other.o_subdistrict')
+            ->where('order_id',$id)
+            ->first();
 
-        $data['order'] = Order_data::leftjoin('customer_data', 'customer_data.cus_id', 'order_data.cus_id')
-        // ->leftjoin('other','other.order_id','order_data.order_id')
+        $data['customer_db'] = Order_data::leftjoin('customer_data', 'customer_data.cus_id', 'order_data.cus_id')
+            ->leftjoin('provinces', 'provinces.province_id', 'customer_data.cus_province')
+            ->leftjoin('districts', 'districts.district_id', 'customer_data.cus_district')
+            ->leftjoin('subdistricts', 'subdistricts.subdistrict_id', 'customer_data.cus_subdistrict')
             ->where('order_data.order_id', $id)->first();
 
-        $data['order11'] = Order_data::where('order_data.order_id', $id)->first();
-
-        $data['order_db'] = Order_detail::where('order_id', $id)->first();
         $data['order_d'] = Order_detail::where('order_id', $id)->get();
-        $data['other'] = Other::leftjoin('order_data', 'order_data.order_id', 'other.order_id')
-            ->where('order_data.order_id', $id)
-            ->first();
+
         // dd($data);
         return view('order.order_edit', $data);
     }
@@ -293,7 +369,7 @@ class OrderController extends Controller
         // dd($request);
         try {
             $count = $request->count;
-            $order_name = $request->order_name;
+            // $order_name = $request->order_name;
             // $order_startdate = $request->order_startdate;
             $cus_id = $request->cus_id;
             $product_id = explode(",", $request->product_id);
@@ -315,10 +391,18 @@ class OrderController extends Controller
                 }
             }
 
+            if($cus_id == 99){
+                if ($request->other_name == null || $request->tel == null || $request->address == null || $request->province == null) {
+                    $return['status'] = 3;
+                    $return['content'] = 'กรอกไม่ครบ!';
+                    return json_encode($return);
+                }
+            }
+
             $table = [
-                'order_name' => $order_name,
+                // 'order_name' => $order_name,
                 // 'order_startdate' => $order_startdate,
-                'order_startdate' => date('Y-m-d h:i'),
+                'order_startdate' => Carbon::now(),
                 'cus_id' => $cus_id,
                 'order_quantity' => $count, //ปริมาณ
                 'order_status' => 0,
@@ -344,13 +428,14 @@ class OrderController extends Controller
                         }
 
                         if ($product_id[$i] == $values->product_id) {
-
+                            $orderdetail_pricetotal = $orderdetail_quantity_total[$i] * $values->product_price;
                             $table1[] = [
                                 'product_id' => $product_id[$i], // สินค้า
                                 'orderdetail_quantity_total' => $orderdetail_quantity_total[$i], //รายละเอียดการสั่งซื้อ จำนวน ทั้งหมด
                                 'order_id' => $request->order_id,
                                 'orderdetail_priceunit' => $values->product_price, //รายละเอียดการสั่งซื้อ ราคาหน่วย
                                 // 'orderdetail_listnumber' => $request->orderdetail_listnumber,
+                                'orderdetail_pricetotal' => $orderdetail_pricetotal,
                             ];
                         }
 
@@ -368,6 +453,12 @@ class OrderController extends Controller
                 $other = [
                     'o_name' => $request->other_name,
                     'order_id' => $request->order_id,
+                    'o_phonenumber' => $request->tel,
+                    'o_address' => $request->address,
+                    'o_province' => $request->province,
+                    'o_district' => $request->district,
+                    'o_subdistrict' => $request->subdistrict,
+                    'o_zipcode' => $request->zipcode,
                 ];
                 // Other::insert($other);
                 Other::where('order_id', $request->order_id)->update($other);
@@ -446,6 +537,23 @@ class OrderController extends Controller
                     // dd($table);
                     Order_data::where('order_id', $request->order_id)->update($table);
 
+                    $oo = Order_detail::where('order_id',$request->order_id)->get();
+                    // dd($oo);
+                    foreach ($oo as $key => $value) {
+                        // dd($value->orderdetail_quantity_total);
+                        $idp = Product::where('product_id', $value->product_id)->get();
+                        // dd($idp);
+                        foreach ($idp as $key => $pid) {
+                            // dd($pid->product_total);
+                            $total = $pid->product_total - $value->orderdetail_quantity_total;
+                            $p_total = [
+                                'product_total' => $total,
+                            ];
+                            // dd($p_total);
+                            Product::where('product_id', $value->product_id)->update($p_total);
+                        }
+                    }
+
                 } else {
                     $return['status'] = 3;
                     $return['content'] = 'ไม่อัพรูป';
@@ -471,11 +579,35 @@ class OrderController extends Controller
                 }
                 $table1 = [
                     'order_status' => $request->order_status,
+                    'order_change' => $request->ttotal2, //เงินทอน
+                    'order_amount' => $request->p_price, //ราคาจ่าย
                 ];
                 // dd($table1);
                 Order_data::where('order_id', $request->order_id)->update($table1);
             }
 
+            DB::commit();
+            $return['status'] = 1;
+            $return['content'] = 'สำเร็จ';
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $return['status'] = 0;
+            $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
+        }
+        return json_encode($return);
+    }
+
+    public function cancel($id)
+    {
+        // dd($id);
+        try {
+
+            $table = [
+                'order_status' => '0'
+            ];
+// dd($table);
+            Order_data::where('order_id', $id)->update($table);
+            
             DB::commit();
             $return['status'] = 1;
             $return['content'] = 'สำเร็จ';

@@ -32,12 +32,12 @@
                                             <div class="col-sm-10">
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">ข้อมูลรายการผลิต</label>
+                                                        <label class="col-form-label red">* ข้อมูลรายการผลิต</label>
                                                         <input type="text" name="" id="" placeholder="ข้อมูลรายการผลิต"
                                                             class="form-control production_name">
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">วันที่</label>
+                                                        <label class="col-form-label red">* วันที่ผลิต</label>
                                                         <input type="date" class="form-control production_date" name="date"
                                                             id="date">
                                                     </div>
@@ -55,7 +55,7 @@
                                             <div class="col-sm-10">
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">ชื่อสินค้า</label>
+                                                        <label class="col-form-label red">* ชื่อสินค้า</label>
                                                         <select name="select" class="form-control product_id select_p" name="product" data-count="1" data-product_id="product_id"
                                                             id="product">
                                                             <option value="">ข้อมูลสินค้า</option>
@@ -67,7 +67,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">จำนวนสินค้า</label>
+                                                        <label class="col-form-label red">* จำนวนสินค้า</label>
                                                         <input type="number" class="form-control production_number"
                                                             name="number" id="number" data-count="1" data-material_number="material_number" >
                                                     </div>
@@ -132,7 +132,7 @@
                                                         <div class="col-sm-10">\
                                                             <div class="form-group row">\
                                                                 <div class="col-sm-6">\
-                                                                    <label class="col-form-label">ชื่อสินค้า</label>\
+                                                                    <label class="col-form-label red">* ชื่อสินค้า</label>\
                                                                     <select name="select" class="form-control product_id select_p" name="product" id="product" data-count="' + count + '">\
                                                                         <option value="">ข้อมูลสินค้า</option>\
                                                                         @foreach ($product as $value)\
@@ -143,7 +143,7 @@
                                                                     </select>\
                                                                 </div>\
                                                                 <div class="col-sm-6">\
-                                                                    <label class="col-form-label">จำนวนสินค้า</label>\
+                                                                    <label class="col-form-label red">* จำนวนสินค้า</label>\
                                                                     <input type="number" class="form-control production_number" data-count="' + count + '" name="number" id="number">\
                                                                 </div>\
                                                             </div>\
@@ -256,7 +256,7 @@
 
                     $.ajax({
                         method: "POST",
-                        url: "/production/store",
+                        url: "/drinking/public/production/store",
                         dataType: 'json',
                         cache: false,
                         contentType: false,
@@ -273,7 +273,7 @@
                                 padding: '2em'
                             }).then(function(then) {
                                 // location.reload()
-                                location.href = '/production/production_index'
+                                location.href = '/drinking/public/production/production_index'
                             })
                         }
                         if (rec.status == '3') {
@@ -314,7 +314,7 @@
                 console.log(count);
                 $.ajax({
                         method: "POST",
-                        url: "/production/select_product",
+                        url: "/drinking/public/production/select_product",
                         data: {
                             "id": id,
                             "_token": $('meta[name="csrf-token"]').attr('content'),
@@ -328,7 +328,7 @@
                             // console.log(value.material_id)
                             html += `<div class="form-group row">
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">ชื่อวัตถุดิบ</label>
+                                                        <label class="col-form-label">วัตถุดิบประกอบสินค้า</label>
                                                         <input type="text" name="" id="" value="`+value.material_name+`" class="form-control" readonly>
                                                     </div>
                                                     <div class="col-sm-6">
@@ -364,7 +364,7 @@
                 console.log(count);
                 $.ajax({
                         method: "POST",
-                        url: "/production/calculate",
+                        url: "/drinking/public/production/calculate",
                         data: {
                             "product_id": product_id,
                             "production_number" : production_number,
@@ -381,7 +381,7 @@
 
                             html += `<div class="form-group row">
                                                     <div class="col-sm-6">
-                                                        <label class="col-form-label">ชื่อวัตถุดิบ</label>
+                                                        <label class="col-form-label">วัตถุดิบประกอบสินค้า</label>
                                                         <input type="text" name="" id="" value="`+value.text+`" class="form-control" readonly>
                                                     </div>
                                                     <div class="col-sm-6">

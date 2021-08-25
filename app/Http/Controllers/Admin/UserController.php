@@ -258,30 +258,72 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        try {
 
-            $new = Users::select('emp_image')->where('emp_id', $id)->first();
-            $path = public_path() . '/upload/users/';
+        $users = Users::where('emp_id',$id)->first();
 
-            //code for remove old file
-            if ($new->emp_image != '') {
-                $file_old = $path . $new->emp_image;
-                unlink($file_old);
+        if($users->position_id == 1){
+            // dd("admin");
+            $admin = Users::select('position_id')->where('position_id','1')->get()->count();
+            // dd($admin);
+            if($admin != 1){
+                // dd($admin);
+                try {
+                    $new = Users::select('emp_image')->where('emp_id', $id)->first();
+                    $path = public_path() . '/upload/users/';
+        
+                    //code for remove old file
+                    if ($new->emp_image != '') {
+                        $file_old = $path . $new->emp_image;
+                        unlink($file_old);
+                    }
+        
+                    DB::beginTransaction();
+                    Users::where('emp_id', $id)->delete();
+        
+                    DB::commit();
+                    $return['status'] = 1;
+                    $return['content'] = 'สำเร็จ';
+                } catch (\Throwable $th) {
+                    DB::rollBack();
+                    $return['status'] = 0;
+                    $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
+                }
+    
+                return json_encode($return);
+            }else{
+                DB::rollBack();
+                $return['status'] = 0;
+                $return['content'] = 'ไม่สำเร็จ';
+                return json_encode($return);
             }
 
-            DB::beginTransaction();
-            Users::where('emp_id', $id)->delete();
+        }else{
+            // dd("user");
+            try {
+                $new = Users::select('emp_image')->where('emp_id', $id)->first();
+                $path = public_path() . '/upload/users/';
+    
+                //code for remove old file
+                if ($new->emp_image != '') {
+                    $file_old = $path . $new->emp_image;
+                    unlink($file_old);
+                }
+    
+                DB::beginTransaction();
+                Users::where('emp_id', $id)->delete();
+    
+                DB::commit();
+                $return['status'] = 1;
+                $return['content'] = 'สำเร็จ';
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                $return['status'] = 0;
+                $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
+            }
 
-            DB::commit();
-            $return['status'] = 1;
-            $return['content'] = 'สำเร็จ';
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            $return['status'] = 0;
-            $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
-
+            return json_encode($return);
         }
-        return json_encode($return);
+        
     }
 
     public function status(Request $request)
