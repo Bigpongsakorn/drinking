@@ -28,7 +28,9 @@
                                         <h5>รายละเอียดข้อมูลรายการผลิต</h5>
                                     </div>
                                     <div style="margin:auto">
-                                        <button class="btn btn-sm btn-dark">พิมพ์</button>
+                                        <a href="{{ url('PDF/production_pdf/'.$p_id->production_group) }}">
+                                            <button class="btn btn-sm btn-dark">พิมพ์</button>
+                                        </a>
                                     </div>
                                     <div class="card-block">
                                         <button class="btn btn-sm btn-primary btn-p">สินค้า</button>

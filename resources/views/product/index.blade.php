@@ -27,12 +27,20 @@
                                 <div class="card-header">
                                     <h5>ข้อมูลสินค้า</h5>
                                 </div>
+                                <div style="margin:auto">
+                                    <a href="{{ url('/PDF/product_pdf') }}">
+                                        <button class="btn btn-sm btn-dark btn_print">
+                                            พิมพ์
+                                        </button>
+                                    </a>
+                                    {{-- <a href="javascript: window.open(); window.print(); window.close(); ">​​​​​​​​​​​​​​​​​print pdf</a> --}}
+                                </div>
                                 <div class="card-block">
                                     <div class="table-responsive dt-responsive">
                                         <table id="multi-colum-dt" class="table table-striped table-bordered nowrap">
                                             <thead>
                                                 <tr style="text-align: center;">
-                                                    <th>ลำดับ</th>
+                                                    <th>รหัสสินค้า</th>
                                                     <th style="width: 20%">รูปภาพสินค้า</th>
                                                     <th>ชื่อสินค้า</th>
                                                     <th>ประเภท</th>

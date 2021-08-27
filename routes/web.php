@@ -179,6 +179,8 @@ Route::group(['middleware' => ['admin']], function () {
     // ============================= PDF =============================
     Route::get('/PDF/product_pdf', 'PDF\PDFController@product_index');
     Route::get('/PDF/withdraw_pdf/{id}', 'PDF\PDFController@withdraw_detail');
-
+    Route::get('/PDF/order_pdf/{id}', 'PDF\PDFController@order_detail');
+    Route::get('/PDF/production_pdf/{id}', 'PDF\PDFController@production_detail');
+    
 });
 // });

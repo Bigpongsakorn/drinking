@@ -28,7 +28,9 @@
                                         <h5>รายละเอียดข้อมูลสั่งซื้อสินค้า</h5>
                                     </div>
                                     <div style="margin:auto">
-                                        <button class="btn btn-sm btn-dark">พิมพ์</button>
+                                        <a href="{{ url('PDF/order_pdf/'.$customer_db->order_id) }}">
+                                            <button class="btn btn-sm btn-dark">พิมพ์</button>
+                                        </a>
                                     </div>
                                     <div class="card-block">
                                         {{-- <div class="form-group row"> --}}

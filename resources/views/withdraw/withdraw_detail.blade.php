@@ -25,10 +25,12 @@
                             <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>รายละเอียดข้อมูลการเบิกวัตถุดิบ</h5>
+                                        <h5>รายละเอียดข้อมูลการเบิกสินค้า</h5>
                                     </div>
                                     <div style="margin:auto">
-                                        <button class="btn btn-sm btn-dark">พิมพ์</button>
+                                        <a href="{{ url('PDF/withdraw_pdf/'.$wid->withdraw_p_id) }}">
+                                            <button class="btn btn-sm btn-dark">พิมพ์</button>
+                                        </a>
                                     </div>
                                     <div class="card-block">
                                         <h5>สถานะ : 

@@ -232,6 +232,7 @@ class ProductionController extends Controller
         $data['pro'] = Production::leftjoin('product_data', 'product_data.product_id', 'production_data.product_id')
             ->where('production_group', $id)
             ->get();
+        $data['p_id'] = Production::where('production_group',$id)->first();
         // $data['mat'] = Production_m::leftjoin('material', 'material.material_id', 'production_m_data.material_id')
         //     ->where('production_m_group', $id)
         //     ->get();
