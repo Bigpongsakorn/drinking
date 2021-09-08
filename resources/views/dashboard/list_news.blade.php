@@ -32,10 +32,11 @@
                                        <table id="multi-colum-dt" class="table table-striped table-bordered nowrap">
                                             <thead>
                                                 <tr style="text-align: center;">
-                                                    <th>ลำดับ</th>
+                                                    <th>รหัสข่าว</th>
+                                                    <th>รูปข่าว</th>
                                                     <th>หัวข้อข่าว</th>
-                                                    <th>วันที่</th>
-                                                    <th>ชื่อผู้เพิ่ม</th>
+                                                    <th>วันที่เพิ่มข้อมูล</th>
+                                                    {{-- <th>ชื่อผู้เพิ่ม</th> --}}
                                                     <th>แก้ไข / ลบ</th>
                                                     {{-- <th>ลบ</th> --}}
                                                 </tr>
@@ -44,7 +45,10 @@
                                                 @php $i = 1 @endphp
                                                 @foreach ($news as $value)
                                                 <tr>
-                                                    <td style="text-align: center;">{{$i}}</td>
+                                                    <td style="text-align: center;">{{ sprintf('%05d',$value->new_id) }}</td>
+                                                    <td style="text-align: center;">
+                                                        <img src="{{url('/upload/news/'.$value->new_image)}}" alt="" width="50%">
+                                                    </td>
                                                     <td>
                                                          @if (strlen($value->new_toppic)>50)
                                                          <p>{!!mb_substr($value->new_toppic,0,50,'UTF-8')."..."!!}</p>
@@ -55,9 +59,9 @@
                                                     <td style="text-align: center;">
                                                         {{date('d-m-Y',strtotime($value->new_date))}}
                                                     </td>
-                                                    <td style="text-align: center;">
+                                                    {{-- <td style="text-align: center;">
 
-                                                    </td>
+                                                    </td> --}}
                                                     <td style="text-align: center;">
                                                         <a href="{{url('/dashboard/edit_news/'.$value->new_id)}}">
                                                             <button class="btn btn-sm btn-primary">
@@ -113,7 +117,7 @@
 
                     $.ajax({
                         method: "GET",
-                        url: "/new/destroy/" + id,
+                        url: "/drinking/public/new/destroy/" + id,
                     }).done(function (rec) {
                         rec = JSON.parse(rec);
                         console.log(rec);

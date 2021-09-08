@@ -17,16 +17,32 @@
                 <div id="printable">
                     <div class="form-group row">
                         <div class="col-sm-3">
-                            <img src="{{url('/upload/logo_test.png')}}" alt="" style="margin: 5%;" width="50%">
+                            <img src="{{url('/upload/logo_test.png')}}" alt="" width="70%">
                         </div>
                         <div class="col-sm-5">
                             <br>
                             <h3>อันดาน้ำดื่ม</h3>
-                            <p>เลขที่ 30 ตำบลนาแก้ว อำเภอเกาะคา จังหวัดลำปาง </p>
+                            <p>เลขที่ 30 ตำบลนาแก้ว อำเภอเกาะคา จังหวัดลำปาง 52130</p>
                         </div>
                         <div class="col-sm-4">
                             <br>
                             <h2>ใบผลิตสินค้า</h2>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-3">
+                            หมายเลขการผลิต {{ sprintf('%05d',$p_id->production_group) }}
+                        </div>
+                        <div class="col-sm-5">
+                            ชื่อผู้ทำรายการ {{ $p_id->emp_firstname }} {{ $p_id->emp_lastname }}
+                        </div>
+                        <div class="col-sm-4">
+                            วันที่ผลิต {{ $p_id->production_date }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <h5>สินค้า</h5>
                         </div>
                     </div>
                     <table id="multi-colum-dt" class="table table-striped table-bordered nowrap">
@@ -88,6 +104,11 @@
                             </tr>
                         </tfoot>
                     </table>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <h5>วัตถุดิบ</h5>
+                        </div>
+                    </div>
                     <table id="alt-pg-dt" class="table table-striped table-bordered nowrap">
                         <thead>
                             <tr style="text-align: center;">

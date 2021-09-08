@@ -17,12 +17,12 @@
                 <div id="printable">
                     <div class="form-group row">
                         <div class="col-sm-3">
-                            <img src="{{url('/upload/logo_test.png')}}" alt="" style="margin: 5%;" width="50%">
+                            <img src="{{url('/upload/logo_test.png')}}" alt="" width="70%">
                         </div>
                         <div class="col-sm-5">
                             <br>
                             <h3>อันดาน้ำดื่ม</h3>
-                            <p>เลขที่ 30 ตำบลนาแก้ว อำเภอเกาะคา จังหวัดลำปาง </p>
+                            <p>เลขที่ 30 ตำบลนาแก้ว อำเภอเกาะคา จังหวัดลำปาง 52130</p>
                         </div>
                         <div class="col-sm-4">
                             <br>

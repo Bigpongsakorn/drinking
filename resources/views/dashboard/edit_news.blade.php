@@ -53,13 +53,13 @@
                                                         value="{{$news->new_toppic}}">
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            {{-- <div class="form-group row">
                                                 <div class="col-sm-11">
                                                     <label class="col-form-label">วันที่</label>
                                                     <input type="date" class="form-control" name="date" id="date"
                                                         value="{{$news->new_date}}">
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="form-group row">
                                                 <div class="col-sm-11">
                                                     <label class="col-form-label">รายละเอียด</label>
@@ -106,16 +106,16 @@
             // console.log('submit');
             var id = $('#id').val();
             var toppic = $('#toppic').val();
-            var date = $('#date').val();
+            // var date = $('#date').val();
             var detail = $('#detail').val();
             var input_file = $('#input_file').prop('files');
             var fd = new FormData();
 
-            if (toppic && date && detail) {
+            if (toppic && detail) {
                 fd.append('_token', "{{ csrf_token() }}");
                 fd.append('id', id);
                 fd.append('toppic', toppic);
-                fd.append('date', date);
+                // fd.append('date', date);
                 fd.append('detail', detail);
 
                 jQuery.each(jQuery('#input_file')[0].files, function (i, file) {
@@ -124,7 +124,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/new/update",
+                    url: "/drinking/public/new/update",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -141,7 +141,7 @@
                             padding: '2em'
                         }).then(function (then) {
                             // location.reload()
-                            location.href = '/dashboard/list_news'
+                            location.href = '/drinking/public/dashboard/list_news'
                         })
                     } else {
                         swal({

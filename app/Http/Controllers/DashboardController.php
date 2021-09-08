@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -40,7 +41,14 @@ class DashboardController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        // dd($request->input_file);
+
+        if ($request->input_file == null) {
+            $return['status'] = 2;
+            $return['content'] = 'ไม่สำเร็จ';
+            return json_encode($return);
+        }
+
         try {
 
             // upload new file
@@ -54,7 +62,7 @@ class DashboardController extends Controller
 
             $table = [
                 'new_toppic' => $request->toppic,
-                'new_date' => $request->date,
+                'new_date' => Carbon::now(),
                 'new_detail' => $request->detail,
                 'new_image' => $news_pic,
                 'emp_id' => Auth::user()->emp_id,
@@ -135,7 +143,7 @@ class DashboardController extends Controller
 
                 $table = [
                     'new_toppic' => $request->toppic,
-                    'new_date' => $request->date,
+                    'new_date' => Carbon::now(),
                     'new_detail' => $request->detail,
                     'new_image' => $news_pic,
                 ];
@@ -146,7 +154,7 @@ class DashboardController extends Controller
 
             $table = [
                 'new_toppic' => $request->toppic,
-                'new_date' => $request->date,
+                'new_date' => Carbon::now(),
                 'new_detail' => $request->detail,
             ];
             // dd($table);

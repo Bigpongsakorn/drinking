@@ -34,7 +34,7 @@
                                         <div class="col-sm-1"></div>
                                         <div class="col-sm-11">
                                             <div class="form-group row">
-                                                <div class="col-sm-8">
+                                                <div class="col-sm-10">
                                                     <label class="col-form-label">Upload File</label>
                                                     <input type="file" class="form-control" name="input_file"
                                                         id="input_file">
@@ -47,12 +47,12 @@
                                                         placeholder="หัวข้อ">
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            {{-- <div class="form-group row">
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">วันที่</label>
                                                     <input type="date" class="form-control" name="date" id="date">
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="form-group row">
                                                 <div class="col-sm-10">
                                                     <label class="col-form-label">รายละเอียด</label>
@@ -99,15 +99,15 @@
         $('body').on('click', '#create-user', function () {
             // console.log('submit');
             var toppic = $('#toppic').val();
-            var date = $('#date').val();
+            // var date = $('#date').val();
             var detail = $('#detail').val();
             var input_file = $('#input_file').prop('files');
             var fd = new FormData();
 
-            if (toppic && date && detail && input_file) {
+            if (toppic && detail && input_file) {
                 fd.append('_token', "{{ csrf_token() }}");
                 fd.append('toppic', toppic);
-                fd.append('date', date);
+                // fd.append('date', date);
                 fd.append('detail', detail);
 
                 jQuery.each(jQuery('#input_file')[0].files, function (i, file) {
@@ -116,7 +116,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/new/store",
+                    url: "/drinking/public/new/store",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -133,11 +133,20 @@
                             padding: '2em'
                         }).then(function (then) {
                             // location.reload()
-                            location.href = '/dashboard/list_news'
+                            location.href = '/drinking/public/dashboard/list_news'
                         })
-                    } else {
+                    } 
+                    if (rec.status == '0') {
                         swal({
                             title: 'บันทึกไม่สำเร็จ!',
+                            text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
+                            type: 'error',
+                            padding: '2em'
+                        })
+                    }
+                    if (rec.status == '2') {
+                        swal({
+                            title: 'กรุณากรอกข้อมูลให้ครบถ้วน!',
                             text: "กดปุ่ม ok เพื่อดำเนินการต่อ!",
                             type: 'error',
                             padding: '2em'

@@ -22,9 +22,10 @@
             <nav class="navbar header-navbar pcoded-header">
                 <div class="navbar-wrapper">
                     <div class="navbar-logo">
-                        <a href="{{ url('/') }}">
-                            <img class="img-fluid" src="/png/logo.png" alt="Theme-Logo" />
-                        </a>
+                        {{-- <a href="{{ url('/') }}"> --}}
+                            <img class="img-fluid" src="{{url('/upload/logo_test.png')}}" width="30%" alt="Theme-Logo" />
+                            <h5 style="color: #fff">อันดาน้ำดื่ม</h5>
+                        {{-- </a> --}}
                         <a class="mobile-menu" id="mobile-collapse" href="#!">
                             <i class="feather icon-menu icon-toggle-right"></i>
                         </a>
@@ -122,9 +123,9 @@
                                                     <span class="pcoded-mtext">Dashboard</span>
                                                 </a>
                                             </li>
-                                        </ul>
-                                        @if ($id == 1)
-                                            <ul class="pcoded-submenu">
+                                        {{-- </ul> --}}
+                                        {{-- @if ($id == 0) --}}
+                                            {{-- <ul class="pcoded-submenu"> --}}
                                                 <li class=" @if ($page=='/news/list' ) active pcoded-trigger @endif">
                                                     <a href="{{ url('/dashboard/list_news') }}"
                                                         class="waves-effect waves-dark">
@@ -133,8 +134,8 @@
                                                         <span class="pcoded-mtext">ข่าวประชาสัมพันธ์</span>
                                                     </a>
                                                 </li>
-                                            </ul>
-                                            <ul class="pcoded-submenu">
+                                            {{-- </ul>
+                                            <ul class="pcoded-submenu"> --}}
                                                 <li class=" @if ($page=='/news/create' ) active pcoded-trigger @endif">
                                                     <a href="{{ url('/dashboard/create_news') }}"
                                                         class="waves-effect waves-dark">
@@ -144,7 +145,7 @@
                                                     </a>
                                                 </li>
                                             </ul>
-                                        @endif
+                                        {{-- @endif --}}
                                     </li>
                                 </ul>
                                 @if ($id == 1 || $id == 2)
@@ -166,8 +167,8 @@
                                                         <span class="pcoded-mtext">ข้อมูลผู้ใช้งาน</span>
                                                     </a>
                                                 </li>
-                                            </ul>
-                                            <ul class="pcoded-submenu">
+                                            {{-- </ul>
+                                            <ul class="pcoded-submenu"> --}}
                                                 <li class="@if ($page=='/users/create' ) active pcoded-trigger @endif">
                                                     <a href="{{ url('/user/create') }}"
                                                         class="waves-effect waves-dark">

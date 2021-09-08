@@ -36,10 +36,11 @@
                                                         <th>ชื่อ - นามสกุล</th>
                                                         <th>เบอร์โทรศัพท์</th>
                                                         {{-- <th>วันที่จัดส่ง</th> --}}
-                                                        <th>สถานะ</th>
                                                         <th>ตำแหน่ง</th>
                                                         <th>ข้อมูลลูกค้า</th>
                                                         <th>เพื่มข้อมูลการจัดส่ง</th>
+                                                        <th>เพื่มข้อมูลเก็บคืน</th>
+                                                        <th>สถานะ</th>
                                                         <th>แก้ไข / ลบ</th>
                                                         {{-- <th>ลบ</th> --}}
                                                     </tr>
@@ -60,6 +61,28 @@
                                                                 {{ $value->cus_date }}
                                                             </td> --}}
                                                             <td style="text-align: center;">
+                                                                <a href="https://google.com/maps?q={{$value->cus_lat}},{{$value->cus_long}}"
+                                                                    target="_blank">
+                                                                    <button class="btn btn-sm btn-secondary">ดูตำแหน่ง</button>
+                                                                </a>
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                <a
+                                                                    href="{{ url('/customer/product_customer/' . $value->cus_id) }}">
+                                                                    <button class="btn btn-sm btn-primary">ดูข้อมูล</button>
+                                                                </a>
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                <a href="{{ url('/shipment/shipment_create/' . $value->cus_id) }}">
+                                                                    <button class="btn btn-sm btn-info">เพิ่มข้อมูล</button>
+                                                                </a>
+                                                            </td>
+                                                            <td style="text-align: center;">
+                                                                <a href="{{ url('/return/return_create/' . $value->cus_id) }}">
+                                                                    <button class="btn btn-sm btn-info">เพิ่มข้อมูล</button>
+                                                                </a>
+                                                            </td>
+                                                            <td style="text-align: center;">
                                                                 @if ($value->cus_status == 0)
                                                                     <button class="btn btn-sm btn-success open_modal"
                                                                         type="button" data-toggle="modal"
@@ -79,23 +102,6 @@
                                                                         ไม่ได้ใช้งาน
                                                                     </button>
                                                                 @endif
-                                                            </td>
-                                                            <td style="text-align: center;">
-                                                                <a href="https://google.com/maps?q={{$value->cus_lat}},{{$value->cus_long}}"
-                                                                    target="_blank">
-                                                                    <button class="btn btn-sm btn-secondary">ดูตำแหน่ง</button>
-                                                                </a>
-                                                            </td>
-                                                            <td style="text-align: center;">
-                                                                <a
-                                                                    href="{{ url('/customer/product_customer/' . $value->cus_id) }}">
-                                                                    <button class="btn btn-sm btn-primary">ดูข้อมูล</button>
-                                                                </a>
-                                                            </td>
-                                                            <td style="text-align: center;">
-                                                                <a href="{{ url('/shipment/shipment_create/' . $value->cus_id) }}">
-                                                                    <button class="btn btn-sm btn-info">เพิ่มข้อมูล</button>
-                                                                </a>
                                                             </td>
                                                             <td style="text-align: center;">
                                                                 <a href="{{ url('/customer/edit/' . $value->cus_id) }}">

@@ -1,6 +1,6 @@
 body {
     background-color: #f2f7fb;
-    font-size: .9375rem;
+    font-size: 16px;
     overflow-x: hidden;
     color: #333;
     font-family: open sans, sans-serif;
@@ -213,7 +213,7 @@ code {
 .card .card-header h5 {
     margin-bottom: 0;
     color: #333;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
     display: inline-block;
     margin-right: 10px;
@@ -3578,7 +3578,7 @@ table thead .border-bottom-info th {
 
 .pcoded .pcoded-navbar .pcoded-item>li>a {
     display: block;
-    font-size: 14px;
+    font-size: 16px;
     padding: 0 15px;
     text-decoration: none;
     position: relative;
@@ -9188,7 +9188,7 @@ body.horizontal-icon-fixed .pcoded[pcoded-device-type=desktop] .pcoded-navbar .p
 .btn-sm {
     padding: 8px 14px;
     line-height: 16px;
-    font-size: 11px
+    font-size: 14px
 }
 
 .btn-mini {

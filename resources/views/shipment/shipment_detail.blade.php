@@ -143,7 +143,7 @@
                                                         <tr>
                                                             <td style="text-align: center;">{{ $i }}</td>
                                                             <td style="text-align: center;">
-                                                                <img src="{{url('/upload/store/'.$value->product_img)}}" alt="" width="50%" class="open_modal"
+                                                                <img src="{{url('/upload/store/'.$value->product_img)}}" alt="" width="50px" class="open_modal"
                                                                 data-toggle="modal" data-target=".bd-example-modal-xl" data-product_img="{{ $value->product_img }}">
                                                             </td>
                                                             <td>

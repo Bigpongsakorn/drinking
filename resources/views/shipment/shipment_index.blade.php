@@ -121,18 +121,18 @@
                                                             </td>
                                                             <td style="text-align: center;">
                                                                 @if ($value->ship_status == 0)
-                                                                    @if ($user_type == 1 || $user_type == 2)
+                                                                    {{-- @if ($user_type == 1 || $user_type == 2) --}}
                                                                         <button class="btn btn-sm btn-warning open_modal"
                                                                             data-toggle="modal" data-target="#exampleModal"
                                                                             data-ship_id="{{ $value->ship_id }}"
                                                                             data-ship_status="{{ $value->ship_status }}">
                                                                             รอจัดส่ง
                                                                         </button>
-                                                                    @else
+                                                                    {{-- @else
                                                                         <button class="btn btn-sm btn-warning">
                                                                             รอจัดส่ง
                                                                         </button>
-                                                                    @endif
+                                                                    @endif --}}
                                                                 @elseif($value->ship_status == 1)
                                                                     <button class="btn btn-sm btn-secondary open_modal2"
                                                                         data-toggle="modal" data-target="#exampleModal2"
@@ -231,18 +231,18 @@
                                                             </td>
                                                             <td style="text-align: center;">
                                                                 @if ($value->ship_status == 0)
-                                                                    @if ($user_type == 1 || $user_type == 2)
+                                                                    {{-- @if ($user_type == 1 || $user_type == 2) --}}
                                                                         <button class="btn btn-sm btn-warning open_modal"
                                                                             data-toggle="modal" data-target="#exampleModal"
                                                                             data-ship_id="{{ $value->ship_id }}"
                                                                             data-ship_status="{{ $value->ship_status }}">
                                                                             รอจัดส่ง
                                                                         </button>
-                                                                    @else
+                                                                    {{-- @else
                                                                         <button class="btn btn-sm btn-warning">
                                                                             รอจัดส่ง
                                                                         </button>
-                                                                    @endif
+                                                                    @endif --}}
                                                                 @elseif($value->ship_status == 1)
                                                                     <button class="btn btn-sm btn-secondary open_modal2"
                                                                         data-toggle="modal" data-target="#exampleModal2"
@@ -335,18 +335,18 @@
                                                             </td>
                                                             <td style="text-align: center;">
                                                                 @if ($value->ship_status == 0)
-                                                                    @if ($user_type == 1 || $user_type == 2)
+                                                                    {{-- @if ($user_type == 1 || $user_type == 2) --}}
                                                                         <button class="btn btn-sm btn-warning open_modal"
                                                                             data-toggle="modal" data-target="#exampleModal"
                                                                             data-ship_id="{{ $value->ship_id }}"
                                                                             data-ship_status="{{ $value->ship_status }}">
                                                                             รอจัดส่ง
                                                                         </button>
-                                                                    @else
+                                                                    {{-- @else
                                                                         <button class="btn btn-sm btn-warning">
                                                                             รอจัดส่ง
                                                                         </button>
-                                                                    @endif
+                                                                    @endif --}}
                                                                 @elseif($value->ship_status == 1)
                                                                     <button class="btn btn-sm btn-secondary open_modal2"
                                                                         data-toggle="modal" data-target="#exampleModal2"
@@ -438,18 +438,18 @@
                                                             </td>
                                                             <td style="text-align: center;">
                                                                 @if ($value->ship_status == 0)
-                                                                    @if ($user_type == 1 || $user_type == 2)
+                                                                    {{-- @if ($user_type == 1 || $user_type == 2) --}}
                                                                         <button class="btn btn-sm btn-warning open_modal"
                                                                             data-toggle="modal" data-target="#exampleModal"
                                                                             data-ship_id="{{ $value->ship_id }}"
                                                                             data-ship_status="{{ $value->ship_status }}">
                                                                             รอจัดส่ง
                                                                         </button>
-                                                                    @else
+                                                                    {{-- @else
                                                                         <button class="btn btn-sm btn-warning">
                                                                             รอจัดส่ง
                                                                         </button>
-                                                                    @endif
+                                                                    @endif --}}
                                                                 @elseif($value->ship_status == 1)
                                                                     <button class="btn btn-sm btn-secondary open_modal2"
                                                                         data-toggle="modal" data-target="#exampleModal2"

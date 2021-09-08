@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Material;
 use App\Models\Material_Product;
+use App\Models\ReturnData;
 use App\Models\Product;
 use App\Models\ReturnMaterial;
 use App\Models\ReturnProduct;
@@ -26,11 +27,9 @@ class ReturnController extends Controller
     public function index()
     {
         $data['page'] = '/return';
-        $data['customer'] = Customer::where('cus_status','!=','1')->get();
-
+        // $data['customer'] = Customer::where('cus_status','!=','1')->get();
         // $data['customer'] = Customer::leftJoin('shipment','shipment.cus_id','customer_data.cus_id')
         // ->leftJoin('return_product','return_product.ship_id','shipment.ship_id')
-
         // ->groupBy('return_product.rd_status')
         // // ->groupBy('cus_status')
         // ->groupBy('customer_data.cus_id')
@@ -50,6 +49,15 @@ class ReturnController extends Controller
         // ->where('cus_status','!=','1')
         // ->get();
 
+        $data['return'] = ReturnData::leftjoin('customer_data','customer_data.cus_id','return_data.cus_id')
+        ->get();
+        $data['return_w'] = ReturnData::leftjoin('customer_data','customer_data.cus_id','return_data.cus_id')
+        ->where('re_status','0')
+        ->get();
+        $data['return_f'] = ReturnData::leftjoin('customer_data','customer_data.cus_id','return_data.cus_id')
+        ->where('re_status','1')
+        ->get();
+
         return view('return.return_index', $data);
     }
 
@@ -58,9 +66,16 @@ class ReturnController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $data['page'] = '/return/create';
+        $data['material'] = Material::get();
+        $data['customer'] = Customer::leftjoin('provinces', 'provinces.province_id', 'customer_data.cus_province')
+        ->leftjoin('districts', 'districts.district_id', 'customer_data.cus_district')
+        ->leftjoin('subdistricts', 'subdistricts.subdistrict_id', 'customer_data.cus_subdistrict')
+        ->where('cus_id',$id)->first();
+// dd($data);
+        return view('return.return_create', $data);
     }
 
     /**
@@ -71,7 +86,56 @@ class ReturnController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $material_id = explode(",", $request->material_id);
+            $material_num = explode(",", $request->material_num);
+
+            foreach ($material_id as $key => $ttt) {
+                if (!$ttt) {
+                    $return['status'] = 2;
+                    $return['content'] = 'ไม่สำเร็จ';
+                    return json_encode($return);
+                }
+            }
+            foreach ($material_num as $key => $ttt) {
+                if (!$ttt) {
+                    $return['status'] = 2;
+                    $return['content'] = 'ไม่สำเร็จ';
+                    return json_encode($return);
+                }
+            }
+
+            $table = [
+                'cus_id' => $request->cus_id,
+                'emp_id' => Auth::user()->emp_id,
+                're_date' => Carbon::now(),
+                're_status' => 0,
+            ];
+            // dd($table);
+            $re_id = ReturnData::insertGetId($table);
+            $count = 0;
+            foreach ($material_id as $key => $value) {
+                $count++;
+            }
+            for ($i = 0; $i < $count; $i++) {
+                $data[] = [
+                    'material_id' => $material_id[$i],
+                    'material_num' => $material_num[$i],
+                    're_id' => $re_id,
+                ];
+            }
+            // dd($data);
+            ReturnMaterial::insert($data);
+            // dd("55555");
+            DB::commit();  
+            $return['status'] = 1;
+            $return['content'] = 'สำเร็จ';
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $return['status'] = 0;
+            $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
+        }
+        return json_encode($return);
     }
 
     /**
@@ -83,43 +147,36 @@ class ReturnController extends Controller
     public function show($id)
     {
         $data['page'] = '/return';
-        $data['customer'] = Customer::get();
-        $data['product'] = Product::get();
-        // $data['return'] = ReturnProduct::get();
+        // $data['customer'] = Customer::get();
+        // $data['product'] = Product::get();
         
-        $data['ship'] = Customer::leftJoin('shipment','shipment.cus_id','customer_data.cus_id')
-        // ->leftJoin('empolyee','empolyee.emp_id','shipment.emp_id')
+        // $data['ship'] = Customer::leftJoin('shipment','shipment.cus_id','customer_data.cus_id')
+        // ->leftjoin('provinces', 'provinces.province_id', 'customer_data.cus_province')
+        // ->leftjoin('districts', 'districts.district_id', 'customer_data.cus_district')
+        // ->leftjoin('subdistricts', 'subdistricts.subdistrict_id', 'customer_data.cus_subdistrict')
+        // ->selectRaw('customer_data.cus_id as c_cus_id,customer_data.*,provinces.*,districts.*,subdistricts.*,shipment.*')
+        // ->where('customer_data.cus_id',$id)
+        // ->first();
+
+        // $data['ship_data'] = Shipment::leftJoin('return_product','return_product.ship_id','shipment.ship_id')
+        // ->where('shipment.cus_id',$id)
+        // ->where('ship_status','2')
+        // ->orderBy('shipment.ship_id','desc')
+        // ->groupBy('return_product.ship_id')->groupBy('rd_status')->groupBy('ship_date')
+        // ->groupBy('ship_pay')->groupBy('ship_note')->groupBy('shipment.ship_id')
+        // ->groupBy('shipment.ship_price')->groupBy('shipment.ship_bill')->groupBy('shipment.ship_pay_s')
+        // ->select('return_product.ship_id as rid','rd_status','ship_date','ship_pay','ship_note','shipment.ship_id as ship_id','ship_price','ship_bill','ship_pay_s')
+        // ->get();
+        
+        $data['material'] = Material::get();
+        $data['customer'] = ReturnData::leftjoin('customer_data', 'customer_data.cus_id', 'return_data.cus_id')
         ->leftjoin('provinces', 'provinces.province_id', 'customer_data.cus_province')
         ->leftjoin('districts', 'districts.district_id', 'customer_data.cus_district')
         ->leftjoin('subdistricts', 'subdistricts.subdistrict_id', 'customer_data.cus_subdistrict')
-        ->selectRaw('customer_data.cus_id as c_cus_id,customer_data.*,provinces.*,districts.*,subdistricts.*,shipment.*')
-        ->where('customer_data.cus_id',$id)
-        ->first();
-        
-        // $data['ship_data'] = Shipment::where('shipment.cus_id',$id)
-        // ->where('ship_status','2')
-        // ->orderBy('ship_id','desc')
-        // ->get();
+        ->where('re_id',$id)->first();
+        $data['returnd'] = ReturnMaterial::leftjoin('material','material.material_id','return_material.material_id')
+        ->where('re_id',$id)->get();
 
-        $data['ship_data'] = Shipment::leftJoin('return_product','return_product.ship_id','shipment.ship_id')
-        ->where('shipment.cus_id',$id)
-        ->where('ship_status','2')
-        ->orderBy('shipment.ship_id','desc')
-        ->groupBy('return_product.ship_id')->groupBy('rd_status')->groupBy('ship_date')
-        ->groupBy('ship_pay')->groupBy('ship_note')->groupBy('shipment.ship_id')
-        ->groupBy('shipment.ship_price')->groupBy('shipment.ship_bill')->groupBy('shipment.ship_pay_s')
-        ->select('return_product.ship_id as rid','rd_status','ship_date','ship_pay','ship_note','shipment.ship_id as ship_id','ship_price','ship_bill','ship_pay_s')
-        ->get();
-
-        // $data['return'] = ReturnProduct::groupBy('return_product.ship_id')
-        // ->select('return_product.ship_id as s_r_id')
-        // ->get();
-
-        // $data['ship_p'] = ShipmentProduct::leftjoin('shipment','shipment.ship_id','shipment_product.ship_id')
-        // ->leftJoin('product_data','product_data.product_id','shipment_product.product_id')
-        // ->where('shipment.ship_id','asc')
-        // ->get();
-        
         // dd($data);
         return view('return.return_detail', $data);
     }
@@ -153,6 +210,37 @@ class ReturnController extends Controller
     {
         // dd($id);
         $data['page'] = '/return';
+        // $data['customer'] = Customer::get();
+        // $data['product'] = Product::get();
+        // $data['ship'] = Shipment::leftJoin('customer_data','customer_data.cus_id','shipment.cus_id')
+        // ->leftJoin('empolyee','empolyee.emp_id','shipment.emp_id')
+        // ->leftjoin('provinces', 'provinces.province_id', 'customer_data.cus_province')
+        // ->leftjoin('districts', 'districts.district_id', 'customer_data.cus_district')
+        // ->leftjoin('subdistricts', 'subdistricts.subdistrict_id', 'customer_data.cus_subdistrict')
+        // ->where('ship_id',$id)
+        // ->first();
+        // $data['rd'] = ReturnProduct::where('ship_id',$id)->first();
+        // $data['return_m'] = ReturnMaterial::leftJoin('material','material.material_id','return_material.material_id')->where('ship_id',$id)->get();
+        // $data['ship_p'] = ReturnProduct::leftJoin('product_data','product_data.product_id','return_product.product_id')
+        // ->where('ship_id',$id)->get();
+
+        $data['material'] = Material::get();
+        $data['customer'] = ReturnData::leftjoin('customer_data', 'customer_data.cus_id', 'return_data.cus_id')
+        ->leftjoin('provinces', 'provinces.province_id', 'customer_data.cus_province')
+        ->leftjoin('districts', 'districts.district_id', 'customer_data.cus_district')
+        ->leftjoin('subdistricts', 'subdistricts.subdistrict_id', 'customer_data.cus_subdistrict')
+        ->where('re_id',$id)->first();
+
+        $data['returnd'] = ReturnMaterial::where('re_id',$id)->get();
+
+        // dd($data);
+        return view('return.return_edit', $data);
+    }
+
+    public function edit2($id)
+    {
+        // dd($id);
+        $data['page'] = '/return';
         $data['customer'] = Customer::get();
         $data['product'] = Product::get();
         $data['ship'] = Shipment::leftJoin('customer_data','customer_data.cus_id','shipment.cus_id')
@@ -180,6 +268,64 @@ class ReturnController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
+    {
+        // dd($request);
+        try {
+            $material_id = explode(",", $request->material_id);
+            $material_num = explode(",", $request->material_num);
+
+            foreach ($material_id as $key => $ttt) {
+                if (!$ttt) {
+                    $return['status'] = 2;
+                    $return['content'] = 'ไม่สำเร็จ';
+                    return json_encode($return);
+                }
+            }
+            foreach ($material_num as $key => $ttt) {
+                if (!$ttt) {
+                    $return['status'] = 2;
+                    $return['content'] = 'ไม่สำเร็จ';
+                    return json_encode($return);
+                }
+            }
+
+            $table = [
+                'cus_id' => $request->cus_id,
+                'emp_id' => Auth::user()->emp_id,
+                're_date' => Carbon::now(),
+                're_status' => 0,
+            ];
+            // dd($table);
+
+            ReturnData::where('re_id',$request->re_id)->update($table);
+            ReturnMaterial::where('re_id',$request->re_id)->delete();
+            
+            $count = 0;
+            foreach ($material_id as $key => $value) {
+                $count++;
+            }
+            for ($i = 0; $i < $count; $i++) {
+                $data[] = [
+                    'material_id' => $material_id[$i],
+                    'material_num' => $material_num[$i],
+                    're_id' => $request->re_id,
+                ];
+            }
+            // dd($data);
+            ReturnMaterial::insert($data);
+
+            DB::commit();  
+            $return['status'] = 1;
+            $return['content'] = 'สำเร็จ';
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $return['status'] = 0;
+            $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
+        }
+        return json_encode($return);
+    }
+
+    public function update2(Request $request)
     {
         // dd($request);
         
@@ -386,7 +532,19 @@ class ReturnController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            ReturnData::where('re_id',$id)->delete();
+            ReturnMaterial::where('re_id',$id)->delete();
+
+            DB::commit();  
+            $return['status'] = 1;
+            $return['content'] = 'สำเร็จ';
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $return['status'] = 0;
+            $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
+        }
+        return json_encode($return);
     }
     public function ship_select(Request $request)
     {
@@ -405,5 +563,44 @@ class ReturnController extends Controller
         
         // dd($data['test']);
         return json_encode($data);
+    }
+
+    public function status(Request $request)
+    {
+        // dd($request);
+        try {
+
+            // $mat = Material::where('')->get(); // db_mat
+            $re_mat = ReturnMaterial::where('re_id',$request->re_id)->get();
+// dd($re_mat);
+
+            foreach ($re_mat as $key => $value) {
+                // dd($value->material_id);
+                $mat = Material::where('material_id',$value->material_id)->first(); // db_mat
+                // dd($mat->material_remaining); //จำนวนขอฃใน db
+                $sum = $value->material_num + $mat->material_remaining;
+                
+                $total = [
+                    'material_remaining' => $sum,
+                ];
+                // dd($total);
+                Material::where('material_id',$value->material_id)->update($total);
+            }
+
+            $table = [
+                're_status' => $request->re_status,
+            ];
+            // dd($table);
+            ReturnData::where('re_id',$request->re_id)->update($table);
+
+            DB::commit();  
+            $return['status'] = 1;
+            $return['content'] = 'สำเร็จ';
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $return['status'] = 0;
+            $return['content'] = 'ไม่สำเร็จ' . $th->getMessage();
+        }
+        return json_encode($return);
     }
 }

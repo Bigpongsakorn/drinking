@@ -12,6 +12,7 @@ use App\Models\Order_detail;
 use App\Models\Other;
 use App\Models\Production;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 // use PDF;
 
@@ -91,7 +92,10 @@ class PDFController extends Controller
         $data['pro'] = Production::leftjoin('product_data', 'product_data.product_id', 'production_data.product_id')
             ->where('production_group', $id)
             ->get();
-        $data['p_id'] = Production::where('production_group',$id)->first();
+            
+        $data['p_id'] = Production::where('production_group',$id)
+        ->leftJoin('empolyee','empolyee.emp_id','production_data.emp_id')
+        ->first();
 
         $data['mat'] = Production::leftjoin('product_material','product_material.product_id','production_data.product_id')
         ->leftjoin('material','material.material_id','product_material.material_id')
@@ -104,7 +108,33 @@ class PDFController extends Controller
         ->where('production_data.production_group', $id)
         ->get();
 
-        // dd($data);
+        if($data['p_id']->production_date){
+            $data['p_id']->production_date = $this->simpleDateFormat($data['p_id']->production_date);
+        }
+        // dd( $data['p_id']);
         return view('pdf.production_pdf', $data);
     }
+
+    public static function simpleDateFormat($arg)
+    {
+        $thai_months = [
+            1 => 'ม.ค.',
+            2 => 'ก.พ.',
+            3 => 'มี.ค.',
+            4 => 'เม.ย.',
+            5 => 'พ.ค.',
+            6 => 'มิ.ย.',
+            7 => 'ก.ค.',
+            8 => 'ส.ค.',
+            9 => 'ก.ย.',
+            10 => 'ต.ค.',
+            11 => 'พ.ย.',
+            12 => 'ธ.ค.',
+        ];
+        $date = Carbon::parse($arg);
+        $month = $thai_months[$date->month];
+        $year = $date->year + 543;
+        return $date->format("j $month $year");
+    }
+
 }

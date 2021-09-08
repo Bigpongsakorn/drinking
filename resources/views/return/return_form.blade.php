@@ -94,7 +94,6 @@
                                                         @if ($rd->rd_status == 1)
                                                         <select name="" id="" class="form-control select_p" data-ship_id="{{ $ship->ship_id }}" disabled="true">
                                                             <option value="1" @if ($rd->rd_status == 1) {{ "selected" }} @endif>สินค้าครบ</option>
-                                                            {{-- <option value="2" @if ($rd->rd_status == 2) {{ "selected" }} @endif>สินค้าไม่ครบ</option> --}}
                                                         </select>
                                                         @else
                                                         <select name="" id="" class="form-control select_p" data-ship_id="{{ $ship->ship_id }}">

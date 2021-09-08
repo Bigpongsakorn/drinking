@@ -282,16 +282,16 @@ class ShipmentController extends Controller
             // dd($data);
             ShipmentProduct::insert($data);
             
-            for ($i = 0; $i < $count; $i++) {
-                $table_return[] = [
-                    'rd_status' => '0',
-                    'ship_id' => $s_id,
-                    'product_id' => $product_id[$i],
-                    'product_number' => $product_num[$i],
-                ];
-            }
+            // for ($i = 0; $i < $count; $i++) {
+            //     $table_return[] = [
+            //         'rd_status' => '0',
+            //         'ship_id' => $s_id,
+            //         'product_id' => $product_id[$i],
+            //         'product_number' => $product_num[$i],
+            //     ];
+            // }
 
-            ReturnProduct::insert($table_return);
+            // ReturnProduct::insert($table_return);
 
             DB::commit();  
             $return['status'] = 1;

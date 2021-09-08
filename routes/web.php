@@ -169,11 +169,17 @@ Route::group(['middleware' => ['admin']], function () {
 
     // ============================= RETURN =============================
     Route::get('/return/return_index', 'Customer\ReturnController@index');
-    
+    Route::get('/return/return_create/{id}', 'Customer\ReturnController@create');
+    Route::post('/return/return_insert', 'Customer\ReturnController@store');
+    Route::get('/return/destroy/{id}', 'Customer\ReturnController@destroy');
+    Route::get('/return/return_edit/{id}', 'Customer\ReturnController@edit');
+    Route::post('/return/return_update', 'Customer\ReturnController@update');
+    Route::post('/return/status', 'Customer\ReturnController@status');
+
     Route::get('/return/return_detail/{id}', 'Customer\ReturnController@show');
     Route::get('/return/return_product_detail/{id}', 'Customer\ReturnController@show_p');
-    Route::get('/return/return_form/{id}', 'Customer\ReturnController@edit');
-    Route::post('/return/update', 'Customer\ReturnController@update');
+    Route::get('/return/return_form/{id}', 'Customer\ReturnController@edit2');
+    Route::post('/return/update', 'Customer\ReturnController@update2');
     Route::post('/return/ship_select', 'Customer\ReturnController@ship_select');
     
     // ============================= PDF =============================
