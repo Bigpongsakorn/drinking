@@ -116,7 +116,7 @@
 
                 $.ajax({
                     method: "POST",
-                    url: "/drinking/public/new/store",
+                    url: "/new/store",
                     dataType: 'json',
                     cache: false,
                     contentType: false,
@@ -133,7 +133,7 @@
                             padding: '2em'
                         }).then(function (then) {
                             // location.reload()
-                            location.href = '/drinking/public/dashboard/list_news'
+                            location.href = '/dashboard/list_news'
                         })
                     } 
                     if (rec.status == '0') {

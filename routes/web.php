@@ -15,10 +15,17 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome'); //หน้าแรก
 });
 
 Auth::routes();
+
+// All
+// ============================= Frontend =============================
+Route::get('/index', 'Frontend\FrontendController@index');
+Route::get('/news_detail/{id}', 'Frontend\FrontendController@news_detail');
+Route::get('/news_list', 'Frontend\FrontendController@news_list');
+Route::get('/product_list', 'Frontend\FrontendController@product_list');
 
 //Route for normal user
 Route::group(['middleware' => ['auth']], function () {
