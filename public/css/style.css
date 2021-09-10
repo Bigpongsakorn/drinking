@@ -4,7 +4,7 @@ body {
     overflow-x: hidden;
     color: #333;
     font-family: open sans, sans-serif;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.7) 240px, #f2f7fb 0%)
+    /* background-image: linear-gradient(rgba(255, 255, 255, 0.7) 240px, #f2f7fb 0%) */
 }
 
 ul {
@@ -4639,7 +4639,7 @@ table thead .border-bottom-info th {
 }
 
 body[themebg-pattern=theme1] {
-    background-color: #42a5f5
+    /* background-color: #42a5f5 */
 }
 
 body[themebg-pattern=theme2] {

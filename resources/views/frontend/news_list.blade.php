@@ -3,7 +3,7 @@
     <div class="container">
 
         <div style="margin-bottom:30px;">
-            <h1 style="margin:70px 0;text-align: center;">รายละเอียดข่าวสาร</h1>
+            <h1 style="margin:30px 0;" class="main_font">รายละเอียดข่าวสาร</h1>
             {{-- <div class="card-deck" style="margin-top:30px;margin-bottom:20px;">
         
                 @foreach ($news as $value)
@@ -29,10 +29,12 @@
 
                 @foreach ($news as $value)
                     <div class="col-md-4">
-                        <div class="card">
+                        {{-- <div class="card" style="box-shadow: 0px 0px 10px #007bff;"> --}}
+                        <div class="card" style="border: solid 1px #007bff;">
                             <img class="card-img-top" src="{{ url('/upload/news/' . $value->new_image) }}"
                                 alt="Card image cap">
                             <div class="card-body">
+                                <hr>
                                 <h5 class="card-title">
                                     @if (strlen($value->new_toppic) > 50)
                                         {!! mb_substr($value->new_toppic, 0, 40, 'UTF-8') . '...' !!}

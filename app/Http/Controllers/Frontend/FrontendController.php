@@ -16,6 +16,7 @@ class FrontendController extends Controller
      */
     public function index()
     {
+        $data['page'] = '/';
         $data['news'] = News::limit(3)->orderBy('new_id','desc')->get();
         $data['product'] = Product::limit(3)->orderBy('product_id','desc')->get();
         // dd($data);
@@ -24,19 +25,27 @@ class FrontendController extends Controller
 
     public function news_detail($id)
     {
+        $data['page'] = '/news_detail';
         $data['news'] = News::where('new_id',$id)->first();
         return view('frontend.news_detail',$data);
     }
 
     public function news_list()
     {
+        $data['page'] = '/news_list';
         $data['news'] = News::get();
         return view('frontend.news_list',$data);
     }
 
     public function product_list()
     {
+        $data['page'] = '/product_list';
         $data['product'] = Product::get();
         return view('frontend.product_list',$data);
+    }
+    public function contact()
+    {
+        $data['page'] = '/contact';
+        return view('frontend.contact',$data);
     }
 }

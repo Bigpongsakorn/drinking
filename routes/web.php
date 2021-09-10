@@ -26,6 +26,7 @@ Route::get('/index', 'Frontend\FrontendController@index');
 Route::get('/news_detail/{id}', 'Frontend\FrontendController@news_detail');
 Route::get('/news_list', 'Frontend\FrontendController@news_list');
 Route::get('/product_list', 'Frontend\FrontendController@product_list');
+Route::get('/contact', 'Frontend\FrontendController@contact');
 
 //Route for normal user
 Route::group(['middleware' => ['auth']], function () {

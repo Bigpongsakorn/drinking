@@ -5,6 +5,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="description"
     content="Admindek Bootstrap admin template made using Bootstrap 4 and it has huge amount of ready made feature, UI components, pages which completely fulfills any dashboard needs." />
 <meta name="keywords"

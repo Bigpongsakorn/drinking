@@ -3,7 +3,7 @@
     {{-- <img src="{{url('/upload/water-background2.jpg')}}" width="100%" height="700px"/> --}}
     <div class="container"> 
         <span style="margin: 50% 0">
-            <h1 style="margin-top:30px;text-align: center;">ข่าวสาร</h1>
+            <h1 style="margin-top:30px;" class="main_font">ข่าวสาร</h1>
         </span>
 
         <div class="row" style="margin: 25px 0">
