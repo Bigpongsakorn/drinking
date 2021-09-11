@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Models\News;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +17,11 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', function () {
-    return view('welcome'); //หน้าแรก
+    $data['page'] = '/';
+    $data['news'] = News::limit(3)->orderBy('new_id','desc')->get();
+    $data['product'] = Product::limit(3)->orderBy('product_id','desc')->get();
+    return view('frontend.index',$data);
+    // return view('welcome'); //หน้าแรก
 });
 
 Auth::routes();

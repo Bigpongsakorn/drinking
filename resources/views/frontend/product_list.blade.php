@@ -12,7 +12,7 @@
                         {{-- <div class="card" style="box-shadow: 0px 0px 10px #007bff;"> --}}
                         <div class="card" style="border: solid 1px #007bff;">
                             <img class="card-img-top" src="{{ url('/upload/store/' . $value->product_img) }}" 
-                             alt="Card image cap">
+                             alt="Card image cap" height="350px">
                             <div class="card-body box-bk">
                                 <h5 class="card-title" style="text-align: center">{{ $value->product_name }}</h5>
                                 <p class="card-text" style="text-align: center">ราคา {{ $value->product_price }}</p>

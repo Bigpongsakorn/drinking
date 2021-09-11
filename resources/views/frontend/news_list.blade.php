@@ -32,7 +32,7 @@
                         {{-- <div class="card" style="box-shadow: 0px 0px 10px #007bff;"> --}}
                         <div class="card" style="border: solid 1px #007bff;">
                             <img class="card-img-top" src="{{ url('/upload/news/' . $value->new_image) }}"
-                                alt="Card image cap">
+                                alt="Card image cap" height="200px">
                             <div class="card-body">
                                 <hr>
                                 <h5 class="card-title">
@@ -45,6 +45,9 @@
                                 <a href="{{ url('/news_detail/' . $value->new_id) }}">
                                     <button class="btn btn-sm btn-info">ดูรายละเอียด</button>
                                 </a>
+                            </div>
+                            <div class="card-body box-bks">
+                                <p class="card-text" style="text-align: center;font-size:16px;">วันที่ : {{ date('d-m-Y', strtotime($value->new_date)) }}</p>
                             </div>
                         </div>
                     </div>

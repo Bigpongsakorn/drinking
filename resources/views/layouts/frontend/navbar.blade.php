@@ -21,7 +21,7 @@
         #h1 {
             font-size: 85px;
             color: #ffffff;
-            margin-bottom: 330px;
+            margin-bottom: 370px;
             font-weight: 600;
         }
 
@@ -57,6 +57,9 @@
         .box-bk{
             background-color: rgb(112, 165, 245);
         }
+        .box-bks{
+            background-color: rgb(0 188 212 / 11%);
+        }
         #map {
         height: 450px;
         width: 100%;
@@ -68,7 +71,11 @@
   
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
       <div class="container">
-        <a class="navbar-brand" href="{{ url('/index') }}">อัลดาน้ำดื่ม</a>
+        <a class="navbar-brand" href="{{ url('/index') }}">
+          <img src="{{ url('/upload/logo33.png') }}" alt="" width="180px">
+          {{-- <img src="{{url('/upload/logo33.png')}}" width="20%" /> --}}
+        </a> 
+          {{-- <a class="navbar-brand" href="{{ url('/index') }}">อัลดาน้ำดื่ม</a> --}}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -81,9 +88,16 @@
                 <a class="nav-item nav-link @if($page=='/product_list') active @endif" href="{{ url('/product_list') }}">สินค้า</a>
                 <a class="nav-item nav-link @if($page=='/news_list' || $page=='/news_detail') active @endif" href="{{ url('/news_list') }}">ข่าวประชาสัมพันธ์</a>
                 <a class="nav-item nav-link @if($page=='/contact') active @endif" href="{{ url('/contact') }}">ติดต่อ</a>
-                <a href="{{ url('/login') }}" class="form-inline">
+                {{-- <a href="{{ url('/login') }}" class="form-inline">
                   <button class="btn btn-sm btn-outline-light">เข้าสู่ระบบ</button>
-                </a>
+                </a> --}}
+                @if (Route::has('login'))
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="form-inline"> <button class="btn btn-sm btn-outline-light">Home</button></a>
+                @else
+                        <a href="{{ route('login') }}" class="form-inline"> <button class="btn btn-sm btn-outline-light">เข้าสู่ระบบ</button></a>
+                    @endauth
+                @endif
             </div>
         </div>
       </div>

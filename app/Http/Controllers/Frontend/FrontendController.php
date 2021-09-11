@@ -33,14 +33,14 @@ class FrontendController extends Controller
     public function news_list()
     {
         $data['page'] = '/news_list';
-        $data['news'] = News::get();
+        $data['news'] = News::orderBy('new_id','desc')->get();
         return view('frontend.news_list',$data);
     }
 
     public function product_list()
     {
         $data['page'] = '/product_list';
-        $data['product'] = Product::get();
+        $data['product'] = Product::orderBy('product_id','desc')->get();
         return view('frontend.product_list',$data);
     }
     public function contact()

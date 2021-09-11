@@ -22,10 +22,9 @@
             <nav class="navbar header-navbar pcoded-header">
                 <div class="navbar-wrapper">
                     <div class="navbar-logo">
-                        {{-- <a href="{{ url('/') }}"> --}}
-                            <img class="img-fluid" src="{{url('/upload/logo_test.png')}}" width="30%" alt="Theme-Logo" />
-                            <h5 style="color: #fff">อันดาน้ำดื่ม</h5>
-                        {{-- </a> --}}
+                        <a href="{{ url('/') }}">
+                            <img class="img-fluid" src="{{url('/upload/logo33.png')}}" width="80%" alt="Theme-Logo" />
+                        </a>
                         <a class="mobile-menu" id="mobile-collapse" href="#!">
                             <i class="feather icon-menu icon-toggle-right"></i>
                         </a>
